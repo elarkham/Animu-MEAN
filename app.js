@@ -1,8 +1,12 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+var express     = require('express');
+var app         = express();
+var path        = require('path');
+var logger      = require('morgan');
+var bodyParser  = require('body-parser');
+var mongoose    = require('mongoose');
+var config      = require('./config');
+
+mongoose.connect(config.database);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -22,5 +26,6 @@ app.get('/', function( req, res ){
     res.send('Hello, World')
 });
 
-app.listen(3000);
+app.listen(config.port);
+console.log('Animu started on port ' + config.port);
 

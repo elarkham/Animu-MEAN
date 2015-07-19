@@ -26,6 +26,11 @@ app.get('/', function( req, res ){
     res.send('Hello, World')
 });
 
+var apiRouter = require('./app/routes/api.server.routes.js')(app, express);
+var userRouter = require('./app/routes/user.server.routes.js')(app, express);
+app.use( '/api', apiRouter );
+app.use( '/user', userRouter );
+
 app.listen(config.port);
 console.log('Animu started on port ' + config.port);
 

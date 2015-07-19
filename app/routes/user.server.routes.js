@@ -57,7 +57,7 @@ module.exports = function( app, express ) {
             User.findById(req.params.user_id, function(err, user) {
 
                 if (err) res.send(err);
-
+                console.log(user);
                 // set the new user information if it exists in the request
                 if (req.body.name) user.name = req.body.name;
                 if (req.body.username) user.username = req.body.username;

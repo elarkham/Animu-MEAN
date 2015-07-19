@@ -19,7 +19,6 @@ UserSchema.pre('save', function(next) {
     if ( !this.created_at ) {
         this.created_at = now;
     }
-
     // hash the password only if the password has been changed or user is new
     if (!user.isModified('password')) return next();
 

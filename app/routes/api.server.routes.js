@@ -9,7 +9,7 @@ module.exports = function(app, express) {
 
     var apiRouter = express.Router();
 
-    apiRouter.post('/authenticate', function(req,rest){
+    apiRouter.post('/authenticate', function(req,res){
         console.log(req.body.username);
 
         //find user
@@ -38,21 +38,22 @@ module.exports = function(app, express) {
                             success: false,
                             message: 'Authentication failed. Wrong password.'
                         });
+
+                    //username and password match
+                    } else {
+
+                        //create token
+                        var token = jwt.sign(user, secret, {
+                            expiresInMinutes: 1440 //expire in 24 hours
+                        });
+
+                        res.json({
+                            success: true,
+                            message: 'Token Created',
+                            token: token
+                        });
+
                     }
-                //username and password match
-                } else {
-
-                    //create token
-                    var token = jwt.sign(user, secret, {
-                        expiresInMinutes: 1440 //expire in 24 hours
-                    });
-
-                    res.json({
-                        success: true,
-                        message: 'Token Created',
-                        token: token
-                    });
-
                 }
 
             });

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
 var ShowSchema  = new Schema({
     name: { type: String, required: true },
     media: [{ type: Schema.Types.ObjectId, ref: 'Media'}],
@@ -11,6 +12,16 @@ var ShowSchema  = new Schema({
 
 });
 
+ShowSchema.methods.addMediaID = function addMediaID( id ){
+    this.media.push(id);
+}
+/*
+ShowSchema.methods.addMedia = function addMedia( mediaName ){
+    Media.findOne({'name' : mediaName}).exec( function(err, media){
+        this.media.push(media.id);
+    });
+}
+*/
 ShowSchema.pre('save', function(next) {
     var show = this;
     console.log('Saving ' + show.name );

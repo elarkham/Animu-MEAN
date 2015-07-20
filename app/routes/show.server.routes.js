@@ -4,7 +4,7 @@ module.exports = function( app, express ) {
 
     var apiRouter = express.Router();
     apiRouter.route('/shows')
-   
+
     // on routes that end in /shows
     // ----------------------------------------------------
         // create a show
@@ -25,6 +25,6 @@ module.exports = function( app, express ) {
 
         // delete the show with this name
         .delete(show.delete);
-        
-        return apiRouter;
+
+    return apiRouter;
 }

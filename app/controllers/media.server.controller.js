@@ -3,8 +3,9 @@
 /**
  * Module dependencies.
  */
-var Show = require('../models/show.server.model.js');
-var Media = require('../models/media.server.model.js');
+var mongoose = require('mongoose');
+var Show = mongoose.model('Show');
+var Media = mongoose.model('Media');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
@@ -12,26 +13,29 @@ var ObjectId = require('mongoose').Types.ObjectId;
  */
 exports.create = function(req, res) {
 
-    //create now instance of media model
-    var media = new Media();
-    media.name = req.body.name;
+    //Put everything inside the query callback
+    Show.findOne({'name':req.body.show}).exec(function( err, show){
 
-    //get id of show with that name
-    media.getShowQuery( req.body.show ).exec( function(err, show) {
-        media.show = show._id;
-    });
+        if (err) res.send(err);
 
-    media.save( function(err){
-        if(err) {
-            // duplicate entry
-            if (err.code == 11000) {
-                return res.json({ success: false, message: 'Media of that name already exists.' });
-            } else {
-                return res.send(err);
+        //create now instance of media model
+        var media = new Media();
+        media.name = req.body.name;
+        media.show = show.id;
+
+        console.log(media.show);
+        media.save( function(err){
+           if(err) {
+                // duplicate entry
+                if (err.code == 11000) {
+                    return res.json({ success: false, message: 'Media of that name already exists.' });
+                } else {
+                    return res.send(err);
+                }
             }
-        }
 
-        res.json({ message: 'Media Created!'});
+            res.json({ message: 'Media Created!'});
+        });
     });
 
 };
@@ -40,7 +44,7 @@ exports.create = function(req, res) {
  * Show the current Medium
  */
 exports.read = function(req, res) {
-    Media.findOne({ 'name' : req.params.media_name }, function( err, media ){
+    Media.findOne({ 'name' : req.params.media_name }).populate('show').exec(function( err, media ){
         if (err) res.send(err);
 
         res.json(media);
@@ -61,7 +65,6 @@ exports.update = function(req, res) {
             res.json({ success: false, message: 'Media does not exist.'} );
 
         } else {
-
             // set the new show information if it exists in the request
             if (req.body.name) media.name = req.body.name;
             if (req.body.path) media.show = media.getShowId( req.body.show );
@@ -94,7 +97,7 @@ exports.delete = function(req, res) {
  * List of Media
  */
 exports.list = function(req, res) {
-    Media.find(function(err, media) {
+    Media.find().populate('show').exec(function(err, media) {
         if (err) res.send(err);
 
         // return the show

@@ -59,6 +59,7 @@ exports.update = function(req, res) {
             // set the new show information if it exists in the request
             if (req.body.name) show.name = req.body.name;
             if (req.body.path) show.path = req.body.path;
+            if (req.body.media) show.addMediaID( req.body.media );
 
             // save the show
             show.save(function(err) {
@@ -88,10 +89,11 @@ exports.delete = function(req, res) {
  * List of Shows
  */
 exports.list = function(req, res) {
-    Show.find(function(err, shows) {
+    Show.find().populate("media").exec(function(err, shows) {
         if (err) res.send(err);
 
         // return the show
         res.json(shows);
     });
 };
+

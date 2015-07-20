@@ -17,7 +17,9 @@ exports.create = function(req, res) {
     media.name = req.body.name;
 
     //get id of show with that name
-    media.show = new ObjectId('55ac4dd9604310661402d18f');
+    media.getShowQuery( req.body.show ).exec( function(err, show) {
+        media.show = show._id;
+    });
 
     media.save( function(err){
         if(err) {
@@ -62,13 +64,7 @@ exports.update = function(req, res) {
 
             // set the new show information if it exists in the request
             if (req.body.name) media.name = req.body.name;
-            if (req.body.path){
-                media.show = Show.findOne(
-                    { 'name' : req.body.show },
-                function( err, show ) {
-                    return show._id;
-                });
-            }
+            if (req.body.path) media.show = media.getShowId( req.body.show );
 
             // save the show
             media.save(function(err) {

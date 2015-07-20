@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ShowSchema  = new Schema({
-    name: { type: String, required: false },
+    name: { type: String, required: true },
     media: [{ type: Schema.Types.ObjectId, ref: 'Media'}],
     tags: [{ type: String }],
     path: { type: String },

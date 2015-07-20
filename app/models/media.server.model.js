@@ -1,15 +1,24 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Show = mongoose.model('Show');
+var ObjectId = mongoose.Types.ObjectId;
 
 var MediaSchema  = new Schema({
     name: { type: String, required: true },
-    show: { type: Schema.Types.ObjectId, ref: 'Show', required: true},
+    show: { type: Schema.Types.ObjectId, ref: 'Show', required: false},
     tags: [{type: String}],
     seq: Number,
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 
 });
+
+MediaSchema.methods.getShowQuery = function getShowQuery( showName ){
+    console.log( showName );
+    var query = Show.findOne( { name: showName });
+    return query;
+}
+
 
 MediaSchema.pre('save', function(next) {
     var media = this;

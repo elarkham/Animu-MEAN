@@ -6,19 +6,18 @@ var UserSchema  = new Schema({
     name: String,
     username: { type: String, required: true, index: { unique: true }},
     password: { type: String, required: true, select: false },
-    created_at    : { type: Date },
-    updated_at    : { type: Date }
+    created_at    : { type: Date, default: Date.now },
+    updated_at    : { type: Date, default: Date.now }
 });
 
 UserSchema.pre('save', function(next) {
     var user = this;
 
+    console.log('Saving ' + user.name );
+
     // update the time for every change
-    var now = new Date();
-    this.updated_at = now;
-    if ( !this.created_at ) {
-        this.created_at = now;
-    }
+    this.updated_at = Date.now();
+
     // hash the password only if the password has been changed or user is new
     if (!user.isModified('password')) return next();
 

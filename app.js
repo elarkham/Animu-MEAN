@@ -28,8 +28,12 @@ app.get('/', function( req, res ){
 
 var apiRouter = require('./app/routes/api.server.routes.js')(app, express);
 var userRouter = require('./app/routes/user.server.routes.js')(app, express);
+var showRouter = require('./app/routes/show.server.routes.js')(app, express);
+var mediaRouter = require('./app/routes/media.server.routes.js')(app, express);
 app.use( '/api', apiRouter );
-app.use( '/user', userRouter );
+app.use( '/u', userRouter );
+app.use( '/s', showRouter );
+app.use( '/m', mediaRouter );
 
 app.listen(config.port);
 console.log('Animu started on port ' + config.port);

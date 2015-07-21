@@ -10,7 +10,7 @@ module.exports = function(app, express) {
     //Verify attached token
     apiRouter.use( api.verifyToken );
 
-    apiRouter.use( '/', function(req, res) {
+    apiRouter.use( '/test', function(req, res) {
         res.json({ message: "Welcome to the API!"})
     });
 

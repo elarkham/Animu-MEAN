@@ -72,9 +72,9 @@ exports.giveToken = function(req, res) {
  * Verify valid token was given.
  */
 exports.verifyToken = function(req, res, next) {
-    console.log(chalk.blue("Someone is verifying their token."))
-    // req.param() is deprecated but I dont care.
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    console.log(chalk.blue(chalk.yellow("->0") + " Someone is verifying their token."))
+
+    var token = req.body.token || req.headers['x-access-token'];
 
     if (token){
         //verifys token with secret
@@ -86,7 +86,7 @@ exports.verifyToken = function(req, res, next) {
             } else {
                 //token valid
                 req.decoded = decoded;
-                console.log(chalk.green("Given token is valid."))
+                console.log(chalk.green(chalk.yellow("->O") + " Given token is valid."))
                 next(); //allows them to proceed
             }
 

@@ -1,8 +1,8 @@
 show = require('../controllers/show.server.controller.js');
 
-module.exports = function( app, express ) {
+module.exports = function( api ) {
 
-    var apiRouter = express.Router();
+    var apiRouter = api;
     apiRouter.route('/shows')
 
     // on routes that end in /shows

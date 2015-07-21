@@ -1,7 +1,8 @@
 
-module.exports = function( app, express ) {
-    var user = require('../controllers/user.server.controller.js');
-    var apiRouter = express.Router();
+var user = require('../controllers/user.server.controller.js');
+
+module.exports = function( api ) {
+    var apiRouter = api;
 
     // on routes that end in /users
     // ----------------------------------------------------

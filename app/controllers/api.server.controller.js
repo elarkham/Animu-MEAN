@@ -3,6 +3,7 @@
 var User    = require('../models/user.server.model.js');
 var jwt     = require('jsonwebtoken');
 var config  = require('../../config');
+var chalk   = require('chalk');
 
 // secret for creating tokens
 var secret = config.secret;
@@ -11,6 +12,7 @@ var secret = config.secret;
  * Give token in response to valid user login.
  */
 exports.giveToken = function(req, res) {
+    console.log(chalk.blue("Someone is requesting a token."))
 
     //find user
     User.findOne({
@@ -22,10 +24,12 @@ exports.giveToken = function(req, res) {
 
             //if no user with the username found
             if(!user) {
+               var error = 'Authentication failed. User not found.'
 
+                console.log(chalk.bold.red(error));
                 res.json({
                     sucess: false,
-                    message:'Authentication failed. User not found.'
+                    message: error
 
                 })
 
@@ -34,10 +38,12 @@ exports.giveToken = function(req, res) {
 
                 var validPassword = user.comparePassword(req.body.password);
                 if(!validPassword) {
+                    var error = 'Authentication failed. Wrong password.'
+
+                    console.log(chalk.bold.red(error));
                     res.json({
                         success: false,
-                        message: 'Authentication failed. Wrong password.'
-                    });
+                        message: error });
 
                 //username and password match
                 } else {
@@ -47,6 +53,8 @@ exports.giveToken = function(req, res) {
                         expiresInMinutes: 1440 //expire in 24 hours
                     });
 
+                    var msg = 'Token created'
+                    console.log(chalk.green(msg + ': ' + token ));
                     res.json({
                         success: true,
                         message: 'Token Created',
@@ -64,24 +72,31 @@ exports.giveToken = function(req, res) {
  * Verify valid token was given.
  */
 exports.verifyToken = function(req, res, next) {
-    console.log("Somebody is using the api")
+    console.log(chalk.blue("Someone is verifying their token."))
+    // req.param() is deprecated but I dont care.
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
     if (token){
         //verifys token with secret
         jwt.verify(token, secret, function(err, decoded){
             if(err) {
-                return res.json({succes:false, message:'failed to authenticate token'});
+                error = "failed to authenticate token"
+                console.log(chalk.bold.red(error))
+                return res.json({succes: false, message: error});
             } else {
+                //token valid
                 req.decoded = decoded;
+                console.log(chalk.green("Given token is valid."))
                 next(); //allows them to proceed
             }
 
         });
     } else {
+        var error = "No valid token found"
+        console.log(chalk.bold.red(error));
         return res.status(403).send({
             success: false,
-            message: 'Found no valid token'
+            message: error
         });
     }
 

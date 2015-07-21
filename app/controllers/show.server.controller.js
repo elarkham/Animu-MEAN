@@ -3,13 +3,23 @@
 /**
  * Module dependencies.
  */
-var Show = require('../models/show.server.model.js');
+var Show  = require('../models/show.server.model.js');
 var Media = require('../models/media.server.model.js');
+var chalk = require('chalk');
 
 /**
  * Create a Show
  */
 exports.create = function(req, res) {
+    console.log(chalk.blue("Creating new show"));
+
+    // if a name isn't included
+    if (!req.body.name) {
+        var error = "You must include a name."
+        res.json({success: "false", message: error});
+        console.log(chalk.bold.red('Error: ' + error));
+        return;
+    }
     // create a new instance of the Show model
     var show = new Show();
     show.name = req.body.name;
@@ -18,14 +28,18 @@ exports.create = function(req, res) {
     show.save(function(err) {
         if (err) {
             // duplicate entry
-            if (err.code == 11000)
-                return res.json({ success: false, message: 'Show of that name already exists. '});
-            else
+            if (err.code == 11000) {
+                var error = "Show of that name already exists.";
+                console.log(chalk.bold.red(error));
+                return res.json({ success: false, message: error });
+            } else
                 return res.send(err);
         }
 
-             // return a message
-             res.json({ message: 'Show created!' });
+        // return a message
+        var msg = "Show: " + show.name + " created!";
+        res.json({ success: true, message: msg });
+        console.log(chalk.green(msg));
     });
 
 };
@@ -34,11 +48,21 @@ exports.create = function(req, res) {
  * Show the current Show
  */
 exports.read = function(req, res) {
+    console.log(chalk.blue("Getting show with name: " + req.params.show_name));
     Show.findOne({ 'name' : req.params.show_name }, function(err, show) {
-        if (err) res.send(err);
+
+        // if the show doesn't exist
+        if (!show){
+            var error = "No show with that name exists.";
+            res.json({success: "false", message: error});
+            console.log(chalk.bold.red('Error: ' + error));
+            return;
+
+        }if (err) res.send(err);
 
         // return that show
         res.json(show);
+        console.log(chalk.green("Returning " + req.params.show_name));
     });
 };
 
@@ -46,15 +70,19 @@ exports.read = function(req, res) {
  * Update a Show
  */
 exports.update = function(req, res) {
+    console.log(chalk.blue("Updating show"));
     Show.findOne({ 'name' : req.params.show_name }, function(err, show) {
 
-        if (err) res.send(err);
+        // if the show doesn't exist
+        if (!show){
+            var error = "No show with that name exists.";
+            res.json({success: "false", message: error});
+            console.log(chalk.bold.red('Error: ' + error));
+            return;
 
-        if (!show) {
+        }if (err) res.send(err);
 
-            res.json({ success: false, message: 'Show does not exist.'} );
-
-        } else {
+         else {
 
             // set the new show information if it exists in the request
             if (req.body.name) show.name = req.body.name;
@@ -66,7 +94,9 @@ exports.update = function(req, res) {
                 if (err) res.send(err);
 
                 // return a message
-                res.json({ success: true, message: 'Show updated!' });
+                var msg = "Show: " + show.name + " was updated!";
+                res.json({ success: true, message: msg });
+                console.log(chalk.green(msg));
             });
         }
 
@@ -77,11 +107,14 @@ exports.update = function(req, res) {
  * Delete an Show
  */
 exports.delete = function(req, res) {
-    Show.remove({
-        'name': req.params.show_name
-    }, function(err, show) {
+    console.log(chalk.blue("Deleting " + req.params.show_name ));
+    Show.findOne({ 'name': req.params.show_name }).remove().exec(function(err, show) {
         if (err) res.send(err);
-        res.json({ message: show.name + ' successfully deleted' });
+
+        // Mongodb can delete things that don't exist, can only confirm an error didn't occur.
+        var msg = "Deletion of " + req.params.show_name + " occured without error.";
+        console.log(chalk.green(msg));
+        res.json({ success: true, message: msg });
     });
 };
 
@@ -89,6 +122,7 @@ exports.delete = function(req, res) {
  * List of Shows
  */
 exports.list = function(req, res) {
+    console.log(chalk.blue("Listing all Shows."));
     Show.find().populate("media").exec(function(err, shows) {
         if (err) res.send(err);
 

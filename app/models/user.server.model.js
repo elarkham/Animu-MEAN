@@ -6,6 +6,7 @@ var UserSchema  = new Schema({
     name: String,
     username: { type: String, required: true, index: { unique: true }},
     password: { type: String, required: true, select: false },
+    admin: { type: Boolean, default: false},
     created_at    : { type: Date, default: Date.now },
     updated_at    : { type: Date, default: Date.now }
 });

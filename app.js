@@ -7,7 +7,12 @@ var mongoose    = require('mongoose');
 var chalk       = require('chalk');
 var config      = require('./config');
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, function(err){
+    if(err){
+        console.log(chalk.bold.red("Failed to connect to MongoDB."));
+        throw err;
+    }
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

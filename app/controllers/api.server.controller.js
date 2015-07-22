@@ -14,6 +14,29 @@ var secret = config.secret;
 exports.giveToken = function(req, res) {
     console.log(chalk.blue("Someone is requesting a token."))
 
+     //only for development
+     if (req.body.test == "foobar") {
+        var user = new User();
+        user.name ="foobar";
+        user.pasword = "sheet";
+
+        //create token
+        var token = jwt.sign(user, secret, {
+            expiresInMinutes: 1440 //expire in 24 hours
+        });
+
+        var msg = 'Token created'
+        console.log(chalk.green(msg + ': ' + token ));
+        res.json({
+            success: true,
+            message: 'Token Created',
+            token: token
+        });
+
+        return;
+
+    }
+
     //find user
     User.findOne({
         username: req.body.username

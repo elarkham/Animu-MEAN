@@ -1,0 +1,27 @@
+{
+  "name": "animu",
+  "version": "0.0.0",
+  "homepage": "https://github.com/elarkham/animu",
+  "authors": [
+    "Ethan Larkham <ethanlarkham@gmail.com>"
+  ],
+  "description": "Video streaming application",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/assets/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.3",
+    "angular-route": "~1.4.3",
+    "angular-animate": "~1.4.3"
+  }
+}

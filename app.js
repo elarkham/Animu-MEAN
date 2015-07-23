@@ -42,5 +42,5 @@ app.use( '/', showRouter );
 app.use( '/', mediaRouter );
 
 app.listen(config.port);
-console.log('Animu started on port ' + config.port);
+console.log(chalk.bold.blue('Animu started on port ' + chalk.yellow(config.port)));
 

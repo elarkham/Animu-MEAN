@@ -14,17 +14,19 @@ var chalk = require('chalk');
 exports.create = function(req, res) {
     console.log(chalk.blue('Creating new user'));
 
+    var error;
+
     // if a username isn't included
     if (!req.body.username) {
-        var error = "You must include a username."
-        res.json({success: "false", message: error});
+        error = 'You must include a username.';
+        res.json({success: 'false', message: error});
         console.log(chalk.bold.red('Error: ' + error));
         return;
     }
     // if a password isn't included
     if (!req.body.password) {
-        var error = "You must include a password"
-        res.json({success: "false", message: error});
+        error = 'You must include a password';
+        res.json({success: false, message: error});
         console.log(chalk.bold.red('Error: ' + error));
         return;
     }
@@ -37,7 +39,7 @@ exports.create = function(req, res) {
     user.save(function(err, user) {
         if (err) {
             // duplicate entry
-            if (err.code == 11000) {
+            if (err.code === 11000) {
                 console.log(chalk.bold.red('Error: That username alread exists'));
                 return res.json({ success: false, message: 'A user with that username already exists. '}); }
             else
@@ -59,16 +61,16 @@ exports.read = function(req, res) {
 
         //Check if user actually exists
         if (!user){
-            var error = "User with that id does not exist.";
+            var error = 'User with that id does not exist.';
             res.json({succes: false, message: error});
-            console.log(chalk.bold.red("Error: " + error));
+            console.log(chalk.bold.red('Error: ' + error));
         }
 
         else if (err) res.send(err);
 
         // return that user
         else {
-            console.log(chalk.green("Returning user: \'" + user.username + "\'"));
+            console.log(chalk.green('Returning user: \'' + user.username + '\''));
             res.json(user);
         }
     });
@@ -84,9 +86,9 @@ exports.update = function(req, res) {
     User.findById(req.params.user_id, function(err, user) {
         // if user does not exist
         if (!user) {
-            var error = "User with that id does not exist.";
+            var error = 'User with that id does not exist.';
             res.json({ success: false, message: error});
-            console.log(chalk.bold.red("Error: " + error));
+            console.log(chalk.bold.red('Error: ' + error));
             return;
         }
         // for when something I didnt forsee happens.
@@ -119,21 +121,14 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
     console.log(chalk.blue('Deleting user with id:' + req.params.user_id));
-    User.remove({ _id: req.params.user_id}, function(err, user) {
-
-        //if user does not exist
-        if (!user) {
-            var error = "User with that id does not exist.";
-            res.json({ success: false, message: error});
-            console.log(chalk.bold.red('Error: ' + error ));
-        }
+    User.remove({ _id: req.params.user_id}, function(err) {
 
         // something I didnt forsee happened
-        else if (err) res.send(err);
+        if (err) res.send(err);
 
         // inform deletion was success
         else {
-            var success = "User successfully deleted"
+            var success = 'User successfully deleted';
             res.json({ success: true, message: success });
             console.log(chalk.green(success));
         }

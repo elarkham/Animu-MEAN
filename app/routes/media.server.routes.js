@@ -1,4 +1,5 @@
-media = require('../controllers/media.server.controller.js');
+'use strict';
+var media = require('../controllers/media.server.controller.js');
 
 module.exports = function( api ) {
 
@@ -27,4 +28,4 @@ module.exports = function( api ) {
         .delete(media.delete);
 
         return apiRouter;
-}
+};

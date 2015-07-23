@@ -1,4 +1,4 @@
-
+'use strict';
 var user = require('../controllers/user.server.controller.js');
 
 module.exports = function( api ) {
@@ -28,4 +28,4 @@ module.exports = function( api ) {
         .delete(user.delete);
 
         return apiRouter;
-}
+};

@@ -12,20 +12,20 @@ var secret = config.secret;
  * Give token in response to valid user login.
  */
 exports.giveToken = function(req, res) {
-    console.log(chalk.blue("Someone is requesting a token."))
+    console.log(chalk.blue('Someone is requesting a token.'));
 
      //only for development
-     if (req.body.test == "foobar") {
+     if (req.body.test === 'foobar') {
         var user = new User();
-        user.name ="foobar";
-        user.pasword = "sheet";
+        user.name ='foobar';
+        user.pasword = 'pasword';
 
         //create token
         var token = jwt.sign(user, secret, {
             expiresInMinutes: 1440 //expire in 24 hours
         });
 
-        var msg = 'Token created'
+        var msg = 'Token created';
         console.log(chalk.green(msg + ': ' + token ));
         res.json({
             success: true,
@@ -42,26 +42,28 @@ exports.giveToken = function(req, res) {
         username: req.body.username
     }).select('password').exec(function(err, user){
 
+            var error;
+
             //throw error if something wron with search
             if(err) throw err;
 
             //if no user with the username found
             if(!user) {
-               var error = 'Authentication failed. User not found.'
+               error = 'Authentication failed. User not found.';
 
                 console.log(chalk.bold.red(error));
                 res.json({
                     sucess: false,
                     message: error
 
-                })
+                });
 
             //if password doesn't match
             } else if (user) {
 
                 var validPassword = user.comparePassword(req.body.password);
                 if(!validPassword) {
-                    var error = 'Authentication failed. Wrong password.'
+                    error = 'Authentication failed. Wrong password.';
 
                     console.log(chalk.bold.red(error));
                     res.json({
@@ -76,7 +78,7 @@ exports.giveToken = function(req, res) {
                         expiresInMinutes: 1440 //expire in 24 hours
                     });
 
-                    var msg = 'Token created'
+                    var msg = 'Token created';
                     console.log(chalk.green(msg + ': ' + token ));
                     res.json({
                         success: true,
@@ -95,7 +97,7 @@ exports.giveToken = function(req, res) {
  * Verify valid token was given.
  */
 exports.verifyToken = function(req, res, next) {
-    console.log(chalk.blue(chalk.yellow("->0") + " Someone is verifying their token."))
+    console.log(chalk.blue(chalk.yellow('->0') + ' Someone is verifying their token.'));
 
     var token = req.body.token || req.headers['x-access-token'];
 
@@ -103,19 +105,19 @@ exports.verifyToken = function(req, res, next) {
         //verifys token with secret
         jwt.verify(token, secret, function(err, decoded){
             if(err) {
-                error = "failed to authenticate token"
-                console.log(chalk.bold.red(error))
+                error = 'failed to authenticate token';
+                console.log(chalk.bold.red(error));
                 return res.json({succes: false, message: error});
             } else {
                 //token valid
                 req.decoded = decoded;
-                console.log(chalk.green(chalk.yellow("->O") + " Given token is valid."))
+                console.log(chalk.green(chalk.yellow('->O') + ' Given token is valid.'));
                 next(); //allows them to proceed
             }
 
         });
     } else {
-        var error = "No valid token found"
+        var error = 'No valid token found';
         console.log(chalk.bold.red(error));
         return res.status(403).send({
             success: false,

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('userCtrl', ['userService'])
 
 .controller('userController', function(User){
@@ -12,7 +14,7 @@ angular.module('userCtrl', ['userService'])
             vm.users = data;
         });
 
-    vm.deleteUser = funciton(id) {
+    vm.deleteUser = function(id) {
         vm.processing = true;
 
         User.delete(id)
@@ -33,7 +35,7 @@ angular.module('userCtrl', ['userService'])
 
     var vm = this;
 
-    vm.type = "create";
+    vm.type = 'create';
 
     vm.saveUser = function() {
         vm.processing = true;

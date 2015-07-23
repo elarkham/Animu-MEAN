@@ -1,3 +1,4 @@
+'use strict';
 angular.module('userService', [] )
 
 .factory('User', function($http){
@@ -7,7 +8,7 @@ angular.module('userService', [] )
     // get single user
     userFactory.get = function(id) {
         return $http.get('/api/users/ + id');
-    }
+    };
 
     // get all users
     userFactory.all = function() {

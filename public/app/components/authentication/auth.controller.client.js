@@ -1,4 +1,5 @@
-angular.module('authCtrl'), [])
+'use strict';
+angular.module('authCtrl', [])
 
 .controller('authController', function($rootScope, $location, Auth){
 
@@ -8,10 +9,10 @@ angular.module('authCtrl'), [])
 
     $rootScope.$on('$routeChangeStart', function(){
         Auth.getUser()
-            .then(function(data)) {
+            .then(function(data) {
                 vm.user = data.data;
             });
-    })
+    });
 
     vm.doLogin = function(){
         vm.processing = true;

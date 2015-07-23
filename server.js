@@ -1,3 +1,4 @@
+'use strict';
 var express     = require('express');
 var app         = express();
 var path        = require('path');
@@ -9,7 +10,7 @@ var config      = require('./config');
 
 mongoose.connect(config.database, function(err){
     if(err){
-        console.log(chalk.bold.red("Failed to connect to MongoDB."));
+        console.log(chalk.bold.red('Failed to connect to MongoDB.'));
         throw err;
     }
 });
@@ -29,7 +30,7 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function( req, res ){
-    res.send('Hello, World')
+    res.send('Hello, World');
 });
 
 var apiRouter = require('./app/routes/api.server.routes.js')(app, express);

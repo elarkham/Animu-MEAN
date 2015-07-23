@@ -1,3 +1,4 @@
+'use strict';
 angular.module('authService', [])
 
 .factory('Auth', function($http, $q, AuthToken){
@@ -12,8 +13,8 @@ angular.module('authService', [])
         })
             .success(function(data) {
                 AuthToken.setToken(data.token);
-            return data;
-            })
+                return data;
+            });
 
     };
 
@@ -28,9 +29,9 @@ angular.module('authService', [])
             return false;
     };
 
-    authFactory.getUser = funciton() {
+    authFactory.getUser = function() {
         if (AuthToken.getToken())
-            return $http.get('/api/me', {cache: true} )
+            return $http.get('/api/me', {cache: true} );
         else
             return $q.regect({ message: 'User has no token'});
     };
@@ -38,7 +39,7 @@ angular.module('authService', [])
     return authFactory;
 })
 
-.factory('AuthToken', function($window)) {
+.factory('AuthToken', function($window) {
 
     var authTokenFactory = {};
 
@@ -51,12 +52,12 @@ angular.module('authService', [])
             $window.localStorage.setItem('token', token);
         else
             $window.localStorage.removeItem('token');
-    }
+    };
 
     return authTokenFactory;
 })
 
-.factory('AuthInterceptor', function($q, $location, Authtoken){
+.factory('AuthInterceptor', function($q, $location, AuthToken){
 
     var interceptorFactory = {};
 
@@ -68,11 +69,11 @@ angular.module('authService', [])
             config.headers['x-access-token'] = token;
 
         return config;
-    }
+    };
 
-    interceptorFactory.responseError = function(request) {
+    interceptorFactory.responseError = function(response) {
 
-        if (response.status == 403 ) {
+        if (response.status === 403 ) {
             AuthToken.setToken();
             $location.path('/login');
         }
@@ -81,4 +82,4 @@ angular.module('authService', [])
 
     };
 
-})
+});

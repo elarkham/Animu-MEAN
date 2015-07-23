@@ -1,4 +1,5 @@
-show = require('../controllers/show.server.controller.js');
+'use strict';
+var show = require('../controllers/show.server.controller.js');
 
 module.exports = function( api ) {
 
@@ -27,4 +28,4 @@ module.exports = function( api ) {
         .delete(show.delete);
 
     return apiRouter;
-}
+};

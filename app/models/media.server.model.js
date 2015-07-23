@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Show = mongoose.model('Show');
@@ -12,12 +13,6 @@ var MediaSchema  = new Schema({
     updated_at: { type: Date, default: Date.now },
 
 });
-
-MediaSchema.methods.getShowQuery = function getShowQuery( showName ){
-    console.log( showName );
-    var query = Show.findOne( { name: showName });
-    return query;
-}
 
 
 MediaSchema.pre('save', function(next) {

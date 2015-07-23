@@ -1,10 +1,10 @@
 'use strict';
 var show = require('../controllers/show.server.controller.js');
 
-module.exports = function( api ) {
+module.exports = function( app, express ) {
 
-    var apiRouter = api;
-    apiRouter.route('/shows')
+    var showRouter = express.Router();
+    showRouter.route('/shows')
 
     // on routes that end in /shows
     // ----------------------------------------------------
@@ -16,7 +16,7 @@ module.exports = function( api ) {
 
     // on routes that end in /shows/:show_name
     // ----------------------------------------------------
-    apiRouter.route('/shows/:show_name')
+    showRouter.route('/shows/:show_name')
 
         // get the show with that name
         .get(show.read)
@@ -27,5 +27,5 @@ module.exports = function( api ) {
         // delete the show with this name
         .delete(show.delete);
 
-    return apiRouter;
+    return showRouter;
 };

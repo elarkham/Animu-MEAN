@@ -1,10 +1,10 @@
 'use strict';
 var media = require('../controllers/media.server.controller.js');
 
-module.exports = function( api ) {
+module.exports = function( app, express ) {
 
-    var apiRouter = api;
-    apiRouter.route('/media')
+    var mediaRouter = express.Router();
+    mediaRouter.route('/media')
 
     // on routes that end in /shows
     // ----------------------------------------------------
@@ -16,7 +16,7 @@ module.exports = function( api ) {
 
     // on routes that end in /shows/:show_name
     // ----------------------------------------------------
-    apiRouter.route('/media/:media_name')
+    mediaRouter.route('/media/:media_name')
 
         // get the show with that name
         .get(media.read)
@@ -27,5 +27,5 @@ module.exports = function( api ) {
         // delete the show with this name
         .delete(media.delete);
 
-        return apiRouter;
+        return mediaRouter;
 };

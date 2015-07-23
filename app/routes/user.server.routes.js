@@ -1,12 +1,12 @@
 'use strict';
 var user = require('../controllers/user.server.controller.js');
 
-module.exports = function( api ) {
-    var apiRouter = api;
+module.exports = function( app, express ) {
+    var userRouter = express.Router();
 
     // on routes that end in /users
     // ----------------------------------------------------
-    apiRouter.route('/users')
+    userRouter.route('/users')
 
         // create a user
         .post(user.create)
@@ -16,7 +16,7 @@ module.exports = function( api ) {
 
     // on routes that end in /users/:user_id
     // ----------------------------------------------------
-    apiRouter.route('/users/:user_id')
+    userRouter.route('/users/:user_id')
 
         // get the user with that id
         .get(user.read)
@@ -27,9 +27,5 @@ module.exports = function( api ) {
         // delete the user with this id
         .delete(user.delete);
 
-    apiRouter.get('/me',function(req, res){
-        res.send(req.decoded);
-    });
-
-    return apiRouter;
+    return userRouter;
 };

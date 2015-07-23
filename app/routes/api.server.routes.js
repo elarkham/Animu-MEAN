@@ -11,17 +11,9 @@ module.exports = function(app, express) {
     //Verify attached token
     apiRouter.use( api.verifyToken );
 
-    apiRouter.use( '/test', function(req, res) {
-        res.json({ message: 'Welcome to the API!'});
+    apiRouter.get('/me', function(req, res){
+        res.send(req.decoded);
     });
-
-    var userRouter = require('./user.server.routes.js')(apiRouter);
-    var showRouter = require('./show.server.routes.js')(apiRouter);
-    var mediaRouter = require('./media.server.routes.js')(apiRouter);
-
-    apiRouter.use( userRouter );
-    apiRouter.use( showRouter );
-    apiRouter.use( mediaRouter );
 
     return apiRouter;
 };

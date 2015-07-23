@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+        <meta charset="UTF-8">
+        <title>User CRM</title>
+
+        <!-- For Angular Routering -->
+        <base href = "/">
+
+        <!-- CSS -->
+        <!-- load bootstrap from CDN and custom CSS -->
+        <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="">
+
+        <!-- JavaScript -->
+        <!-- load angluar and angular-route via CDN -->
+        <script src="assets/libs/angular/angular.min.js"></script>
+        <script src="assets/libs/angular-route/angular-route.min.js"></script>
+        <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
+
+        <!-- controllers -->
+        <script src="app/components/authenticate/auth.controller.client.js"></script>
+        <script src="app/components/user/user.controller.client.js"></script>
+
+        <!-- services -->
+        <script src="app/components/authenticate/auth.serivce.client.js"></script>
+        <script src="app/components/user/user.service.client.js"></script>u
+
+        <!-- main Angular app files -->
+</head>
+
+<body ng-app="userApp" ng-controller="authController as auth">
+
+<!-- Navbar -->
+<header>
+        <div class="navbar navbar-inverse" ng-if="auth.loggedIn" >
+        <div class = "container">
+                <div class="navbar-header">
+                        <a href="/" class="navbar-brand"> ANIMU </a>
+                </div>
+                <ul class="nav navbar-nav">
+                        <li><a href="/users" class="navbar-brand"><span class="glyphicon glyphicon-user"></span> Users </a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                        <li ng-if="!auth.loggedIn"><a href="/login">Login</a></li>
+                        <li ng-if="auth.loggedIn" class="navbar-text">Hello {{auth.user.name}}!</li>
+                        <li ng-if="main.loggedIn"><a href="#" ng-click="auth.doLogout()">Logout</a></li>
+                </ul>
+        </div>
+        </div>
+</header>
+
+<main class = "container">
+        <!-- Angular Views -->
+        <div ng-view></div>
+</main>
+
+</body>
+
+</html>

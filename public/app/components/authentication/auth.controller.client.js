@@ -8,6 +8,9 @@ angular.module('authCtrl', [])
     vm.logginIn = Auth.isLoggedIn();
 
     $rootScope.$on('$routeChangeStart', function(){
+
+        vm.loggedIn = Auth.isLoggedIn();
+
         Auth.getUser()
             .then(function(data) {
                 vm.user = data.data;
@@ -37,10 +40,6 @@ angular.module('authCtrl', [])
         vm.user = '';
 
         $location.path('/login');
-    };
-
-    vm.createSample = function(){
-        Auth.createSampleUser();
     };
 
 });

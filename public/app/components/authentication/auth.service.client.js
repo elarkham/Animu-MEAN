@@ -31,9 +31,9 @@ angular.module('authService', [])
 
     authFactory.getUser = function() {
         if (AuthToken.getToken())
-            return $http.get('/api/me', {cache: true} );
+            return $http.get('/api/me');
         else
-            return $q.regect({ message: 'User has no token'});
+            return $q.reject({ message: 'User has no token'});
     };
 
     return authFactory;
@@ -81,5 +81,5 @@ angular.module('authService', [])
         return $q.reject(response);
 
     };
-
+    return interceptorFactory;
 });

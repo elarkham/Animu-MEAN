@@ -29,18 +29,14 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', function( req, res ){
-    res.send('Hello, World');
-});
 
 var apiRouter = require('./app/routes/api.server.routes.js')(app, express);
-var userRouter = require('./app/routes/user.server.routes.js')(apiRouter);
-var showRouter = require('./app/routes/show.server.routes.js')(apiRouter);
-var mediaRouter = require('./app/routes/media.server.routes.js')(apiRouter);
 app.use( '/api', apiRouter );
-app.use( '/', userRouter );
-app.use( '/', showRouter );
-app.use( '/', mediaRouter );
+
+app.get('*', function(req, res) {
+        res.sendFile(path.join( __dirname, 'public/app/views/index.html'));
+});
+
 
 app.listen(config.port);
 console.log(chalk.bold.blue('Animu started on port ' + chalk.yellow(config.port)));

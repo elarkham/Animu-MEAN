@@ -27,5 +27,9 @@ module.exports = function( api ) {
         // delete the user with this id
         .delete(user.delete);
 
-        return apiRouter;
+    apiRouter.get('/me',function(req, res){
+        res.send(req.decoded);
+    });
+
+    return apiRouter;
 };

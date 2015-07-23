@@ -15,5 +15,13 @@ module.exports = function(app, express) {
         res.json({ message: 'Welcome to the API!'});
     });
 
+    var userRouter = require('./user.server.routes.js')(apiRouter);
+    var showRouter = require('./show.server.routes.js')(apiRouter);
+    var mediaRouter = require('./media.server.routes.js')(apiRouter);
+
+    apiRouter.use( userRouter );
+    apiRouter.use( showRouter );
+    apiRouter.use( mediaRouter );
+
     return apiRouter;
 };

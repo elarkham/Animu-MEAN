@@ -10,10 +10,15 @@ angular.module('app.routes', ['ngRoute'])
 
                 .when('/login', {
                         templateUrl: 'app/views/pages/login.html',
+                        controller: 'mainController',
+                        controllerAs: 'login'
+                })
+
+                .when('/users', {
+                        templateUrl: 'app/views/pages/all.html',
                         controller: 'userController',
                         controllerAs: 'user'
                 })
-
                 .when('/users/create', {
                         templateUrl: 'app/views/pages/users/single.html',
                         controller: 'userCreateController',
@@ -22,10 +27,9 @@ angular.module('app.routes', ['ngRoute'])
 
                 .when('/users/:user_id', {
                         templateUrl: 'app/views/pages/users/single.html',
-                        controller: 'userCreateController',
+                        controller: 'userEditController',
                         controllerAs: 'user'
                 })
-
 
         $locationProvider.html5Mode(true);
 });

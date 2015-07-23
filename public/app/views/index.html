@@ -1,61 +1,60 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-        <meta charset="UTF-8">
-        <title>ANIMU</title>
+	<meta charset="UTF-8">
+	<title>Animu</title>
 
-        <!-- For Angular Routering -->
-        <base href = "/">
+	<!-- FOR ANGULAR ROUTING -->
+	<base href="/">
 
-        <!-- CSS -->
-        <!-- load bootstrap from CDN and custom CSS -->
-        <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.css">
+	<!-- CSS  -->
+	<!-- load bootstrap from CDN and custom CSS -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/paper/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
 
-        <!-- JavaScript -->
-        <!-- load angluar and angular-route -->
-        <script src="assets/libs/angular/angular.js"></script>
-        <script src="assets/libs/angular-route/angular-route.js"></script>
-        <script src="assets/libs/angular-animate/angular-animate.js"></script>
+	<!-- JS -->
+	<!-- load angular and angular-route via CDN -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-animate.js"></script>
 
-        <!-- controllers -->
-        <script src="app/components/authentication/auth.controller.client.js"></script>
-        <script src="app/components/user/user.controller.client.js"></script>
+	<!-- controllers -->
+	<script src="app/controllers/mainCtrl.js"></script>
+	<script src="app/controllers/userCtrl.js"></script>
 
-        <!-- services -->
-        <script src="app/components/authentication/auth.service.client.js"></script>
-        <script src="app/components/user/user.service.client.js"></script>
+	<!-- services -->
+	<script src="app/services/authService.js"></script>
+	<script src="app/services/userService.js"></script>
 
-        <!-- main Angular app files -->
-        <script src="app/app.routes.js"></script>
-        <script src="app/app.js"></script>
+	<!-- main Angular app files -->
+	<script src="app/app.routes.js"></script>
+	<script src="app/app.js"></script>
 </head>
+<body ng-app="animu" ng-controller="mainController as main">
 
-<body ng-app="animu" ng-controller="authController as auth">
-
-<!-- Navbar -->
+<!-- NAVBAR -->
 <header>
-        <div class="navbar navbar-inverse" ng-if="auth.loggedIn" >
-        <div class = "container">
-                <div class="navbar-header">
-                        <a href="/" class="navbar-brand"> ANIMU </a>
-                </div>
-                <ul class="nav navbar-nav">
-                        <li><a href="/users" class="navbar-brand"><span class="glyphicon glyphicon-user"></span> Users </a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                        <li ng-if="!auth.loggedIn"><a href="/login">Login</a></li>
-                        <li ng-if="auth.loggedIn" class="navbar-text">Hello {{auth.user.name}}!</li>
-                        <li ng-if="main.loggedIn"><a href="#" ng-click="auth.doLogout()">Logout</a></li>
-                </ul>
-        </div>
-        </div>
+	<div class="navbar navbar-inverse" ng-if="main.loggedIn">
+	<div class="container">
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand">Animu</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
+			<li ng-if="main.loggedIn" class="navbar-text">Hello {{ main.user.username }}!</li>
+			<li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
+		</ul>
+	</div>
+	</div>
 </header>
 
-<main class = "container">
-        <!-- Angular Views -->
-        <div ng-view></div>
+<main class="container">
+	<!-- ANGULAR VIEWS -->
+	<div ng-view></div>
 </main>
 
 </body>
-
 </html>

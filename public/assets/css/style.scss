@@ -1,0 +1,111 @@
+/* CORE COMPONENTS
+==================== */
+$bgDefault      : #242020;
+$bgHighlight    : #363536;
+$colDefault     : #d1dcdf;
+$colHighlight   : #f9f9f9;
+$dropDown       : true;
+
+main{
+	padding-top:30px;
+}
+
+.login-background{
+    background: $bgDefault;
+}
+
+
+/* HEADER
+===================== */
+.navbar-default {
+  background-color: $bgDefault;
+  border-color: $bgHighlight;
+  .navbar-brand {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .navbar-text {
+    color: $colDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $colDefault;
+        &:hover,  &:focus {
+          color: $colHighlight; }}
+      @if $dropDown {
+        > .dropdown-menu {
+          background-color: $bgDefault;
+          > li > a {
+            color: $colDefault;
+            &:hover,  &:focus {
+              color: $colHighlight;
+              background-color: $bgHighlight; }}
+          .divider {
+            background-color: $bgHighlight;}}}
+    }
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+  .navbar-toggle {
+    border-color: $bgHighlight;
+    &:hover, &:focus {
+      background-color: $bgHighlight; }
+    .icon-bar {
+      background-color: $colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault; }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+}
+
+
+/* NGANIMATE
+====================== */
+
+/* show and hide */
+.show-hide-message.ng-hide-remove {
+	-webkit-animation:zoomIn 0.3s both ease;
+	-moz-animation:zoomIn 0.3s both ease;
+	animation:zoomIn 0.3s both ease;
+}
+
+/* ANIMATIONS
+====================== */
+.spinner {
+	-webkit-animation:spin 1s infinite;
+	-moz-animation:spin 1s infinite;
+	animation:spin 1s infinite;
+}
+
+@keyframes spin {
+	from 	{ transform:rotate(0deg); }
+	to 	{ transform:rotate(360deg); }
+}
+
+@-webkit-keyframes spin {
+	from 	{ -webkit-transform:rotate(0deg); }
+	to 	{ -webkit-transform:rotate(360deg); }
+}
+
+@-moz-keyframes spin {
+	from 	{ -moz-transform:rotate(0deg); }
+	to 	{ -moz-transform:rotate(360deg); }
+}

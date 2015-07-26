@@ -3,9 +3,9 @@ var sass   = require('gulp-sass');
 var jshint = require('gulp-jshint');
 
 gulp.task('css', function(){
-        return gulp.src('./sass/**/*.scss')
+        return gulp.src('public/assets/css/*.scss')
                 .pipe(sass().on('error', sass.logError))
-                .pipe(gulp.dest('./css'));
+                .pipe(gulp.dest('./public/assets/css'));
 });
 
 gulp.task('sass:watch', function() {

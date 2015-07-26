@@ -7,10 +7,12 @@ var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
 var chalk       = require('chalk');
 var config      = require('./config');
+var favicon     = require('express-favicon');
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
+app.use(favicon(__dirname + '/public/assets/images/favicon.png'));
 
 // handles CORS requests
 app.use(function(req, res, next) {

@@ -10,6 +10,7 @@
     "debug": "~2.2.0",
     "ejs": "^2.3.3",
     "express": "~4.13.0",
+    "express-favicon": "^1.0.1",
     "jsonwebtoken": "^5.0.4",
     "mocha": "^2.2.5",
     "mongoose": "^4.0.7",

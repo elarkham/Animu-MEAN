@@ -58,8 +58,15 @@ exports.giveToken = function(req, res) {
 
                 });
 
+            //if no password
+            }else if(!req.body.password){
+                res.json({
+                    success: false,
+                    message: 'A password must be included.'
+                });
+
             //if password doesn't match
-            } else if (user) {
+            }else if (user) {
 
                 var validPassword = user.comparePassword(req.body.password);
                 if(!validPassword) {

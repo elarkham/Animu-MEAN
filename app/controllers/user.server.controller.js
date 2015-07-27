@@ -101,6 +101,11 @@ exports.update = function(req, res) {
         if (req.body.name) user.name = req.body.name;
         if (req.body.username) user.username = req.body.username;
         if (req.body.password) user.password = req.body.password;
+        if (req.body.admin){
+            if (req.decoded.admin == true ) {
+                user.admin = req.body.admin;
+            }
+        }
 
         // save the user
         user.save(function(err) {

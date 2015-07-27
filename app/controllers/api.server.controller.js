@@ -19,6 +19,7 @@ exports.giveToken = function(req, res) {
         var user = new User();
         user.name ='foobar';
         user.pasword = 'pasword';
+        user.admin = true;
 
         //create token
         var token = jwt.sign(user, secret, {
@@ -40,7 +41,7 @@ exports.giveToken = function(req, res) {
     //find user
     User.findOne({
         username: req.body.username
-    }).select('password').exec(function(err, user){
+    }).select('password admin').exec(function(err, user){
 
             var error;
 

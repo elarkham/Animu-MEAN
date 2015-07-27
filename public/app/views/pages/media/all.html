@@ -1,0 +1,39 @@
+<div class="page-header">
+	<h1>
+		Media
+		<a href="/media/create" class="btn btn-default">
+			<span class="glyphicon glyphicon-plus"></span>
+			New Media
+		</a>
+	</h1>
+
+</div>
+
+<div class="jumbotron text-center" ng-show="media.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading Media...</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="media.media">
+	<thead>
+		<tr>
+			<th>_id</th>
+			<th>Name</th>
+            <th>Show id</th>
+			<th>Seq</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="episode in media.media">
+			<td>{{ episode._id }}</td>
+			<td>{{ episode.name }}</td>
+			<td>{{ episode.show }}</td>
+			<td>{{ episode.seq }}</td>
+			<td class="col-sm-2">
+				<a ng-href="/media/{{ episode.name }}" class="btn btn-danger">Edit</a>
+				<a href="#" ng-click="media.deleteMedia(episode.name)" class="btn btn-primary">Delete</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

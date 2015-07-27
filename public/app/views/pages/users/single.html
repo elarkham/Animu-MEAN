@@ -4,7 +4,7 @@
 </div>
 
 <form class="form-horizontal" ng-submit="user.saveUser()">
-	
+
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Name</label>
 		<div class="col-sm-6">
@@ -25,7 +25,7 @@
 			<input type="password" class="form-control" ng-model="user.userData.password">
 		</div>
 	</div>
-	
+
 	<div class="form-group">
 	<div class="col-sm-offset-2 col-sm-6">
 		<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'create'">Create User</button>
@@ -37,7 +37,7 @@
 
 <div class="row show-hide-message" ng-show="user.message">
 	<div class="col-sm-6 col-sm-offset-2">
-		
+
 		<div class="alert alert-info">
 			{{ user.message }}
 		</div>

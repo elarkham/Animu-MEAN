@@ -49,7 +49,7 @@ exports.create = function(req, res) {
  */
 exports.read = function(req, res) {
     console.log(chalk.blue('Getting show with name: ' + req.params.show_name));
-    Show.findOne({ 'name' : req.params.show_name }, function(err, show) {
+    Show.findOne({ 'name' : req.params.show_name }).populate('media').exec(function(err, show) {
 
         // if the show doesn't exist
         if (!show){
@@ -123,7 +123,7 @@ exports.delete = function(req, res) {
  */
 exports.list = function(req, res) {
     console.log(chalk.blue('Listing all Shows.'));
-    Show.find().populate('media').exec(function(err, shows) {
+    Show.find().exec(function(err, shows) {
         if (err) res.send(err);
 
         // return the show

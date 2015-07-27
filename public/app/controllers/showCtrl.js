@@ -91,12 +91,24 @@ angular.module('showCtrl', ['showService'])
 			.success(function(data) {
 				vm.processing = false;
 
-				// clear the form
-				vm.showData = {};
-
 				// bind the message from our API to vm.message
 				vm.message = data.message;
 			});
 	};
 
+})
+
+// controller applied to show edit page
+.controller('showProfileController', function($routeParams, Show) {
+
+	var vm = this;
+
+    // $routeParams is the way we grab data from the URL
+	Show.get($routeParams.show_name)
+		.success(function(data) {
+			vm.showData = data;
+		});
+
+
 });
+

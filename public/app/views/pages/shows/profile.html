@@ -1,0 +1,25 @@
+<div class="page-header">
+    <h1>{{show.showData.name}}</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>_id</th>
+			<th>Name</th>
+			<th>Seq</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="episode in show.showData.media">
+			<td>{{ episode._id }}</td>
+			<td>{{ episode.name }}</td>
+			<td>{{ episode.seq }}</td>
+			<td class="col-sm-2">
+				<a ng-href="/media/{{ episode.name }}" class="btn btn-danger">Edit</a>
+				<a href="#" ng-click="show.deleteShow(episode.name)" class="btn btn-primary">Delete</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

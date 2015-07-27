@@ -35,12 +35,18 @@ angular.module('app.routes', ['ngRoute'])
 		})
 
 		// page to edit a user
-		.when('/users/:user_id', {
+		.when('/users/edit/:user_id', {
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
 		})
 
+        // page to user profile
+		.when('/users/:user_id', {
+			templateUrl: 'app/views/pages/users/profile.html',
+			controller: 'userProfileController',
+			controllerAs: 'user'
+		})
         /* Show Routes
          ====================*/
 
@@ -60,10 +66,17 @@ angular.module('app.routes', ['ngRoute'])
 		})
 
 		// page to edit a show
-		.when('/shows/:show_name', {
+		.when('/shows/edit/:show_name', {
 			templateUrl: 'app/views/pages/shows/single.html',
-			controller: 'showsEditController',
-			controllerAs: 'shows'
+			controller: 'showEditController',
+			controllerAs: 'show'
+		})
+
+        // page to show profile
+		.when('/shows/:show_name', {
+			templateUrl: 'app/views/pages/shows/profile.html',
+			controller: 'showProfileController',
+			controllerAs: 'show'
 		})
 
         /* Media Routes
@@ -85,11 +98,19 @@ angular.module('app.routes', ['ngRoute'])
 		})
 
 		// page to edit a media
-		.when('/media/:media_name', {
+		.when('/media/edit/:media_name', {
 			templateUrl: 'app/views/pages/media/single.html',
 			controller: 'mediaEditController',
 			controllerAs: 'media'
+		})
+
+        // page to edit a media
+		.when('/media/:media_name', {
+			templateUrl: 'app/views/pages/media/profile.html',
+			controller: 'mediaProfileController',
+			controllerAs: 'media'
 		});
+
 	$locationProvider.html5Mode(true);
 
 });

@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var Show     = mongoose.model('Show');
 var Media    = mongoose.model('Media');
 var ObjectId = require('mongoose').Types.ObjectId;
+var linker   = require('./link.server.helper.js');
 var chalk    = require('chalk');
 
 /**
@@ -15,42 +16,29 @@ var chalk    = require('chalk');
 exports.create = function(req, res) {
     console.log(chalk.blue('Creating new media'));
 
-    //Put everything inside the query callback
-    Media.findOne({'name':req.body.name}).exec(function( err, media ){
+    //create now instance of media model
+    var media = new Media();
+    media.name = req.body.name;
 
-        // if the show doesn't exist
-        if (!media){
-            var error = 'No media with that name exists.';
-            res.json({success: false, message: error});
-            console.log(chalk.bold.red('Error: ' + error));
-            return;
-
-        } if (err) res.send(err);
-
-        //create now instance of media model
-        media = new Media();
-        media.name = req.body.name;
-        media.show = req.body.show;
-
-        console.log(media.show);
-        media.save( function(err){
-           if(err) {
-                // duplicate entry
-                if (err.code === 11000) {
-                    var error = 'Media with that name already exists.';
-                    console.log(chalk.bold.red(error));
-                    return res.json({ success: false, message: error });
-                } else {
-                    return res.send(err);
-                }
+    media.save( function(err){
+       if(err) {
+            // duplicate entry
+            if (err.code === 11000) {
+                var error = 'Media with that name already exists.';
+                console.log(chalk.bold.red(error));
+                return res.json({ success: false, message: error });
+            } else {
+                return res.send(err);
             }
-            // return a message
-            var msg = 'Media: ' + media.name + ' created!';
-            res.json({ success: true, message: msg });
-            console.log(chalk.green(msg));
-        });
+        }
+        // return a message
+        var msg = 'Media: ' + media.name + ' created!';
+        res.json({ success: true, message: msg });
+        console.log(chalk.green(msg));
     });
 
+    if (req.body.show) linker.add( media.name, req.body.show, null );
+    console.log(media.show);
 };
 
 /**

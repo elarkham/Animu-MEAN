@@ -16,6 +16,10 @@ var ShowSchema  = new Schema({
 ShowSchema.methods.addMediaID = function addMediaID( id ){
     this.media.push(id);
 };
+
+ShowSchema.methods.removeMediaID = function removeMediaID( id ){
+    this.media.pop(id);
+};
 /*
 ShowSchema.methods.addMedia = function addMedia( mediaName ){
     Media.findOne({'name' : mediaName}).exec( function(err, media){

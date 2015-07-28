@@ -7,7 +7,6 @@ var mongoose = require('mongoose');
 var Show     = mongoose.model('Show');
 var Media    = mongoose.model('Media');
 var ObjectId = require('mongoose').Types.ObjectId;
-var linker   = require('./link.server.helper.js');
 var chalk    = require('chalk');
 
 /**
@@ -16,29 +15,38 @@ var chalk    = require('chalk');
 exports.create = function(req, res) {
     console.log(chalk.blue('Creating new media'));
 
-    //create now instance of media model
-    var media = new Media();
-    media.name = req.body.name;
+    Show.findOne({'name':req.body.show}).select('name media').exec( function( err, show ){
+        //create now instance of media model
+        var media = new Media();
+        media.name = req.body.name;
+        media.show = show._id;
 
-    media.save( function(err){
-       if(err) {
-            // duplicate entry
-            if (err.code === 11000) {
-                var error = 'Media with that name already exists.';
-                console.log(chalk.bold.red(error));
-                return res.json({ success: false, message: error });
-            } else {
-                return res.send(err);
+        media.save( function(err){
+            if(err) {
+                // duplicate entry
+                if (err.code === 11000) {
+                    var error = 'Media with that name already exists.';
+                    console.log(chalk.bold.red(error));
+                    return res.json({ success: false, message: error });
+                } else {
+                    return res.send(err);
+                }
             }
-        }
-        // return a message
-        var msg = 'Media: ' + media.name + ' created!';
-        res.json({ success: true, message: msg });
-        console.log(chalk.green(msg));
+
+            // add media to the show
+            show.addMediaID(media._id);
+            show.save( function(err) {
+                if (err) res.send(err);
+                console.log(chalk.green('Media added to show: ' + chalk.yellow(show.name)));
+            });
+
+            // return a message
+            var msg = 'Media: ' + media.name + ' created!';
+            res.json({ success: true, message: msg });
+            console.log(chalk.green(msg));
+        })
     });
 
-    if (req.body.show) linker.add( media.name, req.body.show, null );
-    console.log(media.show);
 };
 
 /**
@@ -70,7 +78,8 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
     console.log(chalk.blue('Updating media: ' + req.params.media_name));
-    Media.findOne({ 'name' : req.params.media_name }, function(err, media) {
+
+    Media.findOne({ 'name': req.params.media_name}).populate('show').exec(function(err, media){
 
         if (!media) {
             var error = 'No media with that name exists.';
@@ -78,20 +87,57 @@ exports.update = function(req, res) {
             res.json({ success: false, message: error } );
             return;
 
-        } else if (err) res.send(err);
+        } else if(err) throw err;
 
-        // set the new show information if it exists in the request
         if (req.body.name) media.name = req.body.name;
-        if (req.body.path) media.show = req.body.show;
 
-        // save the show
-        media.save(function(err) {
-            if (err) res.send(err);
+        if (req.body.show){
 
-            // return a message
-            res.json({ success: true, message: 'Media updated!' });
-       });
+            console.log(chalk.blue('Swapping Show'));
 
+            Show.findById(media.show._id).exec(function(err, show){
+
+                if (!show) {
+                    var error = 'No show with that name exists.';
+                    console.log(chalk.bold.red(error));
+                    res.json({ success: false, message: error } );
+                    return;
+
+                } else if(err) throw err;
+
+                show.removeMediaID( media._id );
+
+
+                Show.findOne({'name':req.body.show}).exec(function(err, show){
+
+                    if (!show) {
+                        var error = 'No show with that name exists.';
+                        console.log(chalk.bold.red(error));
+                        res.json({ success: false, message: error } );
+                        return;
+
+                    } else if(err) throw err;
+
+                    console.log(chalk.blue(show));
+
+                    show.addMediaID( media._id );
+                    media.show = show._id;
+                    show.save();
+
+                    // save media
+                    media.save(function(err) {
+                        if (err) res.send(err);
+
+                        // return a message
+                        res.json({ success: true, message: 'Media updated!' });
+                    });
+
+                });
+                show.save();
+
+            });
+
+        }
     });
 };
 
@@ -100,13 +146,37 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
     console.log(chalk.blue('Deleting ' + req.params.media_name ));
-    Media.remove({ 'name': req.params.media_name}, function(err) {
-        if (err) res.send(err);
+    Media.findOne({ 'name': req.params.media_name}).populate('show').exec(function(err, media){
 
-        // Mongodb can delete things that don't exist, can only confirm an error didn't occur.
-        var msg = 'Deletion of ' + req.params.media_name + ' occured without error.';
-        console.log(chalk.green(msg));
-        res.json({ success: true, message: msg });
+        if (!media) {
+            var error = 'No media with that name exists.';
+            console.log(chalk.bold.red(error));
+            res.json({ success: false, message: error } );
+            return;
+
+        } else if(err) throw err;
+
+        Show.findById(media.show._id).exec(function(err, show){
+
+            if (!show) {
+                var error = 'No show with that name exists.';
+                console.log(chalk.bold.red(error));
+                res.json({ success: false, message: error } );
+                return;
+
+            } else if(err) throw err;
+
+            show.removeMediaID( media._id );
+
+            Media.remove({ 'name': req.params.media_name}, function(err) {
+                if (err) res.send(err);
+
+                // Mongodb can delete things that don't exist, can only confirm an error didn't occur.
+                var msg = 'Deletion of ' + req.params.media_name + ' occured without error.';
+                console.log(chalk.green(msg));
+                res.json({ success: true, message: msg });
+            });
+        });
     });
 };
 

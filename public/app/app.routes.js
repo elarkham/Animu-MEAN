@@ -104,7 +104,7 @@ angular.module('app.routes', ['ngRoute'])
 			controllerAs: 'media'
 		})
 
-        // page to edit a media
+        // page to view media
 		.when('/media/:media_name', {
 			templateUrl: 'app/views/pages/media/profile.html',
 			controller: 'mediaProfileController',

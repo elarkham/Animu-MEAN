@@ -15,7 +15,8 @@ var chalk    = require('chalk');
 exports.create = function(req, res) {
     console.log(chalk.blue('Creating new media'));
 
-    Show.findOne({'name':req.body.show}).select('name media').exec( function( err, show ){
+    Show.findOne({'name':req.body.show.name}).exec( function( err, show ){
+        console.log(req.body.show.name);
         //create now instance of media model
         var media = new Media();
         media.name = req.body.name;

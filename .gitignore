@@ -38,3 +38,6 @@ config.js
 #Bower files
 public/assets/libs
 
+#Video Assets
+public/assets/video
+

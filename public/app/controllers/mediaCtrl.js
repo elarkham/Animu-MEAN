@@ -57,7 +57,6 @@ angular.module('mediaCtrl', ['mediaService'])
 		Media.create(vm.mediaData)
 			.success(function(data) {
 				vm.processing = false;
-				vm.mediaData = {};
 				vm.message = data.message;
 			});
 
@@ -90,9 +89,6 @@ angular.module('mediaCtrl', ['mediaService'])
 		Media.update($routeParams.media_name, vm.mediaData)
 			.success(function(data) {
 				vm.processing = false;
-
-				// clear the form
-				vm.mediaData = {};
 
 				// bind the message from our API to vm.message
 				vm.message = data.message;

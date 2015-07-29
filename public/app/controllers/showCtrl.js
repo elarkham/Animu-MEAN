@@ -57,7 +57,6 @@ angular.module('showCtrl', ['showService'])
 		Show.create(vm.showData)
 			.success(function(data) {
 				vm.processing = false;
-				vm.showData = {};
 				vm.message = data.message;
 			});
 
@@ -98,7 +97,7 @@ angular.module('showCtrl', ['showService'])
 
 })
 
-// controller applied to show edit page
+// controller applied to show profile page
 .controller('showProfileController', function($routeParams, Show) {
 
 	var vm = this;

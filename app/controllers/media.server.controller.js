@@ -137,6 +137,17 @@ exports.update = function(req, res) {
 
             });
 
+        } else {
+            // save media
+            media.save(function(err) {
+                if (err) res.send(err);
+
+                // return a message
+                res.json({ success: true, message: 'Media updated!' });
+            });
+
+
+
         }
     });
 };

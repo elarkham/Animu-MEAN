@@ -65,7 +65,7 @@ angular.module('mediaCtrl', ['mediaService'])
 })
 
 // controller applied to media edit page
-.controller('mediaEditController', function($routeParams, Media) {
+.controller('mediaProfileController', function($routeParams, Media) {
 
 	var vm = this;
 

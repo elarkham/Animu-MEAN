@@ -20,6 +20,7 @@ exports.create = function(req, res) {
         //create now instance of media model
         var media = new Media();
         media.name = req.body.name;
+        media.path = req.body.path;
         media.show = show._id;
 
         media.save( function(err){

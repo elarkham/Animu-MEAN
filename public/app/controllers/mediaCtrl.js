@@ -65,7 +65,7 @@ angular.module('mediaCtrl', ['mediaService'])
 })
 
 // controller applied to media edit page
-.controller('mediaProfileController', function($routeParams, Media) {
+.controller('mediaEditController', function($routeParams, Media) {
 
 	var vm = this;
 
@@ -94,5 +94,20 @@ angular.module('mediaCtrl', ['mediaService'])
 				vm.message = data.message;
 			});
 	};
+
+})
+
+// controller applied to media profile page
+.controller('mediaProfileController', function($routeParams, Media) {
+
+	var vm = this;
+
+	// get the media data for the media you want to edit
+	// $routeParams is the way we grab data from the URL
+	Media.get($routeParams.media_name)
+		.success(function(data) {
+			vm.mediaData = data;
+            vm.path = "assets/video/" + data.show.path +"/" + data.path;
+	});
 
 });

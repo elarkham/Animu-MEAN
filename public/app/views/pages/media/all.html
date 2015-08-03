@@ -21,7 +21,7 @@
 			<th>Name</th>
             <th>Show id</th>
 			<th>Seq</th>
-			<th class="col-sm-2"></th>
+			<th class="col-md-3"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -30,8 +30,9 @@
 			<td>{{ episode.name }}</td>
 			<td>{{ episode.show }}</td>
 			<td>{{ episode.seq }}</td>
-			<td class="col-sm-2">
-				<a ng-href="/media/{{ episode.name }}" class="btn btn-danger">Edit</a>
+			<td class="col-md-3">
+				<a ng-href="/media/{{ episode.name }}" class="btn btn-success">Show</a>
+				<a ng-href="/media/edit/{{ episode.name }}" class="btn btn-danger">Edit</a>
 				<a href="#" ng-click="media.deleteMedia(episode.name)" class="btn btn-primary">Delete</a>
 			</td>
 		</tr>

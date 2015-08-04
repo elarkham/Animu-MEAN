@@ -6,8 +6,8 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var MediaSchema  = new Schema({
     name: { type: String, required: true },
-    path: { type: String, required: true },
-    show: { type: Schema.Types.ObjectId, ref: 'Show', required: true},
+    path: { type: String },
+    show: { type: Schema.Types.ObjectId, ref: 'Show' },
     tags: [{type: String}],
     seq: Number,
     created_at: { type: Date, default: Date.now },

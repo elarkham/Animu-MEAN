@@ -21,7 +21,7 @@
 			<th>Name</th>
 			<th>Path</th>
 			<th>Episode Count</th>
-			<th class="col-sm-2"></th>
+			<th class="col-md-3"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -30,7 +30,7 @@
 			<td>{{ series.name }}</td>
 			<td>{{ series.path }}</td>
 			<td>?</td>
-			<td class="col-sm-2">
+			<td class="col-md-3">
 				<a ng-href="/shows/{{ series.name }}" class="btn btn-success">Show</a>
 				<a ng-href="/shows/edit/{{ series.name }}" class="btn btn-danger">Edit</a>
 				<a href="#" ng-click="show.deleteShow(series.name)" class="btn btn-primary">Delete</a>

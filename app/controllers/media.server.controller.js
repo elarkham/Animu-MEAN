@@ -8,6 +8,7 @@ var Show     = mongoose.model('Show');
 var Media    = mongoose.model('Media');
 var ObjectId = require('mongoose').Types.ObjectId;
 var chalk    = require('chalk');
+var async    = require('async');
 
 /**
  * Create a Medium
@@ -80,78 +81,85 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
     console.log(chalk.blue('Updating media: ' + req.params.media_name));
+    async.waterfall([
+        function( callback ){
+            //find the media
+            Media.findOne({ 'name': req.params.media_name }).populate('show').exec(function(err, media){
+                if (!media) {
+                    var error = 'No media with that name exists.';
+                    return callback( new Error(error) );
+                }
 
-    Media.findOne({ 'name': req.params.media_name}).populate('show').exec(function(err, media){
+                if( req.body.name ) media.name = req.body.name;
+                if( req.body.path ) media.path = req.body.path;
+                if( req.body.seq ) media.seq = req.body.seq;
+                if( !req.body.show ) return complete( err, media );
 
-        if (!media) {
-            var error = 'No media with that name exists.';
-            console.log(chalk.bold.red(error));
-            res.json({ success: false, message: error } );
-            return;
-
-        } else if(err) throw err;
-
-        if (req.body.name) media.name = req.body.name;
-
-        if (req.body.show){
-
-            console.log(chalk.blue('Swapping Show'));
-
-            Show.findById(media.show._id).exec(function(err, show){
-
+                callback(err, media);
+            });
+        },
+        function( media, callback ){
+            //find the media's current show
+            Show.findOne({'name': media.show.name }).exec(function(err, show){
                 if (!show) {
-                    var error = 'No show with that name exists.';
-                    console.log(chalk.bold.red(error));
-                    res.json({ success: false, message: error } );
-                    return;
+                    var error = 'Current show does not exists.';
+                    console.log( chalk.red.bold( error ) );
+                    return callback( null, media );
+                }
 
-                } else if(err) throw err;
-
+                //remove the media from the show
                 show.removeMediaID( media._id );
-
-
-                Show.findOne({'name':req.body.show}).exec(function(err, show){
-
-                    if (!show) {
-                        var error = 'No show with that name exists.';
-                        console.log(chalk.bold.red(error));
-                        res.json({ success: false, message: error } );
-                        return;
-
-                    } else if(err) throw err;
-
-                    console.log(chalk.blue(show));
-
-                    show.addMediaID( media._id );
-                    media.show = show._id;
-                    show.save();
-
-                    // save media
-                    media.save(function(err) {
-                        if (err) res.send(err);
-
-                        // return a message
-                        res.json({ success: true, message: 'Media updated!' });
-                    });
-
+                show.save( function (err, show) {
+                    if (err) return complete( err, media );
                 });
-                show.save();
 
+
+                callback(err, media );
             });
+        },
+        function( media, callback ){
+            //find the media's new show
+            Show.findOne({'name': req.body.show.name }).exec(function(err, show){
+                if (!show) {
+                    var error = 'Newly entered show does not exist';
+                    return complete( new Error(error), media );
+                }
 
-        } else {
-            // save media
-            media.save(function(err) {
-                if (err) res.send(err);
+                //add media to show
+                show.addMediaID( media._id );
 
-                // return a message
-                res.json({ success: true, message: 'Media updated!' });
+                //add show to media
+                media.show = show;
+
+                show.save( function (err, show) {
+                    if (err) return callback( err, media );
+                });
+
+
+                callback(err, media);
             });
-
-
 
         }
-    });
+    ], complete);
+
+    function complete( err, media ){
+        if (err){
+            var error = err.message;
+            console.log( chalk.red.bold( error ) );
+            return res.json({ success: false, message: error });
+        }
+        media.save( function ( err, media ){
+            if (err){
+                var error = err.message;
+                console.log( chalk.red.bold( error ) );
+                return res.json({ success: false, message: error });
+            }
+            var msg = 'Update Successfull!';
+            console.log( chalk.green( msg ) );
+            return res.json({ success: true, message: msg })
+        });
+    }
+
 };
 
 /**

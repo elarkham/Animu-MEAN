@@ -1,3 +1,4 @@
+'use strict';
 angular.module('animu', ['ngAnimate', 'app.routes', 'authService', 'mainCtrl', 'userCtrl', 'userService', 'showCtrl', 'showService', 'mediaCtrl', 'mediaService'])
 
 // application configuration to integrate token into requests

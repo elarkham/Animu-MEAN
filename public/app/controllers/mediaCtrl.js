@@ -1,3 +1,4 @@
+'use strict';
 angular.module('mediaCtrl', ['mediaService'])
 
 .controller('mediaController', function(Media) {
@@ -107,7 +108,7 @@ angular.module('mediaCtrl', ['mediaService'])
 	Media.get($routeParams.media_name)
 		.success(function(data) {
 			vm.mediaData = data;
-            vm.path = "assets/video/" + data.show.path +"/" + data.path;
+            vm.path = 'assets/video/' + data.show.path +'/' + data.path;
 	});
 
 });

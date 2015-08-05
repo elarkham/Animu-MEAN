@@ -71,16 +71,16 @@ exports.create = function(req, res) {
                 var error;
                 // duplicate entry
                 if (err.code === 11000) {
-                    var error = 'Media with that name already exists.';
+                    error = 'Media with that name already exists.';
                 } else {
-                    var error = err.message;
+                    error = err.message;
                 }
                 console.log( chalk.red.bold( error ) );
                 return res.json({ success: false, message: error });
             }
             var msg = 'Creation Successfull!';
             console.log( chalk.green( msg ) );
-            return res.json({ success: true, message: msg })
+            return res.json({ success: true, message: msg });
         });
     }
 
@@ -190,7 +190,7 @@ exports.update = function(req, res) {
             }
             var msg = 'Update Successfull!';
             console.log( chalk.green( msg ) );
-            return res.json({ success: true, message: msg })
+            return res.json({ success: true, message: msg });
         });
     }
 

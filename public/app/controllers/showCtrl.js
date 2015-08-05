@@ -1,3 +1,4 @@
+'use strict';
 angular.module('showCtrl', ['showService'])
 
 .controller('showController', function(Show) {

@@ -1,3 +1,4 @@
+'use strict';
 angular.module('userService', [])
 
 .factory('User', function($http) {

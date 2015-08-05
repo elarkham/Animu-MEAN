@@ -1,3 +1,4 @@
+'use strict';
 angular.module('showService', [])
 
 .factory('Show', function($http) {

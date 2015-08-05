@@ -22,18 +22,18 @@ exports.create = function(req, res) {
 
     //make sure name was included
     if( !req.body.name ){
-        var error = 'You must include a name';
+        var error = new Error('You must include a name');
         console.log(chalk.red.bold(error));
-        complete( error, null );
+        return complete( error, null );
     } else {
         media.name = req.body.name;
     }
 
-    //path is optional
+    //path is optional on creation
     if( req.body.path ) media.path = req.body.path;
     //seq is optional TODO: Make this only accept numbers
-    if( req.body.seq )  media.seq = req.body.seq;
-    //show is optional on creation
+    if( req.body.seq ) media.seq = req.body.seq;
+    //show is optional on creation TODO: Actually make it optional
     if( req.body.show ) addShow(media);
     else complete( null, media);
 
@@ -133,6 +133,8 @@ exports.update = function(req, res) {
             });
         },
         function( media, callback ){
+            //if no show is assigned yet, just skip
+            if( !media.show ) return callback(null, media);
             //find the media's current show
             Show.findOne({'name': media.show.name }).exec(function(err, show){
                 if (!show) {

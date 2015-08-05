@@ -1,5 +1,5 @@
 'use strict';
-angular.module('userService', [])
+angular.module('user.client.service', [])
 
 .factory('User', function($http) {
 

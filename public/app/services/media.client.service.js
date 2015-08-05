@@ -1,5 +1,5 @@
 'use strict';
-angular.module('mediaService', [])
+angular.module('media.client.service', [])
 
 .factory('Media', function($http) {
 

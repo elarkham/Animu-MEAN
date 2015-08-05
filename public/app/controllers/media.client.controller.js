@@ -1,5 +1,5 @@
 'use strict';
-angular.module('mediaCtrl', ['mediaService'])
+angular.module('media.client.controller', ['media.client.service'])
 
 .controller('mediaController', function(Media) {
 

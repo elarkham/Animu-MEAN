@@ -1,5 +1,5 @@
 'use strict';
-angular.module('userCtrl', ['userService'])
+angular.module('user.client.controller', ['user.client.service'])
 
 .controller('userController', function(User) {
 

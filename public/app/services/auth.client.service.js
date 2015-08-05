@@ -1,5 +1,5 @@
 'use strict';
-angular.module('authService', [])
+angular.module('auth.client.service', [])
 
 // ===================================================
 // auth factory to login and get information

@@ -1,4 +1,5 @@
-angular.module('authService', [])
+'use strict';
+angular.module('auth.client.service', [])
 
 // ===================================================
 // auth factory to login and get information
@@ -108,7 +109,7 @@ angular.module('authService', [])
 	interceptorFactory.responseError = function(response) {
 
 		// if our server returns a 403 forbidden response
-		if (response.status == 403) {
+		if (response.status === 403) {
 			AuthToken.setToken();
 			$location.path('/login');
 		}

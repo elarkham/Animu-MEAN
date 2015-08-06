@@ -1,4 +1,5 @@
-angular.module('showService', [])
+'use strict';
+angular.module('show.client.service', [])
 
 .factory('Show', function($http) {
 

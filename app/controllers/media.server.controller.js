@@ -14,41 +14,75 @@ var async    = require('async');
  * Create a Medium
  */
 exports.create = function(req, res) {
+
     console.log(chalk.blue('Creating new media'));
 
-    Show.findOne({'name':req.body.show.name}).exec( function( err, show ){
-        console.log(req.body.show.name);
-        //create now instance of media model
-        var media = new Media();
-        media.name = req.body.name;
-        media.path = req.body.path;
-        media.show = show._id;
+    //create new media
+    var media = new Media();
 
-        media.save( function(err){
-            if(err) {
-                // duplicate entry
-                if (err.code === 11000) {
-                    var error = 'Media with that name already exists.';
-                    console.log(chalk.bold.red(error));
-                    return res.json({ success: false, message: error });
-                } else {
-                    return res.send(err);
-                }
+    //make sure name was included
+    if( !req.body.name ){
+        var error = 'You must include a name';
+        console.log(chalk.red.bold(error));
+        complete( error, null );
+    } else {
+        media.name = req.body.name;
+    }
+
+    //path is optional
+    if( req.body.path ) media.path = req.body.path;
+    //seq is optional TODO: Make this only accept numbers
+    if( req.body.seq )  media.seq = req.body.seq;
+    //show is optional on creation
+    if( req.body.show ) addShow(media);
+    else complete( null, media);
+
+
+    function addShow( media ) {
+        //find the media's new show
+        Show.findOne({'name': req.body.show.name }).exec(function(err, show){
+            if (!show) {
+                var error = 'Show does not exist';
+                return complete( new Error(error), null );
             }
 
-            // add media to the show
-            show.addMediaID(media._id);
-            show.save( function(err) {
-                if (err) res.send(err);
-                console.log(chalk.green('Media added to show: ' + chalk.yellow(show.name)));
+            //add media to show
+            show.addMediaID( media._id );
+
+            //add show to media
+            media.show = show;
+
+            show.save( function (err, show) {
+                if (err) return complete( err, media );
             });
 
-            // return a message
-            var msg = 'Media: ' + media.name + ' created!';
-            res.json({ success: true, message: msg });
-            console.log(chalk.green(msg));
-        })
-    });
+            complete( err, media );
+        });
+    }
+
+    function complete( err, media ){
+        if (err){
+            var error = err.message;
+            console.log( chalk.red.bold( error ) );
+            return res.json({ success: false, message: error });
+        }
+        media.save( function ( err, media ){
+            if (err){
+                var error;
+                // duplicate entry
+                if (err.code === 11000) {
+                    error = 'Media with that name already exists.';
+                } else {
+                    error = err.message;
+                }
+                console.log( chalk.red.bold( error ) );
+                return res.json({ success: false, message: error });
+            }
+            var msg = 'Creation Successfull!';
+            console.log( chalk.green( msg ) );
+            return res.json({ success: true, message: msg });
+        });
+    }
 
 };
 
@@ -156,7 +190,7 @@ exports.update = function(req, res) {
             }
             var msg = 'Update Successfull!';
             console.log( chalk.green( msg ) );
-            return res.json({ success: true, message: msg })
+            return res.json({ success: true, message: msg });
         });
     }
 

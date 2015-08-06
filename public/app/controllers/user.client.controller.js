@@ -1,4 +1,5 @@
-angular.module('userCtrl', ['userService'])
+'use strict';
+angular.module('user.client.controller', ['user.client.service'])
 
 .controller('userController', function(User) {
 

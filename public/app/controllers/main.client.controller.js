@@ -1,4 +1,5 @@
-angular.module('mainCtrl', [])
+'use strict';
+angular.module('main.client.controller', [])
 
 .controller('mainController', function($rootScope, $location, Auth) {
 

@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 
 var ShowSchema  = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, index: { unique: true }},
     media: [{ type: Schema.Types.ObjectId, ref: 'Media'}],
     tags: [{ type: String }],
     path: { type: String },

@@ -1,4 +1,5 @@
-angular.module('showCtrl', ['showService'])
+'use strict';
+angular.module('show.client.controller', ['show.client.service'])
 
 .controller('showController', function(Show) {
 

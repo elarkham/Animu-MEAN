@@ -35,8 +35,7 @@ exports.create = function(req, res) {
     if( req.body.seq ) media.seq = req.body.seq;
     //show is optional on creation TODO: Actually make it optional
     if( req.body.show ) addShow(media);
-    else complete( null, media);
-
+    else complete( null, media );
 
     function addShow( media ) {
         //find the media's new show
@@ -56,29 +55,23 @@ exports.create = function(req, res) {
                 if (err) return complete( err, media );
             });
 
-            complete( err, media );
         });
     }
-
     function complete( err, media ){
+        var msg;
         if (err){
-            var error = err.message;
-            console.log( chalk.red.bold( error ) );
-            return res.json({ success: false, message: error });
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
         }
         media.save( function ( err, media ){
-            if (err){
-                var error;
-                // duplicate entry
-                if (err.code === 11000) {
-                    error = 'Media with that name already exists.';
-                } else {
-                    error = err.message;
-                }
-                console.log( chalk.red.bold( error ) );
-                return res.json({ success: false, message: error });
+            // duplicate entry
+            if (err && err.code === 11000) {
+                msg = 'Media with that name already exists.';
+                console.log( chalk.red.bold( msg ) );
+                return res.json({ success: false, message: msg });
             }
-            var msg = 'Creation Successfull!';
+            msg = 'Creation Successfull!';
             console.log( chalk.green( msg ) );
             return res.json({ success: true, message: msg });
         });
@@ -90,24 +83,34 @@ exports.create = function(req, res) {
  * Show the current Medium
  */
 exports.read = function(req, res) {
-    console.log(chalk.blue('Getting media with name: ' + req.params.media_name));
-    Media.findOne({ 'name' : req.params.media_name }).populate('show').exec(function( err, media ){
+    console.log(chalk.blue('Getting Media'));
+    var error;
 
-        // if the show doesn't exist
+    if (!req.params.media_name){
+        error = new Error('No paramater');
+        return complete(error, null);
+    }
+
+    Media.findOne({ 'name' : req.params.media_name }).populate('show').exec(function(err, media) {
+        // if the media doesn't exist
         if (!media){
-            var error = 'No media with that name exists.';
-            res.json({success: false, message: error});
-            console.log(chalk.bold.red('Error: ' + error));
-            return;
-
-        } if (err) res.send(err);
-
-        // return a message
-        res.json(media);
-        console.log(chalk.green('Returning ' + req.params.media_name));
-
+            error = new Error('No media with that name exists.');
+            return complete(error, null);
+        }
+        return complete( err, media );
     });
 
+    function complete( err, media ){
+        var msg;
+        if (err){
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
+        }
+        msg = 'Sent ' + media.name;
+        console.log( chalk.green( msg ) );
+        return res.json( media );
+    }
 };
 
 /**
@@ -170,23 +173,24 @@ exports.update = function(req, res) {
     ], complete);
 
     function complete( err, media ){
+        var msg;
         if (err){
-            var error = err.message;
-            console.log( chalk.red.bold( error ) );
-            return res.json({ success: false, message: error });
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
         }
         media.save( function ( err, media ){
-            if (err){
-                var error = err.message;
-                console.log( chalk.red.bold( error ) );
-                return res.json({ success: false, message: error });
+            // duplicate entry
+            if (err && err.code === 11000) {
+                msg = 'Media with that name already exists.';
+                console.log( chalk.red.bold( msg ) );
+                return res.json({ success: false, message: msg });
             }
-            var msg = 'Update Successfull!';
+            msg = 'Update Successfull!';
             console.log( chalk.green( msg ) );
             return res.json({ success: true, message: msg });
         });
     }
-
 };
 
 /**
@@ -207,7 +211,7 @@ exports.delete = function(req, res) {
                     error = 'No media with that name exists.';
                     return complete(new Error(error), null );
                 }
-                callback(err, media)
+                callback(err, media);
             });
         },
         function (media, callback){
@@ -220,7 +224,7 @@ exports.delete = function(req, res) {
              Show.findById(media.show._id).exec(function(err, show){
                 if (!show) {
                     var error = 'No show with that name exists.';
-                    return compete( new Error(error), null);
+                    return complete( new Error(error), null);
                 }
                 show.removeMediaID( media._id );
                 callback( err, media );
@@ -234,12 +238,13 @@ exports.delete = function(req, res) {
     }], complete);
 
     function complete( err, media){
+        var msg;
         if (err){
-            var error = err.message;
-            console.log( chalk.red.bold( error ) );
-            return res.json({ success: false, message: error });
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
         }
-        var msg = 'Deletion of ' + media.name + ' occured without error.';
+        msg = 'Deletion of ' + media.name + ' occured without error.';
         console.log(chalk.green(msg));
         res.json({ success: true, message: msg });
     }

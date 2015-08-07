@@ -129,7 +129,7 @@ exports.update = function(req, res) {
         }
     ], complete);
 
-    function complete( err, media ){
+    function complete( err, show ){
         var msg;
         if (err){
             msg = err.message;

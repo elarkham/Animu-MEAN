@@ -58,7 +58,10 @@ angular.module('show.client.controller', ['show.client.service'])
 		Show.create(vm.showData)
 			.success(function(data) {
 				vm.processing = false;
+
+                // bind the message from our API to vm
 				vm.message = data.message;
+                vm.success = data.success;
 			});
 
 	};
@@ -91,8 +94,9 @@ angular.module('show.client.controller', ['show.client.service'])
 			.success(function(data) {
 				vm.processing = false;
 
-				// bind the message from our API to vm.message
+				// bind the message from our API to vm
 				vm.message = data.message;
+                vm.success = data.success;
 			});
 	};
 

@@ -20,16 +20,9 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Media id</label>
-		<div class="col-sm-6">
-			<input type="text" class="form-control" ng-model="show.showData.media">
-		</div>
-	</div>
-
-	<div class="form-group">
 	<div class="col-sm-offset-2 col-sm-6">
-		<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="show.type == 'create'">Create Show</button>
-		<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="show.type == 'edit'">Update Show</button>
+		<button type="submit" class="btn btn-primary btn-lg btn-block" ng-if="show.type == 'create'">Create Show</button>
+		<button type="submit" class="btn btn-primary btn-lg btn-block" ng-if="show.type == 'edit'">Update Show</button>
 	</div>
 	</div>
 
@@ -38,7 +31,11 @@
 <div class="row show-hide-message" ng-show="show.message">
 	<div class="col-sm-6 col-sm-offset-2">
 
-		<div class="alert alert-info">
+		<div class="alert alert-success" ng-if="show.success">
+			{{ show.message }}
+		</div>
+
+		<div class="alert alert-danger" ng-if="!show.success">
 			{{ show.message }}
 		</div>
 

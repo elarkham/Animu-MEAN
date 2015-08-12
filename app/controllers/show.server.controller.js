@@ -17,28 +17,43 @@ exports.create = function(req, res) {
     var msg;
 
     //create new show
-    var show = new Show();
 
-    //make sure name was included
-    if( !req.body.name ){
-        error = new Error('You must include a name');
-        console.log(chalk.red.bold(error));
-        return complete( error, null );
-    } else {
-        show.name = req.body.name;
-    }
+    async.waterfall([
+        function ( callback ){
+            var show = new Show();
+            //make sure name was included
+            if( !req.body.name ){
+                error = new Error('You must include a name');
+                console.log(chalk.red.bold(error));
+                return complete( error, null );
+            } else {
+                show.name = req.body.name;
+            }
 
-    //path is optional on creation
-    if( req.body.path ) show.path = req.body.path;
+            //path is optional on creation
+            if( req.body.path ) show.path = req.body.path;
+            if( !req.body.media ){
+                save( null, show );
+            };
 
-    show.save( function ( err, show ){
-        // duplicate entry
-        if ( err && err.code === 11000) {
-            error = new Error('Show with that name already exists.');
-            return complete( error, null );
+            callback( null, show );
+
         }
-        return complete( err, show );
-    });
+    ], save );
+
+    function save( err, show ){
+        if ( err ){
+            return complete( err, null );
+        }
+        show.save( function ( err, show ){
+            // duplicate entry
+            if ( err && err.code === 11000) {
+                error = new Error('Show with that name already exists.');
+                return complete( error, null );
+            }
+            complete(err, show);
+        });
+    }
 
     function complete( err, show ){
         if (err){

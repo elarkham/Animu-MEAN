@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var ShowSchema  = new Schema({
     name: { type: String, required: true, index: { unique: true }},
     media: [{ type: Schema.Types.ObjectId, ref: 'Media'}],
+    subShow: [{ type: Schema.Types.ObjectId, ref: 'Show'}],
     tags: [{ type: String }],
     path: { type: String },
     created_at: { type: Date, default: Date.now },
@@ -19,6 +20,14 @@ ShowSchema.methods.addMediaID = function addMediaID( id ){
 
 ShowSchema.methods.removeMediaID = function removeMediaID( id ){
     this.media.pop(id);
+};
+
+ShowSchema.methods.addShow = function addShow( id ){
+    this.media.push(id);
+};
+
+ShowSchema.methods.removeShow = function removeShow( id ){
+    this.media.push(id);
 };
 /*
 ShowSchema.methods.addMedia = function addMedia( mediaName ){

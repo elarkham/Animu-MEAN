@@ -22,13 +22,6 @@ ShowSchema.methods.removeMediaID = function removeMediaID( id ){
     this.media.pop(id);
 };
 
-ShowSchema.methods.addShow = function addShow( id ){
-    this.media.push(id);
-};
-
-ShowSchema.methods.removeShow = function removeShow( id ){
-    this.media.push(id);
-};
 /*
 ShowSchema.methods.addMedia = function addMedia( mediaName ){
     Media.findOne({'name' : mediaName}).exec( function(err, media){

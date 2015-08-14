@@ -18,42 +18,28 @@ exports.create = function(req, res) {
 
     //create new show
 
-    async.waterfall([
-        function ( callback ){
-            var show = new Show();
-            //make sure name was included
-            if( !req.body.name ){
-                error = new Error('You must include a name');
-                console.log(chalk.red.bold(error));
-                return complete( error, null );
-            } else {
-                show.name = req.body.name;
-            }
-
-            //path is optional on creation
-            if( req.body.path ) show.path = req.body.path;
-            if( !req.body.media ){
-                save( null, show );
-            };
-
-            callback( null, show );
-
-        }
-    ], save );
-
-    function save( err, show ){
-        if ( err ){
-            return complete( err, null );
-        }
-        show.save( function ( err, show ){
-            // duplicate entry
-            if ( err && err.code === 11000) {
-                error = new Error('Show with that name already exists.');
-                return complete( error, null );
-            }
-            complete(err, show);
-        });
+    var show = new Show();
+    //make sure name was included
+    if( !req.body.name ){
+        error = new Error('You must include a name');
+        console.log(chalk.red.bold(error));
+        return complete( error, null );
+    } else {
+        show.name = req.body.name;
     }
+
+    //path is optional on creation
+    if( req.body.path ) show.path = req.body.path;
+    if( req.body.tags ) show.tags = req.body.tags;
+
+    show.save( function ( err, show ){
+       // duplicate entry
+       if ( err && err.code === 11000) {
+           error = new Error('Show with that name already exists.');
+           return complete( error, null );
+       }
+       complete( err, show );
+    });
 
     function complete( err, show ){
         if (err){
@@ -65,7 +51,6 @@ exports.create = function(req, res) {
         console.log( chalk.green( msg ) );
         return res.json({ success: true, message: msg });
     }
-
 
 };
 
@@ -86,7 +71,6 @@ exports.read = function(req, res) {
         if (!show){
             error = new Error('No show with that name exists.');
             return complete(error, null);
-
         }
         complete( err, show );
     });
@@ -128,6 +112,7 @@ exports.update = function(req, res) {
                 //optionally change values
                 if (req.body.name) show.name = req.body.name;
                 if (req.body.path) show.path = req.body.path;
+                if (req.body.tags) show.tags = req.body.tags;
 
                 callback(err, show);
             });
@@ -203,12 +188,22 @@ exports.delete = function(req, res) {
  * List of Shows
  */
 exports.list = function(req, res) {
-    console.log(chalk.blue('Listing all Shows.'));
-    Show.find().exec(function(err, shows) {
-        if (err) res.send(err);
+    var tag = req.query.tag;
+    var all;
+
+    if(tag){
+        console.log(chalk.blue('Listing all ' + tag ));
+        all = Show.find({"tags": tag});
+    } else {
+        console.log(chalk.blue('Listing all Shows.'));
+        all = Show.find();
+    }
+
+    all.exec(function(err, shows) {
+        if (err) console.log(chalk.red(err.message));
 
         // return the show
-        res.json(shows);
+        else res.json(shows);
     });
 };
 

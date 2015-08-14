@@ -12,8 +12,8 @@ angular.module('show.client.service', [])
 	};
 
 	// get all shows
-	showFactory.all = function() {
-		return $http.get('/api/shows/');
+	showFactory.all = function(tag) {
+		return $http({ url:'/api/shows/', method:'GET', params: { 'tag': tag }});
 	};
 
 	// create a show

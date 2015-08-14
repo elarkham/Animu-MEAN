@@ -1,7 +1,8 @@
 'use strict';
 angular.module('show.client.controller', ['show.client.service'])
 
-.controller('showController', function(Show) {
+
+.controller('showController', function( Show ) {
 
 	var vm = this;
 
@@ -9,7 +10,7 @@ angular.module('show.client.controller', ['show.client.service'])
 	vm.processing = true;
 
 	// grab all the shows at page load
-	Show.all()
+	Show.all( null )
 		.success(function(data) {
 
 			// when all the shows come back, remove the processing variable
@@ -29,7 +30,7 @@ angular.module('show.client.controller', ['show.client.service'])
 				// get all shows to update the table
 				// you can also set up your api
 				// to return the list of shows with the delete call
-				Show.all()
+				Show.all( null )
 					.success(function(data) {
 						vm.processing = false;
 						vm.shows = data;
@@ -40,6 +41,47 @@ angular.module('show.client.controller', ['show.client.service'])
 
 })
 
+.controller('showTagController', function( $routeParams, Show ) {
+
+	var vm = this;
+
+    var tag = $routeParams.tag;
+    vm.title = $routeParams.title;
+
+	// set a processing variable to show loading things
+	vm.processing = true;
+
+	// grab all the shows at page load
+	Show.all( tag )
+		.success(function(data) {
+
+			// when all the shows come back, remove the processing variable
+			vm.processing = false;
+
+			// bind the shows that come back to vm.shows
+			vm.shows = data;
+		});
+
+	// function to delete a show
+	vm.deleteShow = function( name ) {
+		vm.processing = true;
+
+		Show.delete( name )
+			.success(function(data) {
+
+				// get all shows to update the table
+				// you can also set up your api
+				// to return the list of shows with the delete call
+				Show.all( tag )
+					.success(function(data) {
+						vm.processing = false;
+						vm.shows = data;
+					});
+
+			});
+	};
+
+})
 // controller applied to show creation page
 .controller('showCreateController', function(Show) {
 

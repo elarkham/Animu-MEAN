@@ -5,6 +5,9 @@ angular.module('app.routes', ['ngRoute'])
 
 	$routeProvider
 
+        /* Site Routes
+         ====================*/
+
 		// route for the home page
 		.when('/', {
 			templateUrl : 'app/views/pages/home.html'
@@ -17,6 +20,85 @@ angular.module('app.routes', ['ngRoute'])
     		controllerAs: 'login'
 		})
 
+        /* OVA Routes
+         ====================*/
+        // show all OVA
+		.when('/ova', {
+			templateUrl: 'app/views/pages/shows/all.html',
+			controller: 'showTagController',
+			controllerAs: 'show',
+            resolve: {
+                tag: function($route){$route.current.params.tag = "ova"},
+                title: function($route){$route.current.params.title = "OVA"}
+            }
+		})
+
+        // page to show profile
+		.when('/ova/:show_name', {
+			templateUrl: 'app/views/pages/shows/profile.html',
+			controller: 'showProfileController',
+			controllerAs: 'show'
+		})
+
+        /* Series Routes
+         ====================*/
+        // show all OVA
+		.when('/series', {
+			templateUrl: 'app/views/pages/shows/all.html',
+			controller: 'showTagController',
+			controllerAs: 'show',
+            resolve: {
+                tag: function($route){$route.current.params.tag = "series"},
+                title: function($route){$route.current.params.title = "Series"}
+            }
+		})
+
+        // page to show profile
+		.when('/series/:show_name', {
+			templateUrl: 'app/views/pages/shows/profile.html',
+			controller: 'showProfileController',
+			controllerAs: 'show'
+		})
+
+        /* Movies Routes
+         ====================*/
+        // show all OVA
+		.when('/movies', {
+			templateUrl: 'app/views/pages/shows/all.html',
+			controller: 'showTagController',
+			controllerAs: 'show',
+            resolve: {
+                tag: function($route){$route.current.params.tag = "movies"},
+                title: function($route){$route.current.params.title = "Movies"}
+            }
+		})
+
+        // page to show profile
+		.when('/movies/:show_name', {
+			templateUrl: 'app/views/pages/shows/profile.html',
+			controller: 'showProfileController',
+			controllerAs: 'show'
+		})
+
+        /* Current Season Routes
+         ====================*/
+        // show all OVA
+		.when('/current', {
+			templateUrl: 'app/views/pages/shows/all.html',
+			controller: 'showTagController',
+			controllerAs: 'show',
+            resolve: {
+                tag: function($route){$route.current.params.tag = "current"},
+                title: function($route){$route.current.params.title = "Current Season"}
+            }
+		})
+
+        // page to show profile
+		.when('/current/:show_name', {
+			templateUrl: 'app/views/pages/shows/profile.html',
+			controller: 'showProfileController',
+			controllerAs: 'show'
+		})
         /* User Routes
          ====================*/
 

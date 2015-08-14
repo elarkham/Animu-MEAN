@@ -20,6 +20,7 @@
 			<th>_id</th>
 			<th>Name</th>
 			<th>Path</th>
+			<th>Tags</th>
 			<th>Episode Count</th>
 			<th class="col-md-3"></th>
 		</tr>
@@ -29,6 +30,7 @@
 			<td>{{ series._id }}</td>
 			<td>{{ series.name }}</td>
 			<td>{{ series.path }}</td>
+			<td>{{ series.tags }}</td>
 			<td>?</td>
 			<td class="col-md-3">
 				<a ng-href="/shows/{{ series.name }}" class="btn btn-success">Show</a>

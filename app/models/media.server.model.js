@@ -5,11 +5,20 @@ var Show = mongoose.model('Show');
 var ObjectId = mongoose.Types.ObjectId;
 
 var MediaSchema  = new Schema({
-    name: { type: String, required: true, index: { unique: true }},
-    path: { type: String },
-    show: { type: Schema.Types.ObjectId, ref: 'Show' },
-    tags: [{type: String}],
-    seq: Number,
+    //display
+    name:       { type: String, required: true, index: { unique: true }},
+    tags:       [{type: String}],
+    //location
+    path:       { type: String },
+    show:       { type: Schema.Types.ObjectId, ref: 'Show' },
+    //file metadata
+    filetype:   { type: String },
+    size:       { type: Number }, //megabytes
+    length:     { type: Number }, //minutes
+    seq:        { type: Number },
+    lang:       { type: String },
+    subgroup:   { type: String },
+    //book-keeping
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 

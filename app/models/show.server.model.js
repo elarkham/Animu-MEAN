@@ -4,14 +4,32 @@ var Schema = mongoose.Schema;
 
 
 var ShowSchema  = new Schema({
-    name: { type: String, required: true, index: { unique: true }},
-    media: [{ type: Schema.Types.ObjectId, ref: 'Media'}],
-    subShow: [{ type: Schema.Types.ObjectId, ref: 'Show'}],
-    tags: [{ type: String }],
-    path: { type: String },
+    //display
+    name:            { type: String, required: true, index: { unique: true }},
+    alt_name:        { type: String },
+    tags:            [{ type: String }],
+    path:            { type: String },
+
+    //contains
+    media:           [{ type: Schema.Types.ObjectId, ref: 'Media'}],
+    subShow:         [{ type: Schema.Types.ObjectId, ref: 'Show'}],
+
+    //metadata
+    mal_id:          { type: String },
+    status:          { type: String },
+    episode_count:   { type: Number },
+    episode_length:  { type: Number }, //minutes
+    cover_image:     { type: String },
+    synopsis:        { type: String },
+    started_airing:  { type: Date },
+    finished_airing: { type: Date },
+    rating:          { type: Number },
+    age_rating:      { type: String },
+    genres:          [{ type: String }],
+
+    //book-keeping
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
-
 });
 
 ShowSchema.methods.addMediaID = function addMediaID( id ){

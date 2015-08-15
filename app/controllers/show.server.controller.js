@@ -28,9 +28,24 @@ exports.create = function(req, res) {
         show.name = req.body.name;
     }
 
-    //path is optional on creation
-    if( req.body.path ) show.path = req.body.path;
-    if( req.body.tags ) show.tags = req.body.tags;
+    //display
+    if( req.body.path )             show.path            = req.body.path;
+    if( req.body.alt_name )         show.alt_name        = req.body.alt_name;
+    if( req.body.tags )             show.tags            = req.body.tags;
+
+    //metadata
+    if( req.body.mal_id )           show.mal_id          = req.body.mal_id;
+    if( req.body.status )           show.status          = req.body.status;
+    if( req.body.episode_count )    show.episode_count   = req.body.episode_count;
+    if( req.body.episode_length )   show.episode_length  = req.body.episode_length;
+    if( req.body.cover_image )      show.cover_image     = req.body.cover_image;
+    if( req.body.synopsis )         show.synopsis        = req.body.synopsis;
+    if( req.body.started_airing )   show.started_airing  = req.body.started_airing;
+    if( req.body.finished_airing )  show.finished_airing = req.body.finished_airing;
+    if( req.body.rating )           show.rating          = req.body.rating;
+    if( req.body.age_rating )       show.age_rating      = req.body.age_rating;
+    if( req.body.genres )           show.genres          = req.body.genres;
+
 
     show.save( function ( err, show ){
        // duplicate entry
@@ -109,11 +124,24 @@ exports.update = function(req, res) {
                     return callback( error, null );
                 }
 
-                //optionally change values
-                if (req.body.name) show.name = req.body.name;
-                if (req.body.path) show.path = req.body.path;
-                if (req.body.tags) show.tags = req.body.tags;
+                //display
+                if (req.body.name)              show.name            = req.body.name;
+                if( req.body.alt_name )         show.alt_name        = req.body.alt_name;
+                if( req.body.path )             show.path            = req.body.path;
+                if( req.body.tags )             show.tags            = req.body.tags;
 
+                //metadata
+                if( req.body.mal_id )           show.mal_id          = req.body.mal_id;
+                if( req.body.status )           show.status          = req.body.status;
+                if( req.body.episode_count )    show.episode_count   = req.body.episode_count;
+                if( req.body.episode_length )   show.episode_length  = req.body.episode_length;
+                if( req.body.cover_image )      show.cover_image     = req.body.cover_image;
+                if( req.body.synopsis )         show.synopsis        = req.body.synopsis;
+                if( req.body.started_airing )   show.started_airing  = req.body.started_airing;
+                if( req.body.finished_airing )  show.finished_airing = req.body.finished_airing;
+                if( req.body.rating )           show.rating          = req.body.rating;
+                if( req.body.age_rating )       show.age_rating      = req.body.age_rating;
+                if( req.body.genres )           show.genres          = req.body.genres;
                 callback(err, show);
             });
         },

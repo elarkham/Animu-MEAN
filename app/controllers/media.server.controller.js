@@ -29,11 +29,19 @@ exports.create = function(req, res) {
         media.name = req.body.name;
     }
 
-    //path is optional on creation
+    //display
+    if( req.body.tags )     media.tags     = req.body.tags;
+
+    //metadata
+    if( req.body.filetype ) media.filetype = req.body.seq;
+    if( req.body.size )     media.size     = req.body.seq;
+    if( req.body.length )   media.length   = req.body.seq;
+    if( req.body.seq )      media.seq      = req.body.seq;
+    if( req.body.lang )     media.lang     = req.body.lang;
+    if( req.body.subgroup ) media.seq      = req.body.seq;
+
+    //location
     if( req.body.path ) media.path = req.body.path;
-    //seq is optional TODO: Make this only accept numbers
-    if( req.body.seq ) media.seq = req.body.seq;
-    //show is optional on creation TODO: Actually make it optional
     if( req.body.show ) addShow(media);
     else complete( null, media );
 
@@ -254,11 +262,21 @@ exports.delete = function(req, res) {
  * List of Media
  */
 exports.list = function(req, res) {
-    console.log(chalk.blue('Listing all Media.'));
-    Media.find().populate('show', 'name').exec(function(err, media) {
-        if (err) res.send(err);
+    var tag = req.query.tag;
+    var all;
 
-        // return the show
-        res.json(media);
+    if(tag){
+        console.log(chalk.blue('Listing all ' + tag ));
+        all = Media.find({"tags": tag});
+    } else {
+        console.log(chalk.blue('Listing all Media.'));
+        all = Media.find();
+    }
+
+    all.populate('show', 'name').exec(function(err, shows) {
+        if (err) console.log(chalk.red(err.message));
+
+        // return the media
+        else res.json(shows);
     });
 };

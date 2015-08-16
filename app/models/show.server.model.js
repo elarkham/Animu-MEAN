@@ -15,7 +15,7 @@ var ShowSchema  = new Schema({
     subShow:         [{ type: Schema.Types.ObjectId, ref: 'Show'}],
 
     //metadata
-    mal_id:          { type: String },
+    mal_id:          { type: Number },
     status:          { type: String },
     episode_count:   { type: Number },
     episode_length:  { type: Number }, //minutes

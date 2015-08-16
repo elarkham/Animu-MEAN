@@ -46,7 +46,9 @@ angular.module('show.client.controller', ['show.client.service'])
 	var vm = this;
 
     var tag = $routeParams.tag;
+
     vm.title = $routeParams.title;
+    vm.tag = tag;
 
 	// set a processing variable to show loading things
 	vm.processing = true;
@@ -61,25 +63,6 @@ angular.module('show.client.controller', ['show.client.service'])
 			// bind the shows that come back to vm.shows
 			vm.shows = data;
 		});
-
-	// function to delete a show
-	vm.deleteShow = function( name ) {
-		vm.processing = true;
-
-		Show.delete( name )
-			.success(function(data) {
-
-				// get all shows to update the table
-				// you can also set up your api
-				// to return the list of shows with the delete call
-				Show.all( tag )
-					.success(function(data) {
-						vm.processing = false;
-						vm.shows = data;
-					});
-
-			});
-	};
 
 })
 // controller applied to show creation page

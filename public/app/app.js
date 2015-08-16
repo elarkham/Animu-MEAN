@@ -1,5 +1,6 @@
 'use strict';
 angular.module('animu', ['ngAnimate',
+                        'ui.bootstrap',
                         'app.routes',
                         'auth.client.service',
                         'main.client.controller',

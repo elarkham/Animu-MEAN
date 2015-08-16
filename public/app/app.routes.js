@@ -24,7 +24,7 @@ angular.module('app.routes', ['ngRoute'])
          ====================*/
         // show all OVA
 		.when('/ova', {
-			templateUrl: 'app/views/pages/shows/all.html',
+			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
             resolve: {
@@ -44,7 +44,7 @@ angular.module('app.routes', ['ngRoute'])
          ====================*/
         // show all OVA
 		.when('/series', {
-			templateUrl: 'app/views/pages/shows/all.html',
+			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
             resolve: {
@@ -62,9 +62,8 @@ angular.module('app.routes', ['ngRoute'])
 
         /* Movies Routes
          ====================*/
-        // show all OVA
 		.when('/movies', {
-			templateUrl: 'app/views/pages/shows/all.html',
+			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
             resolve: {
@@ -82,9 +81,8 @@ angular.module('app.routes', ['ngRoute'])
 
         /* Current Season Routes
          ====================*/
-        // show all OVA
 		.when('/current', {
-			templateUrl: 'app/views/pages/shows/all.html',
+			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
             resolve: {
@@ -143,14 +141,14 @@ angular.module('app.routes', ['ngRoute'])
 		// form to create a new show
 		// same view as edit page
 		.when('/shows/create', {
-			templateUrl: 'app/views/pages/shows/single.html',
+			templateUrl: 'app/views/pages/shows/create.html',
 			controller: 'showCreateController',
 			controllerAs: 'show'
 		})
 
 		// page to edit a show
 		.when('/shows/edit/:show_name', {
-			templateUrl: 'app/views/pages/shows/single.html',
+			templateUrl: 'app/views/pages/shows/edit.html',
 			controller: 'showEditController',
 			controllerAs: 'show'
 		})
@@ -175,14 +173,14 @@ angular.module('app.routes', ['ngRoute'])
 		// form to create a new media
 		// same view as edit page
 		.when('/media/create', {
-			templateUrl: 'app/views/pages/media/single.html',
+			templateUrl: 'app/views/pages/media/create.html',
 			controller: 'mediaCreateController',
 			controllerAs: 'media'
 		})
 
 		// page to edit a media
 		.when('/media/edit/:media_name', {
-			templateUrl: 'app/views/pages/media/single.html',
+			templateUrl: 'app/views/pages/media/edit.html',
 			controller: 'mediaEditController',
 			controllerAs: 'media'
 		})

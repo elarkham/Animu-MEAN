@@ -9,6 +9,7 @@ var ShowSchema  = new Schema({
     alt_name:        { type: String },
     tags:            [{ type: String }],
     path:            { type: String },
+    cover_image:     { type: String },
 
     //contains
     media:           [{ type: Schema.Types.ObjectId, ref: 'Media'}],
@@ -19,10 +20,9 @@ var ShowSchema  = new Schema({
     status:          { type: String },
     episode_count:   { type: Number },
     episode_length:  { type: Number }, //minutes
-    cover_image:     { type: String },
     synopsis:        { type: String },
-    started_airing:  { type: Date },
-    finished_airing: { type: Date },
+    started_airing:  { type: String },
+    finished_airing: { type: String },
     rating:          { type: Number },
     age_rating:      { type: String },
     genres:          [{ type: String }],

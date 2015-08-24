@@ -13,6 +13,9 @@ class Show:
         self.data['tags']      = tags
 
     def populate( self, query ):
+        if query is None:
+            query = self.dir_name
+
         search = {'query' : query }
         bird_data = requests.get('http://hummingbird.me/api/v1/search/anime', params=search, headers=self.h_header)
         results = bird_data.json()
@@ -21,14 +24,12 @@ class Show:
             print(i,':', str(results[i]['title']))
 
         index = input('Which of these is correct?: ')
-        return results[int(index)]
+        bird_data = results[int(index)]
 
 
         #Display Data
-        self.data = {}
         self.data['name']     = bird_data['title']
         self.data['alt_name'] = bird_data['alternate_title']
-        self.data['tags']     = args.tags
         #path
         #cover image
 
@@ -48,7 +49,8 @@ class Show:
         for genre in bird_data['genres']:
             self.data['genres'].append(genre['name'])
 
-    def post( url ):
-        post = requests.post('http://localhost:3000/api/shows', headers=animu_headers, json=self.data )
+    def post( self ):
+        print( self.data )
+        post = requests.post('http://localhost:3000/api/shows', headers=self.a_header, json=self.data )
 
 

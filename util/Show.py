@@ -1,7 +1,7 @@
 import requests
 
 class Show:
-    'Abstraction of the self.data object that will be uploaded to the server'
+    'Abstraction of the Show object that will be uploaded to the server'
 
     def __init__(self, a_header, h_header, dir_name, tags):
         self.a_header = a_header #header for my server
@@ -11,6 +11,7 @@ class Show:
         self.data              = {}
         self.data['directory'] = dir_name
         self.data['tags']      = tags
+        self.data['name']      = dir_name
 
     def populate( self, query ):
         if query is None:
@@ -49,8 +50,11 @@ class Show:
         for genre in bird_data['genres']:
             self.data['genres'].append(genre['name'])
 
+    def getName(self):
+        return self.data['name']
+
     def post( self ):
         print( self.data )
-        post = requests.post('http://localhost:3000/api/shows', headers=self.a_header, json=self.data )
+        return requests.post('http://localhost:3000/api/shows', headers=self.a_header, json=self.data )
 
 

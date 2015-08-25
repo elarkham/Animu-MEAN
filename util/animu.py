@@ -1,7 +1,8 @@
 #!/bin/env python
 import argparse
-from os   import walk
-from Show import Show
+from os    import walk
+from Show  import Show
+from Media import Media
 
 ### Headers ###
 animu_headers = {'x-access-token':'***REMOVED***'}
@@ -18,3 +19,15 @@ args = parser.parse_args()
 show = Show( animu_headers, hummingbird_headers, args.directory, args.tags )
 show.populate( args.query )
 show.post()
+
+## Media ##
+files = []
+for ( dirpath, dirnames, filenames) in walk(args.directory):
+    files.extend(filenames)
+    break;
+
+for media_path in files:
+    media = Media( animu_headers, media_path, show.getName())
+    media.populate()
+    media.post()
+

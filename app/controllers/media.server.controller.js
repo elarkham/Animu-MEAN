@@ -47,12 +47,11 @@ exports.create = function(req, res) {
 
     function addShow( media ) {
         //find the media's new show
-        Show.findOne({'name': req.body.show.name }).exec(function(err, show){
+        Show.findOne({'name': req.body.show }).exec(function(err, show){
             if (!show) {
                 var error = 'Show does not exist';
-                return complete( new Error(error), null );
+                return complete( new Error( error ), null );
             }
-
             //add media to show
             show.addMediaID( media._id );
 
@@ -60,7 +59,7 @@ exports.create = function(req, res) {
             media.show = show;
 
             show.save( function (err, show) {
-                if (err) return complete( err, media );
+                return complete( err, media );
             });
 
         });
@@ -72,6 +71,7 @@ exports.create = function(req, res) {
             console.log( chalk.red.bold( msg ) );
             return res.json({ success: false, message: msg });
         }
+        console.log(chalk.blue('Saving...') );
         media.save( function ( err, media ){
             // duplicate entry
             if (err && err.code === 11000) {

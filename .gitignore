@@ -41,3 +41,5 @@ public/assets/libs
 #Video Assets
 public/assets/video
 
+#python junk
+util/__pycache__

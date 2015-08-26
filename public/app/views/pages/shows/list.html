@@ -10,17 +10,19 @@
 <table class="table table-bordered table-striped" ng-show="show.shows">
 	<thead>
 		<tr>
+			<th class="col-md-1"></th>
 			<th>Name</th>
 			<th>Tags</th>
-			<th class="col-md-3"></th>
+			<th class="col-md-1"></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="series in show.shows">
+                <td><img ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/></td>
 			<td>{{ series.name }}</td>
 			<td>{{ series.tags }}</td>
 			<td class="col-md-3">
-                <a ng-href="/{{show.tag}}/{{ series.name }}" class="btn btn-success">Show</a>
+                <a ng-href="/{{show.tag}}/{{ series.name }}" class="btn btn-success btn-block">Show</a>
 			</td>
 		</tr>
 	</tbody>

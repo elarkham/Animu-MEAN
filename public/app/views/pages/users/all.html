@@ -20,7 +20,7 @@
 			<th>_id</th>
 			<th>Name</th>
 			<th>Username</th>
-			<th class="col-sm-2"></th>
+			<th class="col-sm-3"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -29,7 +29,7 @@
 			<td>{{ person.name }}</td>
 			<td>{{ person.username }}</td>
 			<td class="col-sm-2">
-				<a ng-href="/users/{{ person._id }}" class="btn btn-primary">Profile</a>
+				<a ng-href="/users/{{ person._id }}" class="btn btn-success">Profile</a>
                 <a ng-href="/users/edit{{ person._id }}" class="btn btn-danger">Edit</a>
 				<a href="#" ng-click="user.deleteUser(person._id)" class="btn btn-primary">Delete</a>
 			</td>

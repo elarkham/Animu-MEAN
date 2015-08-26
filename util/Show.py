@@ -12,6 +12,7 @@ class Show:
         self.data['directory'] = dir_name
         self.data['tags']      = tags
         self.data['name']      = dir_name
+        self.data['path']      = dir_name
 
     def populate( self, query ):
         if query is None:
@@ -31,7 +32,6 @@ class Show:
         #Display Data
         self.data['name']     = bird_data['title']
         self.data['alt_name'] = bird_data['alternate_title']
-        #path
         #cover image
 
         #Metadata

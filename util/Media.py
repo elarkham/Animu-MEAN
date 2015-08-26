@@ -20,15 +20,18 @@ class Media:
 
     def populate(self):
         #Get json string from ffprobe and wash it into python
-        metadata = subprocess.check_output(["ffprobe","-v","quiet","-print_format","json","-show_format","-show_streams", self.show_dir + '/' + self.data['path']] )
-        metadata = json.loads(metadata.decode('utf8'))
+        metadata  = subprocess.check_output(["ffprobe","-v","quiet","-print_format","json","-show_format","-show_streams", self.show_dir + '/' + self.data['path']] )
+        metadata  = json.loads(metadata.decode('utf8'))
+        seq_regex = re.findall(r'- (\d+)', self.data['name'])
+        sub_regex = re.findall(r'^\[([A-Za-z0-9_]+)\]', self.data['name'])
 
         self.data['filetype'] = metadata['format']['format_long_name']
         self.data['size']     = metadata['format']['size']
         self.data['length']   = metadata['format']['duration']
-        self.data['seq']      = re.findall(r'- (\d+)', self.data['name']).pop(0)
+        self.data['seq']      = seq_regex.pop(0) if len(seq_regex) else 0
         self.data['lang']     = ''
-        self.data['subgroup'] = re.findall(r'^\[([A-Za-z0-9_]+)\]', self.data['name']).pop(0)
+        self.data['subgroup'] = seq_regex.pop(0) if len(seq_regex) else 0
+
 
     def post( self ):
         print( self.data )

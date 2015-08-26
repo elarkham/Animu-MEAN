@@ -27,7 +27,7 @@ for ( dirpath, dirnames, filenames) in walk(args.directory):
     break;
 
 for media_path in files:
-    media = Media( animu_headers, media_path, show.getName())
+    media = Media( animu_headers, media_path, show.data['name'], args.directory)
     media.populate()
     media.post()
 

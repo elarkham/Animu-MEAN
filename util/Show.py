@@ -25,14 +25,15 @@ class Show:
         for i in range( 0, len(results)):
             print(i,':', str(results[i]['title']))
 
-        index = input('Which of these is correct?: ')
+        index = input('Which of these is correct?: ') or 0
+
         bird_data = results[int(index)]
 
 
         #Display Data
-        self.data['name']     = bird_data['title']
-        self.data['alt_name'] = bird_data['alternate_title']
-        #cover image
+        self.data['name']        = bird_data['title']
+        self.data['alt_name']    = bird_data['alternate_title']
+        self.data['cover_image'] = "poster.jpg"
 
         #Metadata
         self.data['mal_id']          = bird_data['mal_id']

@@ -33,12 +33,12 @@ exports.create = function(req, res) {
     if( req.body.tags )     media.tags     = req.body.tags;
 
     //metadata
-    if( req.body.filetype ) media.filetype = req.body.seq;
-    if( req.body.size )     media.size     = req.body.seq;
-    if( req.body.length )   media.length   = req.body.seq;
+    if( req.body.filetype ) media.filetype = req.body.filetype;
+    if( req.body.size )     media.size     = req.body.size;
+    if( req.body.length )   media.length   = req.body.length;
     if( req.body.seq )      media.seq      = req.body.seq;
     if( req.body.lang )     media.lang     = req.body.lang;
-    if( req.body.subgroup ) media.seq      = req.body.seq;
+    if( req.body.subgroup ) media.seq      = req.body.subgroup;
 
     //location
     if( req.body.path ) media.path = req.body.path;

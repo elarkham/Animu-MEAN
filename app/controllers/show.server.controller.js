@@ -181,10 +181,10 @@ exports.delete = function(req, res) {
     async.waterfall([
         function( callback ){
             if (!req.params.show_name){
-                error = new Error('Now paramater');
+                error = new Error('No paramater');
                 return complete(error, null);
             }
-            Show.findOne({ 'name': req.params.show_name}).exec(function(err, show){
+            Show.findOne({ 'name': req.params.show_name}).populate("media", "name").exec(function(err, show){
                 if (!show) {
                     error = new Error('No show with that name exists.');
                     return complete( error, null );
@@ -193,7 +193,10 @@ exports.delete = function(req, res) {
             });
         },
         function ( show, callback) {
-            Show.remove({ 'name': show.name}, function(err) {
+            for ( var i = 0; i < show.media.length; i++){
+                Media.remove({ '_id': show.media[i] });
+            }
+            Show.remove({ 'name': show.name }, function(err) {
                 callback( err, show );
             });
     }], complete);

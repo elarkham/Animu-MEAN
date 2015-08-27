@@ -22,7 +22,7 @@ class Media:
         #Get json string from ffprobe and wash it into python
         metadata  = subprocess.check_output(["ffprobe","-v","quiet","-print_format","json","-show_format","-show_streams", self.show_dir + '/' + self.data['path']] )
         metadata  = json.loads(metadata.decode('utf8'))
-        seq_regex = re.findall(r'- (\d+)', self.data['name'])
+        seq_regex = re.findall(r'- ?_?(\d+)', self.data['name'])
         sub_regex = re.findall(r'^\[([A-Za-z0-9_]+)\]', self.data['name'])
 
         self.data['filetype'] = metadata['format']['format_long_name']
@@ -30,7 +30,7 @@ class Media:
         self.data['length']   = metadata['format']['duration']
         self.data['seq']      = seq_regex.pop(0) if len(seq_regex) else 0
         self.data['lang']     = ''
-        self.data['subgroup'] = seq_regex.pop(0) if len(seq_regex) else 0
+        self.data['subgroup'] = sub_regex.pop(0) if len(sub_regex) else ""
 
 
     def post( self ):

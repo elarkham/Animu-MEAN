@@ -1,5 +1,6 @@
 #!/bin/env python
 import argparse
+import time
 from os    import walk
 from Show  import Show
 from Media import Media
@@ -27,7 +28,9 @@ for ( dirpath, dirnames, filenames) in walk(args.directory):
     break;
 
 for media_path in files:
-    media = Media( animu_headers, media_path, show.data['name'], args.directory)
-    media.populate()
-    media.post()
+    if media_path.endswith(".mp4"):
+        #time.sleep(1)
+        media = Media( animu_headers, media_path, show.data['name'], args.directory)
+        media.populate()
+        media.post()
 

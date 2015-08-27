@@ -10,7 +10,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="episode in show.showData.media">
+		<tr ng-repeat="episode in show.showData.media | orderBy:'-name'">
 			<td>{{ episode.name }}</td>
 			<td class="col-sm-2">
 				<a ng-href="/media/{{ episode.name }}" class="btn btn-danger btn-block">Watch</a>

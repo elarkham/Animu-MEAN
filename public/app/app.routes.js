@@ -8,17 +8,20 @@ angular.module('app.routes', ['ngRoute'])
         /* Site Routes
          ====================*/
 
-		// route for the home page
-		.when('/', {
-			templateUrl : 'app/views/pages/home.html'
-		})
-
 		// login page
 		.when('/login', {
 			templateUrl : 'app/views/pages/login.html',
-   			controller  : 'mainController',
+   			controller  : 'authController',
     		controllerAs: 'login'
 		})
+
+		// route for the home page
+		.when('/', {
+			templateUrl : 'app/views/pages/home.html',
+            controller  : 'showController',
+            controllerAs: 'home'
+		})
+
 
         /* OVA Routes
          ====================*/
@@ -26,7 +29,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/ova', {
 			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
-			controllerAs: 'show',
+			controllerAs: 'show_tag',
             resolve: {
                 tag: function($route){$route.current.params.tag = "ova"},
                 title: function($route){$route.current.params.title = "OVA"}
@@ -37,7 +40,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/ova/:show_name', {
 			templateUrl: 'app/views/pages/shows/profile.html',
 			controller: 'showProfileController',
-			controllerAs: 'show'
+			controllerAs: 'show_tag'
 		})
 
         /* Series Routes
@@ -46,7 +49,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/series', {
 			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
-			controllerAs: 'show',
+			controllerAs: 'show_tag',
             resolve: {
                 tag: function($route){$route.current.params.tag = "series"},
                 title: function($route){$route.current.params.title = "Series"}
@@ -57,7 +60,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/series/:show_name', {
 			templateUrl: 'app/views/pages/shows/profile.html',
 			controller: 'showProfileController',
-			controllerAs: 'show'
+			controllerAs: 'show_tag'
 		})
 
         /* Movies Routes
@@ -65,7 +68,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/movies', {
 			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
-			controllerAs: 'show',
+			controllerAs: 'show_tag',
             resolve: {
                 tag: function($route){$route.current.params.tag = "movies"},
                 title: function($route){$route.current.params.title = "Movies"}
@@ -76,7 +79,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/movies/:show_name', {
 			templateUrl: 'app/views/pages/shows/profile.html',
 			controller: 'showProfileController',
-			controllerAs: 'show'
+			controllerAs: 'show_tag'
 		})
 
         /* Current Season Routes
@@ -84,7 +87,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/current', {
 			templateUrl: 'app/views/pages/shows/list.html',
 			controller: 'showTagController',
-			controllerAs: 'show',
+			controllerAs: 'show_tag',
             resolve: {
                 tag: function($route){$route.current.params.tag = "current"},
                 title: function($route){$route.current.params.title = "Current Season"}
@@ -95,7 +98,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/current/:show_name', {
 			templateUrl: 'app/views/pages/shows/profile.html',
 			controller: 'showProfileController',
-			controllerAs: 'show'
+			controllerAs: 'show_tag'
 		})
         /* User Routes
          ====================*/

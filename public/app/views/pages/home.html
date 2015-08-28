@@ -1,13 +1,29 @@
-<div class="jumbotron text-center">
-	<h1>Animu</h1>
-
-	<div ng-if="!main.loggedIn">
-		<p>Login to view Shows</p>
-		<a href="/login" class="btn btn-primary">Login</a>
-	</div>
-
-	<div ng-if="main.loggedIn">
-		<p>Display Shows</p>
-		<a href="/shows" class="btn btn-primary">View Shows</a>
-	</div>
+<div class="page-header">
+    <h1>{{show.title}}</h1>
 </div>
+
+<div class="jumbotron text-center" ng-show="show.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading Shows...</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="show.shows">
+	<thead>
+		<tr>
+			<th class="col-md-1"></th>
+			<th>Name</th>
+			<th>Tags</th>
+			<th class="col-md-1"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="series in show.shows | orderBy: -name">
+            <td><img height="317" width="225" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/></td>
+			<td>{{ series.name }}</td>
+			<td>{{ series.tags }}</td>
+			<td class="col-md-3">
+                <a ng-href="/{{show.tag}}/{{ series.name }}" class="btn btn-success btn-block">Show</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

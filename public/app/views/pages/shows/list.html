@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>{{show.title}}</h1>
+    <h1>{{show_tag.title}}</h1>
 </div>
 
 <div class="jumbotron text-center" ng-show="show.processing">
@@ -7,7 +7,7 @@
 	<p>Loading Shows...</p>
 </div>
 
-<table class="table table-bordered table-striped" ng-show="show.shows">
+<table class="table table-bordered table-striped" ng-show="show_tag.shows">
 	<thead>
 		<tr>
 			<th class="col-md-1"></th>
@@ -17,12 +17,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="series in show.shows | orderBy: -name">
+		<tr ng-repeat="series in show_tag.shows | orderBy: -name">
             <td><img height="317" width="225" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/></td>
 			<td>{{ series.name }}</td>
 			<td>{{ series.tags }}</td>
 			<td class="col-md-3">
-                <a ng-href="/{{show.tag}}/{{ series.name }}" class="btn btn-success btn-block">Show</a>
+                <a ng-href="/{{show_tag_tag.tag}}/{{ series.name }}" class="btn btn-success btn-block">Show</a>
 			</td>
 		</tr>
 	</tbody>

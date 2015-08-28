@@ -38,7 +38,7 @@ exports.create = function(req, res) {
     if( req.body.length )   media.length   = req.body.length;
     if( req.body.seq )      media.seq      = req.body.seq;
     if( req.body.lang )     media.lang     = req.body.lang;
-    if( req.body.subgroup ) media.seq      = req.body.subgroup;
+    if( req.body.subgroup ) media.subgroup = req.body.subgroup;
 
     //location
     if( req.body.path ) media.path = req.body.path;
@@ -79,6 +79,7 @@ exports.create = function(req, res) {
                 console.log( chalk.red.bold( msg ) );
                 return res.json({ success: false, message: msg });
             }
+            console.log( media )
             msg = 'Creation Successfull!';
             console.log( chalk.green( msg ) );
             return res.json({ success: true, message: msg });

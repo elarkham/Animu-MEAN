@@ -194,6 +194,7 @@ exports.delete = function(req, res) {
         },
         function ( show, callback) {
             for ( var i = 0; i < show.media.length; i++){
+                console.log( show.media[i] )
                 Media.remove({ '_id': show.media[i] });
             }
             Show.remove({ 'name': show.name }, function(err) {

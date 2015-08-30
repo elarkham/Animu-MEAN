@@ -9,6 +9,23 @@
 
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <dir-pagination-controls></dir-pagination-controls>
+        </div>
+        <div class="col-xs-4" >
+            <label for="search">Search:</label>
+            <input ng-model="media.query" id="search" class="form-control" placeholder="Media...">
+        </div>
+        <div class="col-xs-1">
+            <label for="perPage"># Page:</label>
+            <input type="number" min="1" max="100" class="form-control" id="perPage" ng-model="media.perPage">
+        </div>
+    </div>
+    </br>
+</div>
+
 <div class="jumbotron text-center" ng-show="media.processing">
 	<span class="glyphicon glyphicon-repeat spinner"></span>
 	<p>Loading Media...</p>
@@ -25,7 +42,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="episode in media.media">
+		<tr dir-paginate="episode in media.media | filter: media.query | orderBy: '+show.name' | itemsPerPage: media.perPage">
 			<td>{{ episode._id }}</td>
 			<td>{{ episode.name }}</td>
 			<td>{{ episode.show }}</td>
@@ -38,3 +55,6 @@
 		</tr>
 	</tbody>
 </table>
+<div class="text-center">
+    <dir-pagination-controls></dir-pagination-controls>
+</div>

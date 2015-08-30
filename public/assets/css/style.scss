@@ -24,7 +24,33 @@ main{
   font-weight: bold;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+.page-header {
+    margin-top: 0px;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+/* SHOW PAGNITATION
+===================== */
+.pagination {
+    .active{
+        a, a:focus, a:hover, span, span:focus, span:hover{
+            background-color: $bgDefault;
+            border-color: $bgDefault;
+        }
+    }
+
+    li{
+         a, a:focus, a:hover, span, span:focus, span:hover{
+            color: $bgDefault;
+            border-color: $bgDefault;
+        }
+
+    }
+}
 /* SHOW PROFILE
 ===================== */
 #profile-header{
@@ -41,7 +67,6 @@ main{
     color: #596163;
     font-size: 16px;
 }
-
 /* HEADER
 ===================== */
 .navbar-default {

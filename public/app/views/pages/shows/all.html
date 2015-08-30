@@ -9,6 +9,23 @@
 
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <dir-pagination-controls></dir-pagination-controls>
+        </div>
+        <div class="col-xs-4" >
+            <label for="search">Search:</label>
+            <input ng-model="show.query" id="search" class="form-control" placeholder="Animu...">
+        </div>
+        <div class="col-xs-1">
+            <label for="perPage"># Page:</label>
+            <input type="number" min="1" max="100" class="form-control" id="perPage" ng-model="show.perPage">
+        </div>
+    </div>
+    </br>
+</div>
+
 <div class="jumbotron text-center" ng-show="show.processing">
 	<span class="glyphicon glyphicon-repeat spinner"></span>
 	<p>Loading Shows...</p>
@@ -26,7 +43,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="series in show.shows">
+		<tr dir-paginate="series in show.shows | filter: show.query | orderBy: '+name' | itemsPerPage: show.perPage">
 			<td>{{ series._id }}</td>
 			<td>{{ series.name }}</td>
 			<td>{{ series.path }}</td>
@@ -40,3 +57,7 @@
 		</tr>
 	</tbody>
 </table>
+
+<div class="text-center">
+    <dir-pagination-controls></dir-pagination-controls>
+<div>

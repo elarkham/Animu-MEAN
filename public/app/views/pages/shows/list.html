@@ -1,5 +1,22 @@
 <div class="page-header">
-    <h1>{{show.title}}</h1>
+        <h1>{{show.title}}</h1>
+
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <dir-pagination-controls></dir-pagination-controls>
+        </div>
+        <div class="col-xs-4" >
+            <label for="search">Search:</label>
+            <input ng-model="show.query" id="search" class="form-control" placeholder="Animu...">
+        </div>
+        <div class="col-xs-1">
+            <label for="perPage"># Page:</label>
+            <input type="number" min="1" max="100" class="form-control" id="perPage" ng-model="show.perPage">
+        </div>
+    </div>
+    </br>
 </div>
 
 <div class="jumbotron text-center" ng-show="show.processing">
@@ -7,23 +24,20 @@
 	<p>Loading Shows...</p>
 </div>
 
-<table class="table table-bordered table-striped" ng-show="show.shows">
-	<thead>
-		<tr>
-			<th class="col-md-1"></th>
-			<th>Name</th>
-			<th>Tags</th>
-			<th class="col-md-1"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="series in show.shows | orderBy:'+name'">
-            <td><img height="317" width="225" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/></td>
-			<td>{{ series.name }}</td>
-			<td>{{ series.tags }}</td>
-			<td class="col-md-3">
-                <a ng-href="/{{show.tag}}/{{ series.name }}" class="btn btn-success btn-block">Show</a>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<div class='md-content-padding' layout="row" layout-wrap>
+    <md-card style="width: 18%;" dir-paginate="series in show.shows | filter: show.query | orderBy: '+name' | itemsPerPage: show.perPage">
+        <a ng-href="/{{show.tag}}/{{ series.name }}" >
+            <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/>
+        </a>
+        <md-card-content>
+            <h5>{{series.name}}</h5>
+        </md-card-content>
+    </md-card>
+</div>
+
+<div class="text-center">
+    <dir-pagination-controls></dir-pagination-controls>
+<div>
+
+
+

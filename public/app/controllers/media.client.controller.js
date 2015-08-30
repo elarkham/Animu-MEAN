@@ -7,6 +7,8 @@ angular.module('media.client.controller', ['media.client.service'])
 
 	// set a processing variable to show loading things
 	vm.processing = true;
+    vm.perPage = 30;
+    vm.query = "";
 
 	// grab all the media at page load
 	Media.all()

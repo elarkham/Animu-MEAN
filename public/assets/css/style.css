@@ -16,6 +16,24 @@ main {
   font-weight: bold;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
 
+.page-header {
+  margin-top: 0px; }
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+/* SHOW PAGNITATION
+===================== */
+.pagination .active a, .pagination .active a:focus, .pagination .active a:hover, .pagination .active span, .pagination .active span:focus, .pagination .active span:hover {
+  background-color: #242020;
+  border-color: #242020; }
+
+.pagination li a, .pagination li a:focus, .pagination li a:hover, .pagination li span, .pagination li span:focus, .pagination li span:hover {
+  color: #242020;
+  border-color: #242020; }
+
 /* SHOW PROFILE
 ===================== */
 #profile-header {

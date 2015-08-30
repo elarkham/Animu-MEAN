@@ -1,6 +1,9 @@
 'use strict';
 angular.module('animu', ['ngAnimate',
                         'ui.bootstrap',
+                        'ngAria',
+                        'ngMaterial',
+                        'angularUtils.directives.dirPagination',
                         'app.routes',
                         'auth.client.service',
                         'main.client.controller',

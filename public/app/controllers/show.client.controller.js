@@ -8,6 +8,8 @@ angular.module('show.client.controller', ['show.client.service'])
 
 	// set a processing variable to show loading things
 	vm.processing = true;
+    vm.perPage = 30;
+    vm.query = "";
 
 	// grab all the shows at page load
 	Show.all( null )
@@ -49,6 +51,8 @@ angular.module('show.client.controller', ['show.client.service'])
 
     vm.title = $routeParams.title;
     vm.tag = tag;
+    vm.perPage = 30;
+    vm.query = "";
 
 	// set a processing variable to show loading things
 	vm.processing = true;

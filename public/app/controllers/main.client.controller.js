@@ -30,9 +30,8 @@ angular.module('main.client.controller', [])
 			.success(function(data) {
 				vm.processing = false;
 
-				// if a user successfully logs in, redirect to users page
 				if (data.success)
-					$location.path('/users');
+					$location.path('/');
 				else
 					vm.error = data.message;
 

@@ -1,7 +1,26 @@
-<div class="page-header">
-    <h1>{{show.showData.name}}</h1>
-</div>
+<div class="panel panel-default">
+    <div class="panel-body">
 
+        <img id="profile-img" height="317" width="225" ng-src="http://cdn.myanimelist.net/images/anime/9/73595.jpg"/>
+
+        <div>
+            <div class="page-header" id="profile-header">
+            <h2>{{show.showData.name}}</h2>
+            <h5>{{show.showData.alt_name}}</h5>
+            </div>
+
+            <p id="profile-meta">
+            {{show.showData.age_rating}} <i class="fa fa-chevron-right"></i>
+            {{show.showData.episode_count}} episodes <i class="fa fa-chevron-right"></i>
+            {{show.showData.episode_length}} min <i class="fa fa-chevron-right"></i>
+            Status - {{show.showData.status}}
+            </p>
+            <br>
+            <p id="profile-synop">{{show.showData.synopsis}}</p>
+        </div>
+
+    </div>
+</div>
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>

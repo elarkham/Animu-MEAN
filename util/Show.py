@@ -51,11 +51,14 @@ class Show:
         for genre in bird_data['genres']:
             self.data['genres'].append(genre['name'])
 
-    def getName(self):
-        return self.data['name']
+    def get(self):
+        res = requests.get('http://localhost:3000/api/shows/' + self.data['name'], headers=self.a_header)
+        print ( res.json()['path'])
+        return res.json()['path']
 
     def post( self ):
         print( self.data )
         return requests.post('http://localhost:3000/api/shows', headers=self.a_header, json=self.data )
+
 
 

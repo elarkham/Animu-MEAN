@@ -11,6 +11,7 @@ class Media:
         self.path      = path
         self.show_name = show_name
         self.show_dir  = show_dir
+        self.fullpath  = '/home/ethan/mnt/charon/video'
 
         self.data         = {}
         self.data['name'] = path
@@ -20,7 +21,8 @@ class Media:
 
     def populate(self):
         #Get json string from ffprobe and wash it into python
-        metadata  = subprocess.check_output(["ffprobe","-v","quiet","-print_format","json","-show_format","-show_streams", self.show_dir + '/' + self.data['path']] )
+        print(self.data['path'])
+        metadata  = subprocess.check_output(["ffprobe","-v","quiet","-print_format","json","-show_format","-show_streams", self.fullpath + '/' + self.show_dir + '/' + self.data['path']] )
         metadata  = json.loads(metadata.decode('utf8'))
         seq_regex = re.findall(r'- ?_?(\d+)', self.data['name'])
         sub_regex = re.findall(r'^\[([A-Za-z0-9_]+)\]', self.data['name'])

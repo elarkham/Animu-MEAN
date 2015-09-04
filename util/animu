@@ -14,23 +14,30 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-q', '--query', nargs='?', metavar='query', type=str, help='What the hummingbird query will be')
 parser.add_argument('directory', metavar='directory', type=str, help='The directory that will be added')
 parser.add_argument('-t', '--tags', nargs='*', metavar='tags', type=str, help='Defines the self.datas tags')
+parser.add_argument('-m', '--media', nargs='?', metavar='media', type=str, help='Manually adds media to existing show')
 args = parser.parse_args()
 
-### Show ###
-show = Show( animu_headers, hummingbird_headers, args.directory, args.tags )
-show.populate( args.query )
-show.post()
+if not args.media:
+    ### Show ###
+    show = Show( animu_headers, hummingbird_headers, args.directory, args.tags )
+    show.populate( args.query )
+    show.post()
 
-## Media ##
-files = []
-for ( dirpath, dirnames, filenames) in walk(args.directory):
-    files.extend(filenames)
-    break;
+    ## Media ##
+    files = []
+    for ( dirpath, dirnames, filenames) in walk(args.directory):
+        files.extend(filenames)
+        break;
 
-for media_path in files:
-    if media_path.endswith(".mp4"):
-        #time.sleep(1)
-        media = Media( animu_headers, media_path, show.data['name'], args.directory)
-        media.populate()
-        media.post()
-
+    for media_path in files:
+        if media_path.endswith(".mp4"):
+            #time.sleep(1)
+            media = Media( animu_headers, media_path, show.data['name'], args.directory)
+            media.populate()
+            media.post()
+if args.media:
+    #args.directory = existing show for now
+    show = Show( animu_headers, hummingbird_headers, args.directory, args.tags )
+    media = Media( animu_headers, args.media, args.directory, show.get() )
+    media.populate()
+    media.post()

@@ -223,7 +223,9 @@ exports.list = function(req, res) {
     var tag = req.query.tag;
     var all;
 
-    if(tag){
+    if(tag == "current_recent_updated"){
+        all = Show.find({"tags": "current"}).sort({"updated_at":0}).limit(5)
+    } if(tag){
         console.log(chalk.blue('Listing all ' + tag ));
         all = Show.find({"tags": tag});
     } else {

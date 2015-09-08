@@ -6,8 +6,8 @@ from Show  import Show
 from Media import Media
 
 ### Headers ###
-animu_headers = {'x-access-token':'***REMOVED***'}
-hummingbird_headers = {'X-Client-Id': '***REMOVED***'}
+animu_headers = {'x-access-token':'insert api key'}
+hummingbird_headers = {'X-Client-Id': 'insert api key'}
 
 ### Arguments ###
 parser = argparse.ArgumentParser()

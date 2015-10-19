@@ -7,6 +7,7 @@ var Show  = require('../models/show.server.model.js');
 var Media = require('../models/media.server.model.js');
 var chalk = require('chalk');
 var async = require('async');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * Create a Show
@@ -80,8 +81,11 @@ exports.read = function(req, res) {
         error = new Error('No paramater');
         return complete(error, null);
     }
-
-    Show.findOne({ 'name' : req.params.show_name }).populate('media').exec(function(err, show) {
+    //you need valid id if you query and it needs to be in an id object
+    var re = new RegExp('^[a-fA-F0-9]{24}$');
+    var objId = new ObjectId( !re.test(req.params.show_name) ? "123456789012" : req.params.show_name );
+    //I want the name and the id to work in the url, the id is needed if the name is not url safe and needs to be modified
+    Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }]).populate('media').exec(function(err, show) {
         // if the show doesn't exist
         if (!show){
             error = new Error('No show with that name exists.');
@@ -117,8 +121,12 @@ exports.update = function(req, res) {
                 error = new Error('No paramater');
                 return complete(error, null);
             }
-            //find the show
-            Show.findOne({ 'name': req.params.show_name }).exec(function(err, show){
+            //you need valid id if you query and it needs to be in an id object
+            var re = new RegExp('^[a-fA-F0-9]{24}$');
+            var objId = new ObjectId( !re.test(req.params.show_name) ? "123456789012" : req.params.show_name );
+
+            //I want the name and the id to work in the url, the id is needed if the name is not url safe and needs to be modified
+            Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }]).exec(function(err, show) {
                 if (!show) {
                     error = new Error('No show with that name exists.');
                     return callback( error, null );
@@ -184,7 +192,13 @@ exports.delete = function(req, res) {
                 error = new Error('No paramater');
                 return complete(error, null);
             }
-            Show.findOne({ 'name': req.params.show_name}).populate("media", "name").exec(function(err, show){
+
+            //you need valid id if you query and it needs to be in an id object
+            var re = new RegExp('^[a-fA-F0-9]{24}$');
+            var objId = new ObjectId( !re.test(req.params.show_name) ? "123456789012" : req.params.show_name );
+
+            //I want the name and the id to work in the url, the id is needed if the name is not url safe and needs to be modified
+            Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }]).populate('media', 'name').exec(function(err, show) {
                 if (!show) {
                     error = new Error('No show with that name exists.');
                     return complete( error, null );

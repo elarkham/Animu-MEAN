@@ -102,7 +102,7 @@ angular.module('show.client.controller', ['show.client.service'])
 
 	var vm = this;
 
-	// variable to hnamee/show elements of the view
+	// variable to show elements of the view
 	// differentiates between create or edit pages
 	vm.type = 'edit';
 
@@ -113,12 +113,10 @@ angular.module('show.client.controller', ['show.client.service'])
 			vm.showData = data;
 		});
 
-	// function to save the show
 	vm.saveShow = function() {
 		vm.processing = true;
 		vm.message = '';
 
-		// call the showService function to update
 		Show.update($routeParams.show_name, vm.showData)
 			.success(function(data) {
 				vm.processing = false;

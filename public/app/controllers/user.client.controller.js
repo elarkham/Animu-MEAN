@@ -49,17 +49,17 @@ angular.module('user.client.controller', ['user.client.service'])
 	// differentiates between create or edit pages
 	vm.type = 'create';
 
-	// function to create a user
+	// saves user to the backend
 	vm.saveUser = function() {
 		vm.processing = true;
 		vm.message = '';
 
-		// use the create function in the userService
 		User.create(vm.userData)
 			.success(function(data) {
 				vm.processing = false;
-				vm.userData = {};
-				vm.message = data.message;
+
+                vm.message = data.message;
+                vm.success = data.success;
 			});
 
 	};
@@ -82,26 +82,46 @@ angular.module('user.client.controller', ['user.client.service'])
 			vm.userData = data;
 		});
 
-	// function to save the user
+    // saves user to backend
 	vm.saveUser = function() {
 		vm.processing = true;
 		vm.message = '';
 
-		// call the userService function to update
 		User.update($routeParams.user_id, vm.userData)
 			.success(function(data) {
 				vm.processing = false;
 
-				// clear the form
-				vm.userData = {};
-
-				// bind the message from our API to vm.message
 				vm.message = data.message;
+                vm.success = data.success;
 			});
 	};
 
 })
 
+// controller applied to current user
+.controller('userMeController', function(User) {
+
+	var vm = this;
+
+    // saves user to backend
+	vm.saveUser = function(user) {
+        if( !user ){
+            console.log("No user object")
+            return;
+        }
+		vm.processing = true;
+		vm.message = '';
+
+		User.update(user._id, user)
+			.success(function(data) {
+				vm.processing = false;
+
+				vm.message = data.message;
+                vm.success = data.success;
+			});
+	};
+
+})
 // controller applied to user profile page
 .controller('userProfileController', function($routeParams, User) {
 

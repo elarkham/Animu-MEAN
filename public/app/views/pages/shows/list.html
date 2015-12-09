@@ -2,7 +2,7 @@
         <h1>{{show.title}}</h1>
 
 </div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-xs-6">
             <dir-pagination-controls></dir-pagination-controls>
@@ -12,7 +12,7 @@
             <input ng-model="show.query" id="search" class="form-control" placeholder="Animu...">
         </div>
         <div class="col-xs-1">
-            <label for="perPage"># Page:</label>
+            <label for="perPage">#</label>
             <input type="number" min="1" max="100" class="form-control" id="perPage" ng-model="show.perPage">
         </div>
     </div>
@@ -25,7 +25,7 @@
 </div>
 
 <div class='md-content-padding' layout="row" layout-wrap>
-    <md-card style="width: 18%;" dir-paginate="series in show.shows | filter: show.query | orderBy: '+name' | itemsPerPage: show.perPage">
+    <md-card style="width: 210px; height: 391px" dir-paginate="series in show.shows | filter: show.query | orderBy: '+name' | itemsPerPage: show.perPage">
         <a ng-href="/{{show.tag}}/{{ series.name }}" >
             <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/>
         </a>

@@ -18,8 +18,8 @@ exports.create = function(req, res) {
     var msg;
 
     //create new show
-
     var show = new Show();
+
     //make sure name was included
     if( !req.body.name ){
         error = new Error('You must include a name');
@@ -77,15 +77,21 @@ exports.read = function(req, res) {
     console.log(chalk.blue('Getting Show'));
     var error;
 
-    if (!req.params.show_name){
+    if (!req.params.show_name) {
         error = new Error('No paramater');
         return complete(error, null);
     }
+
     //you need valid id if you query and it needs to be in an id object
     var re = new RegExp('^[a-fA-F0-9]{24}$');
-    var objId = new ObjectId( !re.test(req.params.show_name) ? "123456789012" : req.params.show_name );
-    //I want the name and the id to work in the url, the id is needed if the name is not url safe and needs to be modified
-    Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }]).populate('media').exec(function(err, show) {
+    var objId = new ObjectId( !re.test(req.params.show_name) ?
+                '123456789012' : req.params.show_name );
+
+    //I want the name and the id to work in the url, the id is needed if
+    //the name is not url safe and needs to be modified manually.
+    Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }])
+                  .populate('media').exec(function(err, show) {
+
         // if the show doesn't exist
         if (!show){
             error = new Error('No show with that name exists.');
@@ -123,17 +129,21 @@ exports.update = function(req, res) {
             }
             //you need valid id if you query and it needs to be in an id object
             var re = new RegExp('^[a-fA-F0-9]{24}$');
-            var objId = new ObjectId( !re.test(req.params.show_name) ? "123456789012" : req.params.show_name );
+            var objId = new ObjectId( !re.test(req.params.show_name) ?
+                        '123456789012' : req.params.show_name );
 
-            //I want the name and the id to work in the url, the id is needed if the name is not url safe and needs to be modified
-            Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }]).exec(function(err, show) {
+            //I want the name and the id to work in the url, the id is needed if
+            //the name is not url safe and needs to be modified manually.
+            Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }])
+                          .exec(function(err, show) {
+
                 if (!show) {
                     error = new Error('No show with that name exists.');
                     return callback( error, null );
                 }
 
                 //display
-                if (req.body.name)              show.name            = req.body.name;
+                if( req.body.name )             show.name            = req.body.name;
                 if( req.body.alt_name )         show.alt_name        = req.body.alt_name;
                 if( req.body.path )             show.path            = req.body.path;
                 if( req.body.tags )             show.tags            = req.body.tags;

@@ -4,9 +4,12 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var User  = require('../models/user.server.model.js');
+//var Show  = require('../models/show.server.model.js');
+//var Media = require('../models/media.server.model.js');
 var chalk = require('chalk');
-
+var async = require('async');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * Create a User
@@ -18,11 +21,12 @@ exports.create = function(req, res) {
 
     // if a username isn't included
     if (!req.body.username) {
-        error = 'You must include a username.';
+        error = 'You must include a username';
         res.json({success: 'false', message: error});
         console.log(chalk.bold.red('Error: ' + error));
         return;
     }
+
     // if a password isn't included
     if (!req.body.password) {
         error = 'You must include a password';
@@ -31,17 +35,18 @@ exports.create = function(req, res) {
         return;
     }
 
-    var user = new User();      // create a new instance of the User model
-    user.name = req.body.name;  // set the users name (comes from the request)
-    user.username = req.body.username;  // set the users username (comes from the request)
-    user.password = req.body.password;  // set the users password (comes from the request)
+    var user      = new User();
+    user.name     = req.body.name;
+    user.username = req.body.username;
+    user.password = req.body.password;
 
     user.save(function(err, user) {
         if (err) {
             // duplicate entry
             if (err.code === 11000) {
-                console.log(chalk.bold.red('Error: That username alread exists'));
-                return res.json({ success: false, message: 'A user with that username already exists. '}); }
+                error = 'Error: That username already exists';
+                console.log(chalk.bold.red(error));
+                return res.json({ success: false, message: error }); }
             else
                 return res.send(err);
         }
@@ -80,45 +85,71 @@ exports.read = function(req, res) {
  * Update a User
  */
 exports.update = function(req, res) {
+    console.log(chalk.blue('Updating user username:' + req.params.username));
+    var error;
 
-    console.log(chalk.blue('Updating user with id:' + req.params.user_id));
-
-    User.findById(req.params.user_id, function(err, user) {
-        // if user does not exist
-        if (!user) {
-            var error = 'User with that id does not exist.';
-            res.json({ success: false, message: error});
-            console.log(chalk.bold.red('Error: ' + error));
-            return;
-        }
-        // for when something I didnt forsee happens.
-        if (err)  {
-            res.send(err);
-            return;
-        }
-
-        // set the new user information if it exists in the request
-        if (req.body.name) user.name = req.body.name;
-        if (req.body.username) user.username = req.body.username;
-        if (req.body.password) user.password = req.body.password;
-        if (req.body.admin){
-            if (req.decoded.admin === true ) {
-                user.admin = req.body.admin;
-            }
-        }
-
-        // save the user
-        user.save(function(err) {
-            if (err) {
-                res.send(err);
-                return;
+    async.waterfall([
+        function( callback ){
+            if ( !req.params.user_id ){
+                error = new Error('No parameter')
             }
 
-            // return a message
-            res.json({ success: true, message: 'User updated!' });
-            console.log(chalk.green('User: '+ user.name + ' Updated!'));
-        });
-    });
+            User.findById(req.params.user_id, function(err, user) {
+                // if user does not exist
+                if (!user) {
+                    var error = 'User with that id does not exist.';
+                    res.json({ success: false, message: error});
+                    console.log(chalk.bold.red('Error: ' + error));
+                    return;
+                }
+
+                // for when something I didnt forsee happens.
+                if (err)  {
+                    res.send(err);
+                    return;
+                }
+
+                // login information
+                if ( req.body.name )          user.name     = req.body.name;
+                if ( req.body.username )      user.username = req.body.username;
+                if ( req.body.password )      user.password = req.body.password;
+
+                // update what shows user has watched
+                if ( req.body.watched_shows ) user.watched_shows = req.body.watched_shows;
+                if ( req.body.watched_media ) user.watched_media = req.body.watched_media;
+
+                // only an admin can modify this attribute
+                if (req.body.admin){
+                    if (req.decoded.admin === true ) {
+                        user.admin = req.body.admin;
+                    }
+                }
+
+                callback(err,user);
+            });
+        },
+        function( user, callback ) {
+            user.save( function(err) {
+                // duplicate entry
+                if ( err && err.code === 11000 ) {
+                    error = new Error('User with that name already exists.');
+                    return callback( error, null );
+                }
+                callback(err,user);
+            });
+        }
+    ], complete);
+
+    function complete( err, user ){
+        var msg;
+        if (err){
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
+        }
+        msg = 'Update Successfull!';
+        return res.json({ success: true, message: msg });
+    }
 };
 
 /**

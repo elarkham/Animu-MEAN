@@ -158,19 +158,19 @@ exports.update = function(req, res) {
                 show.save( function (err, show) {
                     if (err) return complete( err, media );
                 });
-                callback(err, media );
+                callback( err, media );
             });
         },
         function( media, callback ){
             //find the media's new show
             Show.findOne({'name': req.body.show.name }).exec(function(err, show){
+                //If the new show doesn't exist, the media's show entry
+                //will just end up blank. This is intended.
                 if (!show) {
                     var error = 'Newly entered show does not exist';
                     return complete( new Error(error), media );
                 }
-                //add media to show
                 show.addMediaID( media._id );
-                //add show to media
                 media.show = show;
                 show.save( function (err, show) {
                     if (err) return callback( err, media );

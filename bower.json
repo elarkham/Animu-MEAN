@@ -26,6 +26,12 @@
     "angular-route": "~1.4.3",
     "angularUtils-pagination": "angular-utils-pagination#~0.8.4",
     "bootstrap": "~3.3.5",
-    "font-awesome": "~4.4.0"
+    "font-awesome": "~4.4.0",
+    "videogular": "1.4.0",
+    "videogular-buffering": "1.4.0",
+    "videogular-controls": "1.4.0",
+    "videogular-overlay-play": "1.4.0",
+    "videogular-poster": "1.4.0",
+    "videogular-themes-default": "1.4.0"
   }
 }

@@ -6,7 +6,7 @@ angular.module('user.client.service', [])
 	// create a new object
 	var userFactory = {};
 
-	// get a single user
+    // get a single user
 	userFactory.get = function(id) {
 		return $http.get('/api/users/' + id);
 	};

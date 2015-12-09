@@ -14,10 +14,8 @@ angular.module('media.client.controller', ['media.client.service'])
 	Media.all()
 		.success(function(data) {
 
-			// when all the media come back, remove the processing variable
 			vm.processing = false;
 
-			// bind the media that come back to vm.medias
 			vm.media = data;
 		});
 
@@ -103,7 +101,9 @@ angular.module('media.client.controller', ['media.client.service'])
 // controller applied to media profile page
 .controller('mediaProfileController', function($routeParams, Media) {
 
-	var vm = this;
+    var vm = this;
+
+    vm.media_name = $routeParams.media_name;
 
 	// get the media data for the media you want to edit
 	// $routeParams is the way we grab data from the URL
@@ -111,6 +111,14 @@ angular.module('media.client.controller', ['media.client.service'])
 		.success(function(data) {
 			vm.mediaData = data;
             vm.path = 'assets/video/' + data.show.path +'/' + data.path;
-	});
 
-});
+            vm.config = {
+                sources:[
+                    {src: vm.path, type: "video/mp4"}
+                ],
+                theme: 'assets/libs/videogular-themes-default/videogular.css',
+            }
+	    });
+})
+
+

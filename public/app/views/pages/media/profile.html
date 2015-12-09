@@ -2,5 +2,33 @@
     <h3>{{media.mediaData.name}}</h3>
 </div>
 
+<!--
 <video ng-src="{{media.path}}" width="100%" height="100%" controls>
 </video>
+-->
+
+<!--This is how I track what the user is watching-->
+<div ng-controller="userMeController as me" >
+
+    <videogular vg-theme="media.config.theme" vg-player-ready="me.saveUserWatched($API, media.media_name)" >
+        <vg-media vg-src="media.config.sources"> </vg-media>
+
+        <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+            <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+            <vg-volume>
+                <vg-mute-button></vg-mute-button>
+                <vg-volume-bar></vg-volume-bar>
+            </vg-volume>
+            <vg-fullscreen-button></vg-fullscreen-button>
+        </vg-controls>
+
+        <vg-overlay-play></vg-overlay-play>
+    </videogular>
+
+</div>
+

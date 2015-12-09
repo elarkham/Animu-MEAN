@@ -44,8 +44,8 @@ angular.module('auth.client.service', [])
 	// get the logged in user
 	authFactory.getUser = function() {
 		if (AuthToken.getToken())
-			return $http.get('/api/me', { cache: true });
-		else
+			return $http.get('/api/me', { cache: false });
+        else
 			return $q.reject({ message: 'User has no token.' });
 	};
 
@@ -95,7 +95,6 @@ angular.module('auth.client.service', [])
 	// this will happen on all HTTP requests
 	interceptorFactory.request = function(config) {
 
-		// grab the token
 		var token = AuthToken.getToken();
 
 		// if the token exists, add it to the header as x-access-token

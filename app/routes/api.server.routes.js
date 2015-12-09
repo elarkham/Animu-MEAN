@@ -1,6 +1,8 @@
 'use strict';
 var api   = require('../controllers/api.server.controller.js');
 var User  = require('../models/user.server.model.js');
+var Show  = require('../models/show.server.model.js');
+var Media = require('../models/media.server.model.js');
 var chalk = require('chalk');
 
 module.exports = function(app, express) {
@@ -14,13 +16,16 @@ module.exports = function(app, express) {
     apiRouter.use( api.verifyToken );
 
     apiRouter.get('/me', function(req, res){
-        User.findById( req.decoded._id, function(err, user ){
+        User.findById( req.decoded._id )
+            .populate('shows_watched.data media_watched.data')
+            .exec( function( err, user ){
+
 
             //Check if user actually exists
             if (!user){
                 var error = 'User with that id does not exist.';
                 res.json({succes: false, message: error});
-                console.log(chalk.bold.red('Error: ' + error));
+                console.log(chalk.bold.red('Error: ' + err));
             }
 
             else if (err) res.send(err);

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('main.client.controller', [])
 
-.controller('authController', function($rootScope, $location, Auth) {
+.controller('authController', function($rootScope, $location, Auth, User) {
 
 	var vm = this;
 

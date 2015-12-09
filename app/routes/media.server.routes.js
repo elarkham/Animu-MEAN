@@ -8,23 +8,18 @@ module.exports = function( app, express ) {
 
     // on routes that end in /shows
     // ----------------------------------------------------
-        // create a show
         .post(media.create)
 
-        // get all the Shows
         .get(media.list);
 
     // on routes that end in /shows/:show_name
     // ----------------------------------------------------
     mediaRouter.route('/media/:media_name')
 
-        // get the show with that name
         .get(media.read)
 
-        // update the show with that name
         .put(media.update)
 
-        // delete the show with this name
         .delete(media.delete);
 
         return mediaRouter;

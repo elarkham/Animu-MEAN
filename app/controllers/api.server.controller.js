@@ -14,8 +14,9 @@ var secret = config.secret;
 exports.giveToken = function(req, res) {
     console.log(chalk.blue('Someone is requesting a token.'));
 
-     //only for development
-     if (req.body.test === 'foobar') {
+    /*
+    //only for development
+    if (req.body.test === 'foobar') {
         var user = new User();
         user.name ='foobar';
         user.pasword = 'pasword';
@@ -37,6 +38,7 @@ exports.giveToken = function(req, res) {
         return;
 
     }
+    */
 
     //find user
     User.findOne({

@@ -23,6 +23,14 @@
     <script src="assets/libs/angular-aria/angular-aria.js"></script>
     <script src="assets/libs/angular-material/angular-material.min.js"></script>
     <script src="assets/libs/angularUtils-pagination/dirPagination.js"></script>
+    <script src="assets/libs/angular-sanitize/angular-sanitize.min.js"></script>
+
+    <!-- videoangular -->
+    <script src="assets/libs/videogular/videogular.js"></script>
+    <script src="assets/libs/videogular-controls/vg-controls.js"></script>
+    <script src="assets/libs/videogular-overlay-play/vg-overlay-play.js"></script>
+    <script src="assets/libs/videogular-poster/vg-poster.js"></script>
+    <script src="assets/libs/videogular-buffering/vg-buffering.js"></script>
 
 
     <!-- controllers -->
@@ -64,14 +72,15 @@
                     <li><a href="/movies">Movies</a></li>
                 </ul>
             </li>
-            <li dropdown>
+            <li dropdown ng-if="main.loggedIn">
                 <a href="#" dropdown-toggle>Profile<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li ng-if="main.loggedIn"><a href="#">Resume</a></li>
-                    <li ng-if="main.loggedIn"><a href="#">Queue</a></li>
-                    <li ng-if="main.loggedIn"><a href="#">Settings</a></li>
+                    <li><a href="#">Resume</a></li>
+                    <li><a href="#">Queue</a></li>
+                    <li><a href="#">Recent</a></li>
+                    <li><a href="#">Settings</a></li>
                     <li role="separator" class="divider"></li>
-                    <li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a></li>
+                    <li><a href="#" ng-click="main.doLogout()">Logout</a></li>
                 </ul>
             </li>
             <li dropdown ng-if="main.user.admin">

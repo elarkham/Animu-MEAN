@@ -62,9 +62,10 @@ exports.create = function(req, res) {
  */
 exports.read = function(req, res) {
     console.log(chalk.blue('Getting user with id:' + req.params.user_id));
-    User.findById(req.params.user_id, function(err, user) {
+    User.findById(req.params.user_id)
+        .populate('shows_watched.data media_watched.data')
+        .exec(function(err, user) {
 
-        //Check if user actually exists
         if (!user){
             var error = 'User with that id does not exist.';
             res.json({succes: false, message: error});
@@ -73,9 +74,9 @@ exports.read = function(req, res) {
 
         else if (err) res.send(err);
 
-        // return that user
         else {
             console.log(chalk.green('Returning user: \'' + user.username + '\''));
+            user.
             res.json(user);
         }
     });
@@ -85,7 +86,7 @@ exports.read = function(req, res) {
  * Update a User
  */
 exports.update = function(req, res) {
-    console.log(chalk.blue('Updating user username:' + req.params.username));
+    console.log(chalk.blue('Updating User:' + req.params._id));
     var error;
 
     async.waterfall([
@@ -115,8 +116,8 @@ exports.update = function(req, res) {
                 if ( req.body.password )      user.password = req.body.password;
 
                 // update what shows user has watched
-                if ( req.body.watched_shows ) user.watched_shows = req.body.watched_shows;
-                if ( req.body.watched_media ) user.watched_media = req.body.watched_media;
+                if ( req.body.shows_watched ) user.shows_watched = req.body.shows_watched;
+                if ( req.body.media_watched ) user.media_watched = req.body.media_watched;
 
                 // only an admin can modify this attribute
                 if (req.body.admin){
@@ -147,7 +148,7 @@ exports.update = function(req, res) {
             console.log( chalk.red.bold( msg ) );
             return res.json({ success: false, message: msg });
         }
-        msg = 'Update Successfull!';
+        msg = 'Update Successfull!' + ' Added ' + user.watched_shows;
         return res.json({ success: true, message: msg });
     }
 };

@@ -99,26 +99,70 @@ angular.module('user.client.controller', ['user.client.service'])
 })
 
 // controller applied to current user
-.controller('userMeController', function(User) {
-
+.controller('userMeController', function(User, Auth, Media) {
 	var vm = this;
 
-    // saves user to backend
-	vm.saveUser = function(user) {
-        if( !user ){
-            console.log("No user object")
-            return;
-        }
-		vm.processing = true;
-		vm.message = '';
+    // Sends what they just watched to backend
+    // TODO: Do this all server side
+	vm.saveUserWatched = function(videoAPI, media_name) {
+        Auth.getUser().then(function(user_request){
+            Media.get(media_name).then(function(media_request){
+                var media = media_request.data;
+                var user  = user_request.data;
+                var date  = new Date();
 
-		User.update(user._id, user)
-			.success(function(data) {
-				vm.processing = false;
+                var update = true;
+                for(var i = 0; i < user.shows_watched.length; i++) {
+                    if( media &&
+                      ( user.shows_watched[i].data.name==media.show.name ) ){
+                        user.shows_watched[i].date = date;
+                    }
+                    if (user.shows_watched[i].data._id == media.show._id) {
+                            update = false;
+                            break;
+                    }
+                }
 
-				vm.message = data.message;
-                vm.success = data.success;
-			});
+                if( update ){
+                    user.shows_watched.push(
+                            {
+                                data: media.show._id,
+                                date: date,
+                                seq:  0
+                            });
+                }
+
+                update = true;
+                for(var i = 0; i < user.media_watched.length; i++) {
+                    if( media &&
+                      ( user.media_watched[i].data.name==media.name ) ){
+                        user.media_watched[i].date = date;
+                    }
+                    if (user.media_watched[i].data._id == media._id) {
+                            update = false;
+                            break;
+                    }
+                }
+
+                if( update ){
+                    user.media_watched.push(
+                            {
+                                data: media._id,
+                                date: date,
+                                prog: 0
+                            });
+                }
+
+//                user.media_watched.length = 0;
+//                user.shows_watched.length = 0;
+
+
+                console.log(user.name + " just watched " + media.name );
+                console.log(user);
+
+                User.update(user._id, user)
+            });
+        });
 	};
 
 })
@@ -126,6 +170,12 @@ angular.module('user.client.controller', ['user.client.service'])
 .controller('userProfileController', function($routeParams, User) {
 
 	var vm = this;
+    var d;
+
+    vm.format_date = function( date ){
+        d = new Date(date);
+        return d;
+    }
 
 	// get the user data for the user you want to edit
 	// $routeParams is the way we grab data from the URL

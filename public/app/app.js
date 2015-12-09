@@ -3,9 +3,16 @@ angular.module('animu', ['ngAnimate',
                         'ui.bootstrap',
                         'ngAria',
                         'ngMaterial',
+                        'ngSanitize',
                         'angularUtils.directives.dirPagination',
                         'app.routes',
-                        'auth.client.service',
+
+                        'com.2fdevs.videogular', //Videoangular
+                        'com.2fdevs.videogular.plugins.controls',
+                        'com.2fdevs.videogular.plugins.overlayplay',
+                        'com.2fdevs.videogular.plugins.poster',
+
+                        'auth.client.service', //My Controllers + Services
                         'main.client.controller',
                         'user.client.service',
                         'user.client.controller',

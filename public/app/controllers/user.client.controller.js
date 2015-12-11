@@ -101,6 +101,16 @@ angular.module('user.client.controller', ['user.client.service'])
 // controller applied to current user
 .controller('userMeController', function(User, Auth, Media) {
 	var vm = this;
+    var d;
+
+    Auth.getUser().then(function(user_request){
+        vm.userData = user_request.data;
+    });
+
+    vm.format_date = function( date ){
+        d = new Date(date);
+        return d;
+    }
 
     // Sends what they just watched to backend
     // TODO: Do this all server side
@@ -164,7 +174,6 @@ angular.module('user.client.controller', ['user.client.service'])
             });
         });
 	};
-
 })
 // controller applied to user profile page
 .controller('userProfileController', function($routeParams, User) {

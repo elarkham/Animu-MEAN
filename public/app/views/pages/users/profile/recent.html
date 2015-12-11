@@ -1,0 +1,27 @@
+<div class="page-header">
+	<h2>Recently Watched</h2>
+</div>
+<h4><b>Watched Shows:</b></h4>
+
+<table class="table">
+    <tr>
+        <th>Date Watched</th>
+        <th>Name</th>
+    </tr>
+    <tr ng-repeat="show in user.userData.shows_watched.slice().reverse()"ng-if="$index < 10">
+        <td class="col-md-2" ng-bind="user.format_date(show.date) | date: 'medium'"></td>
+        <td>{{show.data.name}}</td>
+    </tr>
+</table>
+
+<h4><b>Watched Media:</b></h4>
+<table class="table table-condensed">
+    <tr>
+        <th>Date Watched</th>
+        <th>Name</th>
+    </tr>
+    <tr ng-repeat="media in user.userData.media_watched.slice().reverse()" ng-if="$index < 10">
+        <td class="col-md-2" ng-bind="user.format_date(media.date) | date: 'medium'"></td>
+        <td>{{media.data.name}}</td>
+    </tr>
+</table>

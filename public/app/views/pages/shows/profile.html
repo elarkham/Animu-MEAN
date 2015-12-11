@@ -1,12 +1,13 @@
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="jumbotron" >
+    <div style="display: flex; ">
 
-        <img id="profile-img" height="317" width="225" ng-src="assets/video/{{show.showData.path}}/{{show.showData.cover_image}}"/>
+        <img id="profile-img"
+             ng-src="assets/video/{{show.showData.path}}/{{show.showData.cover_image}}"/>
 
         <div>
             <div class="page-header" id="profile-header">
-            <h2>{{show.showData.name}}</h2>
-            <h5>{{show.showData.alt_name}}</h5>
+            <h4 class="md-title" >{{show.showData.name}}
+                <small><br>{{show.showData.alt_name}}</small></h4>
             </div>
 
             <p id="profile-meta">
@@ -14,26 +15,23 @@
             {{show.showData.episode_count}} episodes <i class="fa fa-chevron-right"></i>
             {{show.showData.episode_length}} min <i class="fa fa-chevron-right"></i>
             Status - {{show.showData.status}}
-            </p>
-            <br>
+            </p> </br>
+
             <p id="profile-synop">{{show.showData.synopsis}}</p>
+            </div>
         </div>
 
+
     </div>
+    <table class="table table-bordered">
+    	<tbody>
+    		<tr ng-repeat="episode in show.showData.media | orderBy : '+name'">
+    			<td>{{ episode.name }}</td>
+    			<td class="col-sm-2">
+    				<md-button ng-href="/media/{{ episode.name }}" class="btn-black center">Watch</md-button>
+    			</td>
+    		</tr>
+    	</tbody>
+    </table>
+
 </div>
-<table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th class="col-sm-2"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="episode in show.showData.media | orderBy : '+name'">
-			<td>{{ episode.name }}</td>
-			<td class="col-sm-2">
-				<a ng-href="/media/{{ episode.name }}" class="btn btn-danger btn-block">Watch</a>
-			</td>
-		</tr>
-	</tbody>
-</table>

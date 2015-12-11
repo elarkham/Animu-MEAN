@@ -1,7 +1,14 @@
 /* CORE COMPONENTS
 ==================== */
+html {
+  background-color: #eeeded; }
+
 main {
   padding-top: 30px; }
+
+body {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  background: #eeeded; }
 
 .login-background {
   background: #242020; }
@@ -19,10 +26,30 @@ main {
 .page-header {
   margin-top: 0px; }
 
+.navbar-nav-text {
+  font-size: 1.1em; }
+
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto; }
+
+/* BUTTONS
+===================== */
+.btn-black {
+  color: #fff;
+  background-color: #242020;
+  border-radius: 10px 0 0 10px;
+  font-size: 13px;
+  margin: 0px 0px 0px 0px; }
+
+.btn-black:not([disabled]):hover {
+  color: black;
+  background-color: #616161; }
+
+.btn-black[disabled] {
+  color: #bbbbbb;
+  background-color: rgba(230, 230, 229, 0.96); }
 
 /* SHOW PAGNITATION
 ===================== */
@@ -32,7 +59,17 @@ main {
 
 .pagination li a, .pagination li a:focus, .pagination li a:hover, .pagination li span, .pagination li span:focus, .pagination li span:hover {
   color: #242020;
-  border-color: #242020; }
+  border-color: #fff; }
+
+.card {
+  font-family: "Roboto Medium",Helvetica,Arial,sans-serif;
+  width: 210px;
+  height: 391px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.2s ease-in-out; }
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
 /* SHOW PROFILE
 ===================== */
@@ -40,35 +77,54 @@ main {
   margin-top: 0px; }
 
 #profile-img {
+  height: 317px;
+  width: 225px;
   float: left;
   padding-right: 15px; }
 
 #profile-meta {
-  font-size: 13px; }
+  font-size: 12px;
+  margin-bottom: 5px; }
 
 #profile-synop {
   color: #596163;
-  font-size: 16px; }
+  font-size: 14px; }
 
-/* HEADER
+.page-header {
+  border-bottom: 1px solid #000; }
+
+.table {
+  border-radius: 2px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: white; }
+
+@media (min-width: 0px) {
+  .container .jumbotron,
+  .container-fluid .jumbotron,
+  .jumbotron {
+    padding: 10px 10px 10px 10px;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); } }
+
+/* NAV BAR (Auto Generated)
 ===================== */
 .navbar-default {
   background-color: #242020;
   border-color: #363536; }
   .navbar-default .navbar-brand {
-    color: #d1dcdf; }
+    color: #fff; }
     .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
       color: #f9f9f9; }
   .navbar-default .navbar-text {
-    color: #d1dcdf; }
+    color: #fff; }
   .navbar-default .navbar-nav > li > a {
-    color: #d1dcdf; }
+    color: #fff; }
     .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
       color: #f9f9f9; }
   .navbar-default .navbar-nav > li > .dropdown-menu {
     background-color: #242020; }
     .navbar-default .navbar-nav > li > .dropdown-menu > li > a {
-      color: #d1dcdf; }
+      color: #fff; }
       .navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover, .navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
         color: #f9f9f9;
         background-color: #363536; }
@@ -85,18 +141,18 @@ main {
     .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
       background-color: #363536; }
     .navbar-default .navbar-toggle .icon-bar {
-      background-color: #d1dcdf; }
+      background-color: #fff; }
   .navbar-default .navbar-collapse,
   .navbar-default .navbar-form {
-    border-color: #d1dcdf; }
+    border-color: #fff; }
   .navbar-default .navbar-link {
-    color: #d1dcdf; }
+    color: #fff; }
     .navbar-default .navbar-link:hover {
       color: #f9f9f9; }
 
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #d1dcdf; }
+    color: #fff; }
     .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
       color: #f9f9f9; }
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {

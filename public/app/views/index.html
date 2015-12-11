@@ -60,7 +60,7 @@
             <div class="navbar-header">
             <a href="/" id="logo" class="navbar-brand">Animu</a>
         </div>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right navbar-nav-text">
             <li><a href="/current">Current</a></li>
             <li dropdown>
                 <a href="#" dropdown-toggle>Archive<span class="caret"></span></a>
@@ -75,10 +75,11 @@
             <li dropdown ng-if="main.loggedIn">
                 <a href="#" dropdown-toggle>Profile<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Resume</a></li>
+                <!--<li><a href="#">Resume</a></li>
                     <li><a href="#">Queue</a></li>
-                    <li><a href="#">Recent</a></li>
                     <li><a href="#">Settings</a></li>
+                 -->
+                    <li><a href="/profile/recent">Recent</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="#" ng-click="main.doLogout()">Logout</a></li>
                 </ul>

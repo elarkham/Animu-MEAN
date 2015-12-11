@@ -24,12 +24,13 @@
 	<p>Loading Shows...</p>
 </div>
 
+
 <div class='md-content-padding' layout="row" layout-wrap>
-    <md-card style="width: 210px; height: 391px" dir-paginate="series in show.shows | filter: show.query | orderBy: '+name' | itemsPerPage: show.perPage">
+    <md-card class="card" dir-paginate="series in show.shows | filter: show.query | orderBy: '+name' | itemsPerPage: show.perPage">
         <a ng-href="/{{show.tag}}/{{ series.name }}" >
             <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/>
         </a>
-        <md-card-content>
+        <md-card-content class="md-whiteframe-16dp">
             <h5>{{series.name}}</h5>
         </md-card-content>
     </md-card>

@@ -2,36 +2,75 @@
 ==================== */
 $bgDefault      : #242020;
 $bgHighlight    : #363536;
-$colDefault     : #d1dcdf;
+$colDefault     : #fff;
 $colHighlight   : #f9f9f9;
 $dropDown       : true;
+
+html{
+    background-color: #eeeded;
+
+}
 
 main{
 	padding-top:30px;
 }
 
+body{
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #eeeded;
+}
+
 .login-background{
     background: $bgDefault;
+
 }
 
 #logo {
-  margin-right: 10px;
-  font-size: 2.3em;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  padding-top: 14px;
-  font-weight: bold;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin-right: 10px;
+    font-size: 2.3em;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    padding-top: 14px;
+    font-weight: bold;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
 .page-header {
     margin-top: 0px;
 }
+
+.navbar-nav-text{
+    //text-transform: uppercase;
+    font-size: 1.1em;
+}
+
 .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
+/* BUTTONS
+===================== */
+.btn-black{
+    color : $colDefault;
+    background-color: $bgDefault;
+    border-radius: 10px 0 0 10px;
+    font-size: 13px;
+    margin: 0px 0px 0px 0px;
+}
+
+.btn-black:not([disabled]):hover {
+    color: black;
+    background-color: #616161;
+}
+
+.btn-black[disabled]{
+    color : rgb(187, 187, 187);
+    background-color: rgba(230, 230, 229, 0.96);
+}
+
 
 /* SHOW PAGNITATION
 ===================== */
@@ -46,28 +85,68 @@ main{
     li{
          a, a:focus, a:hover, span, span:focus, span:hover{
             color: $bgDefault;
-            border-color: $bgDefault;
+            border-color: $colDefault;
         }
 
     }
 }
+
+.card {
+    font-family: "Roboto Medium",Helvetica,Arial,sans-serif;
+    width: 210px;
+    height: 391px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s ease-in-out;
+}
+.card:hover{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+
 /* SHOW PROFILE
 ===================== */
 #profile-header{
     margin-top: 0px;
 }
+
 #profile-img {
+    height: 317px;
+    width: 225px;
     float: left;
     padding-right: 15px
 }
+
 #profile-meta {
-    font-size: 13px;
+    font-size: 12px;
+    margin-bottom: 5px;
 }
+
 #profile-synop {
     color: #596163;
-    font-size: 16px;
+    font-size: 14px;
 }
-/* HEADER
+
+.page-header{
+    border-bottom: 1px solid #000;
+}
+
+.table{
+    border-radius: 2px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    background-color: white;
+}
+
+@media (min-width: 0px) {
+    .container .jumbotron,
+    .container-fluid .jumbotron,
+    .jumbotron {
+        padding: 10px 10px 10px 10px;
+        background-color: white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    }
+}
+
+/* NAV BAR (Auto Generated)
 ===================== */
 .navbar-default {
   background-color: $bgDefault;
@@ -77,7 +156,9 @@ main{
     &:hover, &:focus {
       color: $colHighlight; }}
   .navbar-text {
-    color: $colDefault; }
+    color: $colDefault;
+
+    }
   .navbar-nav {
     > li {
       > a {

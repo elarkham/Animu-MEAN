@@ -22,6 +22,14 @@ angular.module('app.routes', ['ngRoute'])
             controllerAs: 'home'
 		})
 
+        /* Profile Routes
+         ====================*/
+        //Shows a list of recently watched shows
+        .when('/profile/recent', {
+			templateUrl : 'app/views/pages/users/profile/recent.html',
+			controller: 'userMeController',
+            controllerAs: 'user'
+		})
 
         /* OVA Routes
          ====================*/
@@ -100,7 +108,7 @@ angular.module('app.routes', ['ngRoute'])
 			controller: 'showProfileController',
 			controllerAs: 'show'
 		})
-        /* User Routes
+        /* User Managment Routes
          ====================*/
 
         // show all users

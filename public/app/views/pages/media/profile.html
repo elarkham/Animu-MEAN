@@ -1,5 +1,11 @@
 <div class="page-header">
-    <h3>{{media.mediaData.name}}</h3>
+    <h3>
+        <span>{{media.mediaData.name}}</span>
+        <md-button target="_self"
+           download="{{media.mediaData.name}}"
+           ng-href="{{media.config.sources[0].src}}"
+           class="btn-black pull-right col-sm-2">Download</md-button>
+    </h3>
 </div>
 
 <!--
@@ -13,7 +19,7 @@
     <videogular vg-theme="media.config.theme" vg-player-ready="me.saveUserWatched($API, media.media_name)" >
         <vg-media vg-src="media.config.sources"> </vg-media>
 
-        <vg-controls>
+        <vg-controls vg-autohide="true">
             <vg-play-pause-button></vg-play-pause-button>
             <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
             <vg-scrub-bar>

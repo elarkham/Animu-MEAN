@@ -16,6 +16,7 @@
     "mocha": "^2.2.5",
     "mongoose": "^4.0.7",
     "morgan": "~1.6.1",
+    "node-sass": "^3.4.2",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

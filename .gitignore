@@ -34,6 +34,7 @@ config.js
 
 #Vim backups
 *.swp
+*.swo
 
 #Bower files
 public/assets/libs

@@ -42,9 +42,9 @@ angular.module('auth.client.service', [])
 	};
 
 	// get the logged in user
-	authFactory.getUser = function() {
+	authFactory.getUser = function(recent) {
 		if (AuthToken.getToken())
-			return $http.get('/api/me', { cache: false });
+			return $http({ url:'/api/me', method:'GET', params: { 'tag' : recent } });
         else
 			return $q.reject({ message: 'User has no token.' });
 	};

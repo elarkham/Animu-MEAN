@@ -8,7 +8,7 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="show in user.userData.shows_watched.slice().reverse()"ng-if="$index < 10">
+    <tr ng-repeat="show in user.userData.media_watched.slice()">
         <td class="col-md-2" ng-bind="user.format_date(show.date) | date: 'medium'"></td>
         <td>{{show.data.name}}</td>
     </tr>
@@ -20,7 +20,7 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="media in user.userData.media_watched.slice().reverse()" ng-if="$index < 10">
+    <tr ng-repeat="media in user.userData.shows_watched.slice()">
         <td class="col-md-2" ng-bind="user.format_date(media.date) | date: 'medium'"></td>
         <td>{{media.data.name}}</td>
     </tr>

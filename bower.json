@@ -32,6 +32,7 @@
     "videogular-controls": "1.4.0",
     "videogular-overlay-play": "1.4.0",
     "videogular-poster": "1.4.0",
-    "videogular-themes-default": "1.4.0"
+    "videogular-themes-default": "1.4.0",
+    "bower-videogular-chromecast": "videogular-chromecast#~1.1.3"
   }
 }

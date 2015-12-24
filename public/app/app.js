@@ -11,6 +11,7 @@ angular.module('animu', ['ngAnimate',
                         'com.2fdevs.videogular.plugins.controls',
                         'com.2fdevs.videogular.plugins.overlayplay',
                         'com.2fdevs.videogular.plugins.poster',
+                        'com.benjipott.videogular.plugins.chromecast',
 
                         'auth.client.service', //My Controllers + Services
                         'main.client.controller',

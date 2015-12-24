@@ -11,10 +11,6 @@ html{
 
 }
 
-main{
-	padding-top:30px;
-}
-
 body{
     font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #eeeded;
@@ -22,8 +18,14 @@ body{
 
 .login-background{
     background: $bgDefault;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .jumbotron{
+        padding: 40px 40px 40px 40px !important;
+    }
 }
+
 
 #logo {
     margin-right: 10px;
@@ -50,6 +52,7 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
+
 
 /* BUTTONS
 ===================== */
@@ -94,6 +97,7 @@ body{
 .card {
     font-family: "Roboto Medium",Helvetica,Arial,sans-serif;
     width: 210px;
+    min-width: 210px;
     height: 391px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.2s ease-in-out;

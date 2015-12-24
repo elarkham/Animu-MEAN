@@ -76,7 +76,6 @@ exports.read = function(req, res) {
 
         else {
             console.log(chalk.green('Returning user: \'' + user.username + '\''));
-            user.
             res.json(user);
         }
     });
@@ -116,8 +115,8 @@ exports.update = function(req, res) {
                 if ( req.body.password )      user.password = req.body.password;
 
                 // update what shows user has watched
-                if ( req.body.shows_watched ) user.shows_watched = req.body.shows_watched;
-                if ( req.body.media_watched ) user.media_watched = req.body.media_watched;
+                if ( req.body.shows_watched ) user.shows_watched = req.body.shows_watched.slice();
+                if ( req.body.media_watched ) user.media_watched = req.body.media_watched.slice();
 
                 // only an admin can modify this attribute
                 if (req.body.admin){

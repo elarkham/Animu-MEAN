@@ -248,8 +248,12 @@ exports.list = function(req, res) {
     var all;
 
     if(tag == "current_recent_updated"){
-        all = Show.find({"tags": "current"}).sort({"updated_at":0}).limit(5)
-    } if(tag){
+        all = Show.find({"tags": "current"}).sort({"updated_at":-1}).limit(5);
+    } else if(tag == "archive_recent_added"){
+        all = Show.find().select("name cover_image tags created_at path")
+                         .select({"tags": "-current"})
+                         .sort({"created_at":-1}).limit(5);
+    } else if(tag){
         console.log(chalk.blue('Listing all ' + tag ));
         all = Show.find({"tags": tag});
     } else {
@@ -261,7 +265,10 @@ exports.list = function(req, res) {
         if (err) console.log(chalk.red(err.message));
 
         // return the show
-        else res.json(shows);
+        else {
+            console.log(shows);
+            res.json(shows);
+        }
     });
 };
 

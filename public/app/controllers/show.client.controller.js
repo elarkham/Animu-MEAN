@@ -1,45 +1,54 @@
 'use strict';
 angular.module('show.client.controller', ['show.client.service'])
 
+.controller('showController', function( Show, Auth ) {
 
-.controller('showController', function( Show ) {
+var vm = this;
+
+// set a processing variable to show loading things
+vm.processing = true;
+vm.perPage = 30;
+vm.query = "";
+
+// grab all the shows at page load
+Show.all().success(function(data) {
+
+        // when all the shows come back, remove the processing variable
+        vm.processing = false;
+
+        // bind the shows that come back to vm.shows
+        vm.shows = data;
+    });
+
+})
+
+.controller('showHomeController', function( Show, Auth ) {
 
 	var vm = this;
 
 	// set a processing variable to show loading things
 	vm.processing = true;
-    vm.perPage = 30;
-    vm.query = "";
 
-	// grab all the shows at page load
-	Show.all( null )
+    //Gets most recent watched by user, this selects 5.
+    Auth.getUser(5).then(function(user_request){
+        vm.recent = user_request.data.shows_watched;
+    });
+
+	Show.all( 'current_recent_updated' )
 		.success(function(data) {
 
-			// when all the shows come back, remove the processing variable
-			vm.processing = false;
-
 			// bind the shows that come back to vm.shows
-			vm.shows = data;
+			vm.current_shows = data;
 		});
 
-	// function to delete a show
-	vm.deleteShow = function( name ) {
-		vm.processing = true;
+	Show.all( 'archive_recent_added' )
+		.success(function(data) {
 
-		Show.delete( name )
-			.success(function(data) {
+            vm.processing = false;
 
-				// get all shows to update the table
-				// you can also set up your api
-				// to return the list of shows with the delete call
-				Show.all( null )
-					.success(function(data) {
-						vm.processing = false;
-						vm.shows = data;
-					});
-
-			});
-	};
+			// bind the shows that come back to vm.shows
+			vm.archive_shows = data;
+		});
 
 })
 

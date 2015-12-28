@@ -5,19 +5,19 @@ angular.module('app.routes', ['ngRoute'])
 
 	$routeProvider
 
-        /* Site Routes
+        /* Main Site Routes
          ====================*/
 
-		// login page
+		// Login Page
 		.when('/login', {
-			templateUrl : 'app/views/pages/login.html',
+			templateUrl : 'app/authenticate/login.html',
    			controller  : 'authController',
     		controllerAs: 'login'
 		})
 
-		// route for the home page
+		// Home Page
 		.when('/', {
-			templateUrl : 'app/views/pages/home.html',
+			templateUrl : 'app/home.html',
             controller  : 'showHomeController',
             controllerAs: 'home'
 		})
@@ -26,66 +26,76 @@ angular.module('app.routes', ['ngRoute'])
          ====================*/
         //Shows a list of recently watched shows
         .when('/profile/recent', {
-			templateUrl : 'app/views/pages/users/profile/recent.html',
+			templateUrl : 'app/user/views/profile/recent.html',
 			controller: 'userMeController',
             controllerAs: 'user'
 		})
 
-        /* OVA Routes
+        /* OVA Archive Routes
          ====================*/
         // show all OVA
 		.when('/ova', {
-			templateUrl: 'app/views/pages/shows/list.html',
+			templateUrl: 'app/show/views/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
+
+            //Hack to let me relay what tag I want for this page when it
+            //loads and what I want the offical "Title" at the top to be
             resolve: {
                 tag: function($route){$route.current.params.tag = "ova"},
                 title: function($route){$route.current.params.title = "OVA"}
             }
 		})
 
-        // page to show profile
+        // Allows the tag to be in the URN when navigating to a show's profile
 		.when('/ova/:show_name', {
-			templateUrl: 'app/views/pages/shows/profile.html',
+			templateUrl: 'app/show/views/profile.html',
 			controller: 'showProfileController',
 			controllerAs: 'show'
 		})
 
-        /* Series Routes
+        /* Series Archive Routes
          ====================*/
         // show all OVA
 		.when('/series', {
-			templateUrl: 'app/views/pages/shows/list.html',
+			templateUrl: 'app/show/views/list.html',
+			controller: 'showTagController',
 			controller: 'showTagController',
 			controllerAs: 'show',
+
+            //Hack to let me relay what tag I want for this page when it
+            //loads and what I want the offical "Title" at the top to be
             resolve: {
                 tag: function($route){$route.current.params.tag = "series"},
                 title: function($route){$route.current.params.title = "Series"}
             }
 		})
 
-        // page to show profile
+        // Allows the tag to be in the URN when navigating to a show's profile
 		.when('/series/:show_name', {
-			templateUrl: 'app/views/pages/shows/profile.html',
+			templateUrl: 'app/show/views/profile.html',
 			controller: 'showProfileController',
 			controllerAs: 'show'
 		})
 
-        /* Movies Routes
+        /* Movies Archive Routes
          ====================*/
 		.when('/movies', {
-			templateUrl: 'app/views/pages/shows/list.html',
+			templateUrl: 'app/show/views/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
+
+            //Hack to let me relay what tag I want for this page when it
+            //loads and what I want the offical "Title" at the top to be
             resolve: {
                 tag: function($route){$route.current.params.tag = "movies"},
                 title: function($route){$route.current.params.title = "Movies"}
             }
 		})
 
-        // page to show profile
+        // Allows the tag to be in the URN when navigating to a show's profile
 		.when('/movies/:show_name', {
-			templateUrl: 'app/views/pages/shows/profile.html',
+			templateUrl: 'app/show/views/profile.html',
 			controller: 'showProfileController',
 			controllerAs: 'show'
 		})
@@ -93,18 +103,21 @@ angular.module('app.routes', ['ngRoute'])
         /* Current Season Routes
          ====================*/
 		.when('/current', {
-			templateUrl: 'app/views/pages/shows/list.html',
+			templateUrl: 'app/show/views/list.html',
 			controller: 'showTagController',
 			controllerAs: 'show',
+
+            //Hack to let me relay what tag I want for this page when it
+            //loads and what I want the offical "Title" at the top to be
             resolve: {
                 tag: function($route){$route.current.params.tag = "current"},
                 title: function($route){$route.current.params.title = "Current Season"}
             }
 		})
 
-        // page to show profile
+        // Allows the tag to be in the URN when navigating to a show's profile
 		.when('/current/:show_name', {
-			templateUrl: 'app/views/pages/shows/profile.html',
+			templateUrl: 'app/show/views/profile.html',
 			controller: 'showProfileController',
 			controllerAs: 'show'
 		})
@@ -113,7 +126,7 @@ angular.module('app.routes', ['ngRoute'])
 
         // show all users
 		.when('/users', {
-			templateUrl: 'app/views/pages/users/all.html',
+			templateUrl: 'app/user/views/all.html',
 			controller: 'userController',
 			controllerAs: 'user'
 		})
@@ -121,21 +134,21 @@ angular.module('app.routes', ['ngRoute'])
 		// form to create a new user
 		// same view as edit page
 		.when('/users/create', {
-			templateUrl: 'app/views/pages/users/single.html',
+			templateUrl: 'app/user/views/single.html',
 			controller: 'userCreateController',
 			controllerAs: 'user'
 		})
 
 		// page to edit a user
 		.when('/users/edit/:user_id', {
-			templateUrl: 'app/views/pages/users/single.html',
+			templateUrl: 'app/user/views/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
 		})
 
         // page to user profile
 		.when('/users/:user_id', {
-			templateUrl: 'app/views/pages/users/profile.html',
+			templateUrl: 'app/user/views/profile.html',
 			controller: 'userProfileController',
 			controllerAs: 'user'
 		})
@@ -144,29 +157,28 @@ angular.module('app.routes', ['ngRoute'])
 
         // show all shows
 		.when('/shows', {
-			templateUrl: 'app/views/pages/shows/all.html',
+			templateUrl: 'app/show/views/all.html',
 			controller: 'showController',
 			controllerAs: 'show'
 		})
 
 		// form to create a new show
-		// same view as edit page
 		.when('/shows/create', {
-			templateUrl: 'app/views/pages/shows/create.html',
+			templateUrl: 'app/show/views/create.html',
 			controller: 'showCreateController',
 			controllerAs: 'show'
 		})
 
 		// page to edit a show
 		.when('/shows/edit/:show_name', {
-			templateUrl: 'app/views/pages/shows/edit.html',
+			templateUrl: 'app/show/views/edit.html',
 			controller: 'showEditController',
 			controllerAs: 'show'
 		})
 
         // page to show profile
 		.when('/shows/:show_name', {
-			templateUrl: 'app/views/pages/shows/profile.html',
+			templateUrl: 'app/show/views/profile.html',
 			controller: 'showProfileController',
 			controllerAs: 'show'
 		})
@@ -176,29 +188,28 @@ angular.module('app.routes', ['ngRoute'])
 
         // show all media
 		.when('/media', {
-			templateUrl: 'app/views/pages/media/all.html',
+			templateUrl: 'app/media/views/all.html',
 			controller: 'mediaController',
 			controllerAs: 'media'
 		})
 
 		// form to create a new media
-		// same view as edit page
 		.when('/media/create', {
-			templateUrl: 'app/views/pages/media/create.html',
+			templateUrl: 'app/media/views/create.html',
 			controller: 'mediaCreateController',
 			controllerAs: 'media'
 		})
 
 		// page to edit a media
 		.when('/media/edit/:media_name', {
-			templateUrl: 'app/views/pages/media/edit.html',
+			templateUrl: 'app/media/views/edit.html',
 			controller: 'mediaEditController',
 			controllerAs: 'media'
 		})
 
         // page to view media
 		.when('/media/:media_name', {
-			templateUrl: 'app/views/pages/media/profile.html',
+			templateUrl: 'app/media/views/profile.html',
 			controller: 'mediaProfileController',
 			controllerAs: 'media'
 		});

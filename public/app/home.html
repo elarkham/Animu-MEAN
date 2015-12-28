@@ -1,0 +1,50 @@
+<!--
+<div class="jumbotron center" style="text-align:center; width: 60%">
+    <h2>Hey {{main.user.name}}</h2>
+    <div class=" embed-responsive embed-responsive-16by9">
+    <iframe class="center embed-responsive-item" src="https://www.youtube.com/embed/V4U4FkGe3Sw" allowfullscreen></iframe>
+    </div>
+    <small><small><small>Also the site should be faster now</small></small></small>
+</div>
+-->
+
+<!--A list of the 5 most recent shows the user has watched -->
+<h4 class="page-header">Last Watched:</h4>
+<div class='md-content-padding' layout="row">
+    <md-card class="card" ng-repeat="series in home.recent">
+        <a ng-href="/{{series.data.tags[0]}}/{{ series.data.name }}" >
+            <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.data.path}}/{{series.data.cover_image}}"/>
+        </a>
+        <md-card-content class="md-whiteframe-16dp">
+            <h5>{{series.data.name}}</h5>
+        </md-card-content>
+    </md-card>
+</div>
+
+<!--A list of the 5 most recent shows released that are ONLY apart of the current season tag -->
+<h4 class="page-header" style="margin-top: 5px;">Recent Season Releases:</h4>
+<div class='md-content-padding' layout="row">
+    <md-card class="card" ng-repeat="series in home.current_shows">
+        <a ng-href="/{{series.tags[0]}}/{{ series.name }}" >
+            <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/>
+        </a>
+        <md-card-content class="md-whiteframe-16dp">
+            <h5>{{series.name}}</h5>
+        </md-card-content>
+    </md-card>
+</div>
+
+<!--A list of the 5 most recent additions to the archive, this includes all tags excluding the 'current' tag -->
+<h4 class="page-header" style="margin-top: 5px;">Recent Additions To Archive:</h4>
+<div class='md-content-padding' layout="row">
+    <md-card class="card" ng-repeat="series in home.archive_shows">
+        <a ng-href="/{{series.tags[0]}}/{{ series.name }}" >
+            <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.path}}/{{series.cover_image}}"/>
+        </a>
+        <md-card-content class="md-whiteframe-16dp">
+            <h5>{{series.name}}</h5>
+        </md-card-content>
+    </md-card>
+</div>
+
+

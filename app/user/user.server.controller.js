@@ -176,7 +176,7 @@ exports.delete = function(req, res) {
         return complete(error, null);
     }
 
-    console.log(chalk.yellow('Searching for user with id ' + user_id ) );
+    console.log(chalk.yellow('Searching for user with id ' + req.params.user_id ) );
     User.findOne({'_id': req.params.user_id}).exec(function(err, user){
         if (!user) {
             error = 'No user with that name exists.';

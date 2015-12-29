@@ -1,7 +1,7 @@
 'use strict';
 angular.module('main.client.controller', ['interceptor.client.service'])
 
-.controller('authController', function($rootScope, $location, Auth ) {
+.controller('authController', function($rootScope, $location, Auth, User ) {
 
 	var vm = this;
 	vm.loggedIn = Auth.isLoggedIn();
@@ -9,6 +9,11 @@ angular.module('main.client.controller', ['interceptor.client.service'])
     // Makes sure user is logged during every request
 	$rootScope.$on('$routeChangeStart', function() {
 		vm.loggedIn = Auth.isLoggedIn();
+
+        Auth.getUser().then(function(user){
+            vm.user = user.data;
+        });
+
 	});
 
 	vm.doLogin = function() {

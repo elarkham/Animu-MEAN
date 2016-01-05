@@ -1,33 +1,26 @@
 'use strict';
-var user          = require('./user.server.controller.js');
+var user = require('./user.server.controller.js');
 var show_history  = require('./internal/user.show_history.controller.js');
 var media_history = require('./internal/user.media_history.controller.js');
 var queue         = require('./internal/user.queue.controller.js');
 
 module.exports = function( app, express ) {
-    var userRouter = express.Router();
+    var meRouter = express.Router();
 
-    userRouter.route('/users')
+    meRouter.route('/me')
 
-        // Create new user
-        .post(user.create)
+        // Adds bulk data to user
+        .post(user.push)
 
-        // Get all users
-        .get(user.list);
-
-    userRouter.route('/users/:user_id')
-
-        // Get the user with this id
+        // Get current user with query
         .get(user.read)
 
-        // Update the user with this id
+        // Update the current user
         .put(user.update)
 
-        // Delete the user with this id
-        .delete(user.delete);
-
-        // Adds bulk data user with this id
-        //.post(user.push);
+        // Delete the current user's data
+        // except username and password
+        .delete(user.reset);
 
     //============================================
     // Show History
@@ -37,18 +30,18 @@ module.exports = function( app, express ) {
     //  - date : Date     - Date last watched
     //  - seq  : Number   - Episode Number
     //============================================
-    userRouter.route('/users/:user_id/show-history')
+    meRouter.route('/me/show-history')
 
         // Gets show pill array based on query
         .get(show_history.get)
 
-        // Adds an array of show pills
+        // Adds an array of show pills to current user
         .post(show_history.push);
 
-    userRouter.route('/users/:user_id/show-history/:show_name')
+    meRouter.route('/me/show-history/:show_name')
 
         // Deletes show pill with given show name
-        .delete(show_history.delete);
+        .delete(user.delete);
 
     //============================================
     // Media History
@@ -58,15 +51,15 @@ module.exports = function( app, express ) {
     //  - date  : Date      - Date last watched
     //  - prog  : Number    - Progress in seconds
     //============================================
-    userRouter.route('/users/:user_id/media-history')
+    meRouter.route('/me/media-history')
 
         // Gets show pill array based on query
         .get(media_history.get)
 
-        // Adds an array of show pills
+        // Adds an array of show pills to current user
         .post(media_history.push);
 
-    userRouter.route('/users/:user_id/media-history/:media_name')
+    meRouter.route('/me/media-history/:media_name')
 
         // Deletes media pill with given media name
         .delete(media_history.delete);
@@ -78,7 +71,7 @@ module.exports = function( app, express ) {
     //  - show : show._id - The show planned
     //  - prio : Number   - Where on the queue
     //============================================
-    userRouter.route('/users/:user_id/queue')
+    meRouter.route('/me/queue')
 
         // Gets queue pill array based on query
         .get(queue.get)
@@ -86,10 +79,10 @@ module.exports = function( app, express ) {
         // Adds an array of queue pills to user's queue
         .post(queue.push);
 
-    userRouter.route('/users/:user_id/queue/:show_name')
+    meRouter.route('/me/queue/:show_name')
 
         // Deletes queue pill with given show name
         .delete(queue.delete);
 
-    return userRouter;
+    return meRouter;
 };

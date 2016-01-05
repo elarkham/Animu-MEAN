@@ -4,8 +4,6 @@ const bodyParser  = require('body-parser');
 
 const mongoose    = require('mongoose');
 const ObjectId    = require('mongoose').Types.ObjectId;
-const Show        = require('./app/show/show.server.model.js');
-const Media       = require('./app/media/media.server.model.js');
 
 const config      = require('./config');
 const favicon     = require('express-favicon');
@@ -48,10 +46,12 @@ var apiRouter = require('./libs/api.server.routes.js')(app, express);
 app.use( '/api', apiRouter );
 
 var userRouter  = require('./app/user/user.server.routes.js')(app, express);
+var meRouter    = require('./app/user/me.server.routes.js')(app, express);
 var showRouter  = require('./app/show/show.server.routes.js')(app, express);
 var mediaRouter = require('./app/media/media.server.routes.js')(app, express);
 
 apiRouter.use( userRouter  );
+apiRouter.use( meRouter    );
 apiRouter.use( showRouter  );
 apiRouter.use( mediaRouter );
 

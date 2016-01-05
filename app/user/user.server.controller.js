@@ -50,7 +50,7 @@ exports.create = function(req, res) {
     function complete( err, user ){
         var msg;
         if (err){
-            msg = 'Failed to save new user'
+            msg = 'Failed to save new user';
             console.log( err.err );
             console.log( chalk.red.bold( msg ) );
             return res.json({ success: false, message: msg });
@@ -67,15 +67,23 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
     console.log(chalk.blue('User Requested'));
     var error;
+    var id;
 
+    // This is shared by the '/user/:user_id' route and the
+    // '/me' route. If there is no :user_id we assume its
+    // being used by '/me'.
     if (!req.params.user_id) {
-        error = new Error('No paramater');
-        return complete(error, null);
+        if( req.decoded._id ) id = req.decoded._id;
+        else {
+            error = new Error('No paramater');
+            return complete(error, null);
+        }
     }
+    else id = req.params.user_id;
 
-    console.log(chalk.yellow('Searching for user with id ' + req.params.user_id));
-    User.findById(req.params.user_id)
-        .populate('shows_watched.data media_watched.data')
+    console.log(chalk.yellow('Searching for user with id ' + id));
+    User.findById(id)
+        .populate('show_history.show media_history.media queue.show')
         .exec(function(err, user) {
 
         if (!user){
@@ -93,7 +101,7 @@ exports.read = function(req, res) {
             console.log( chalk.red.bold( msg ) );
             return res.json({ success: false, message: msg });
         }
-        msg = 'Creation Successfull!';
+        msg = 'Search was Successfull!';
         console.log( chalk.green( msg ) );
         return res.json( user );
     }
@@ -106,13 +114,22 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
     console.log(chalk.blue('Update for User Requested'));
     var error;
+    var id;
 
-    if ( !req.params.user_id ){
-        error = new Error('No parameter')
+    // This is shared by the '/user/:user_id' route and the
+    // '/me' route. If there is no :user_id we assume that
+    // its being used by '/me'.
+    if (!req.params.user_id) {
+        if( req.decoded._id ) id = req.decoded._id;
+        else {
+            error = new Error('No paramater');
+            return complete(error, null);
+        }
     }
+    else id = req.params.user_id;
 
-    console.log(chalk.yellow('Searching for user with id ' + req.params.user_id));
-    User.findById(req.params.user_id, function(err, user) {
+    console.log(chalk.yellow('Searching for user with id ' + id));
+    User.findById(id, function(err, user) {
 
         if (!user) {
             var error = new Error('User with that id does not exist.');
@@ -150,8 +167,8 @@ exports.update = function(req, res) {
                 msg ='Username already exists.';
                 return complete( error, null );
             }else if (err){
-                msg = 'Failed to save new User'
-                cosole.log(err.err);
+                msg = 'Failed to save new User';
+                console.log(err.err);
                 console.log( chalk.red.bold( msg ) );
                 return res.json({ success: false, message: msg });
             }
@@ -176,7 +193,7 @@ exports.delete = function(req, res) {
         return complete(error, null);
     }
 
-    console.log(chalk.yellow('Searching for user with id ' + user_id ) );
+    console.log(chalk.yellow('Searching for user with id ' + req.params.user_id ) );
     User.findOne({'_id': req.params.user_id}).exec(function(err, user){
         if (!user) {
             error = 'No user with that name exists.';
@@ -199,6 +216,71 @@ exports.delete = function(req, res) {
 };
 
 /**
+ * Reset User
+ */
+exports.reset = function(req, res) {
+    console.log(chalk.blue('User reset requested'));
+    var error;
+    var id;
+
+    // Only /me can access this at the moment. Leaving this
+    // statment for when I figure out how I want /users to
+    // get to this function in the future.
+    if (!req.params.user_id) {
+        if( req.decoded._id ) id = req.decoded._id;
+        else {
+            error = new Error('No paramater');
+            return complete(error, null);
+        }
+    }
+    else id = req.params.user_id;
+
+    console.log(chalk.yellow('Searching for user with id ' + id));
+    User.findById(id, function(err, user) {
+
+        if (!user) {
+            var error = new Error('User with that id does not exist.');
+            return complete( error, null );
+        }
+
+        user.name          = '';
+        user.queue         = [];
+        user.show_history  = [];
+        user.media_history = [];
+
+        user.save( function(user, err){
+            complete( user, err );
+        });
+
+    });
+
+    function complete( err, user ){
+        var msg;
+
+        if (err){
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
+        }
+
+        console.log(chalk.yellow('Saving...') );
+        user.save( function(err) {
+            if (err){
+                msg = 'Failed to save User';
+                console.log(err.err);
+                console.log( chalk.red.bold( msg ) );
+                return res.json({ success: false, message: msg });
+            }
+            console.log(user);
+            msg = 'Reset of ' + user.name + ' was Successfull!';
+            console.log( chalk.green( msg ) );
+            return res.json({ success: true, message: msg });
+        });
+
+    }
+};
+
+/**
  * List of Users
  */
 exports.list = function(req, res) {
@@ -209,3 +291,78 @@ exports.list = function(req, res) {
         res.json(users);
     });
 };
+
+/**
+ * Push to User
+ */
+exports.push = function(req, res) {
+    console.log(chalk.blue('Data has been pushed to a User'));
+    var error;
+    var id;
+
+    // This is shared by the '/user/:user_id' route and the
+    // '/me' route. If there is no :user_id we assume that
+    // its being used by '/me'.
+    if (!req.params.user_id) {
+        if( req.decoded._id ) id = req.decoded._id;
+        else {
+            error = new Error('No paramater');
+            return complete(error, null);
+        }
+    }
+    else id = req.params.user_id;
+
+    console.log(chalk.yellow('Searching for user with id ' + id));
+    User.findById(id).exec( function(err, user) {
+
+        if (!user) {
+            var error = new Error('User with that id does not exist.');
+            return complete( error, null );
+        }
+
+        /*** Capusle Object
+         *  ------------------------------------------------------------------------------
+         *  'show_history'  : [{ show, date, seq  }]  -Tracks what show a user watched
+         *  'media_history' : [{ show, date, prog }]  -Tracks what media a user watched
+         *  'queue'         : [{ show, prio }]        -Shows the user plans to watch
+         ***/
+
+        if ( req.body.show_history  ) user.push_shows(req.query.show_history,  error_check);
+        if ( req.body.media_history ) user.push_media(req.query.media_history, error_check);
+        if ( req.body.queue         ) user.push_queue(req.query.query, error_check);
+
+        complete( err, user );
+    });
+
+    function error_check( err ){
+        if( err ){
+            complete(err, null);
+        }
+    }
+
+    function complete( err, user ){
+        var msg;
+
+        if (err){
+            msg = err.message;
+            console.log( chalk.red.bold( msg ) );
+            return res.json({ success: false, message: msg });
+        }
+
+        console.log(chalk.yellow('Saving...') );
+        user.save( function(err) {
+            if (err){
+                msg = 'Failed to save new User';
+                console.log(err.err);
+                console.log( chalk.red.bold( msg ) );
+                return res.json({ success: false, message: msg });
+            }
+            console.log(user);
+            msg = 'Push to ' + user.username + ' was Successfull!';
+            console.log( chalk.green( msg ) );
+            return res.json({ success: true, message: msg });
+        });
+
+    }
+};
+

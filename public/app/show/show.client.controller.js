@@ -32,17 +32,18 @@ angular.module('show.client.controller', ['show.client.service'])
  * the scope of just listing shows. But for now this is the most
  * appropriate location.
  */
-.controller('showHomeController', function( Show, Auth ) {
+.controller('showHomeController', function( Show, Me ) {
 
- 	 var vm = this;
+ 	var vm = this;
 
 	vm.processing = true;
 
     //========================================================
     //  User's Last Watched
     //========================================================
-    Auth.getUser(5).then(function(user_request){
-        vm.recent = user_request.data.shows_watched;
+    Me.get().then(function(user_request){
+        vm.recent = user_request.data.show_history;
+        console.log(vm.recent);
     });
 
     //========================================================

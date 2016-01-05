@@ -14,6 +14,8 @@ exports.create = function(req, res) {
     console.log(chalk.blue('Creation of new Media requested'));
     var media = new Media();
 
+    console.log(req.body);
+
     //make sure name was included
     if( !req.body.name ){
         var error = new Error('Name Required');

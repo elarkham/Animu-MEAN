@@ -37,14 +37,6 @@ angular.module('interceptor.client.service', [])
 			return false;
 	};
 
-    // Gets Logged in user
-	authFactory.getUser = function(recent) {
-		if (AuthToken.getToken())
-			return $http({ url:'/api/me', method:'GET', params: { 'tag' : recent } });
-        else
-			return $q.reject({ message: 'User has no token.' });
-	};
-
 	return authFactory;
 
 })

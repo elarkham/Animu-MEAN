@@ -37,6 +37,10 @@ exports.create = function(req, res) {
 
     if ( req.body.name ) user.name = req.body.name;
 
+    // only an admin can modify this attribute
+    if (req.body.admin && ( req.decoded.admin === true ) ) {
+            user.admin = req.body.admin;
+    }
 
     user.save(function(err, user) {
         if (err && err.code === 11000) {
@@ -142,13 +146,15 @@ exports.update = function(req, res) {
         if ( req.body.password ) user.password = req.body.password;
 
         // update what shows user has watched
-        if ( req.body.shows_watched ) user.shows_watched = req.body.shows_watched.slice();
-        if ( req.body.media_watched ) user.media_watched = req.body.media_watched.slice();
+        if ( req.body.show_history  ) user.show_history  = req.body.show_history.slice();
+        if ( req.body.media_history ) user.media_history = req.body.media_history.slice();
 
         // only an admin can modify this attribute
         if (req.body.admin && ( req.decoded.admin === true ) ) {
                 user.admin = req.body.admin;
         }
+
+        complete( err, user );
 
     });
 
@@ -325,11 +331,12 @@ exports.push = function(req, res) {
          *  'show_history'  : [{ show, date, seq  }]  -Tracks what show a user watched
          *  'media_history' : [{ show, date, prog }]  -Tracks what media a user watched
          *  'queue'         : [{ show, prio }]        -Shows the user plans to watch
+         *  ------------------------------------------------------------------------------
          ***/
 
-        if ( req.body.show_history  ) user.push_shows(req.query.show_history,  error_check);
-        if ( req.body.media_history ) user.push_media(req.query.media_history, error_check);
-        if ( req.body.queue         ) user.push_queue(req.query.query, error_check);
+        if ( req.body.show_history  ) user.push_shows(req.body.show_history,  error_check);
+        if ( req.body.media_history ) user.push_media(req.body.media_history, error_check);
+        if ( req.body.queue         ) user.push_queue(req.body.query, error_check);
 
         complete( err, user );
     });

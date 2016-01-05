@@ -11,12 +11,12 @@
 <!--A list of the 5 most recent shows the user has watched -->
 <h4 class="page-header">Last Watched:</h4>
 <div class='md-content-padding' layout="row">
-    <md-card class="card" ng-repeat="series in home.recent">
-        <a ng-href="/{{series.data.tags[0]}}/{{ series.data.name }}" >
-            <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{series.data.path}}/{{series.data.cover_image}}"/>
+    <md-card class="card" ng-repeat="watched in home.recent">
+        <a ng-href="/{{watched.show.tags[0]}}/{{ watched.show.name }}" >
+            <img height="310" width="225" class="md-card-image" ng-src="assets/video/{{watched.show.path}}/{{watched.show.cover_image}}"/>
         </a>
         <md-card-content class="md-whiteframe-16dp">
-            <h5>{{series.data.name}}</h5>
+            <h5>{{watched.show.name}}</h5>
         </md-card-content>
     </md-card>
 </div>

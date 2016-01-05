@@ -8,9 +8,9 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="show in user.userData.media_watched.slice()">
-        <td class="col-md-2" ng-bind="user.format_date(show.date) | date: 'medium'"></td>
-        <td>{{show.data.name}}</td>
+    <tr ng-repeat="watched in me.user_data.show_history">
+        <td class="col-md-2" ng-bind="me.format_date(watched.date) | date: 'medium'"></td>
+        <td>{{watched.show.name}}</td>
     </tr>
 </table>
 
@@ -20,8 +20,8 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="media in user.userData.shows_watched.slice()">
-        <td class="col-md-2" ng-bind="user.format_date(media.date) | date: 'medium'"></td>
-        <td>{{media.data.name}}</td>
+    <tr ng-repeat="watched in me.user_data.media_history">
+        <td class="col-md-2" ng-bind="me.format_date(watched.date) | date: 'medium'"></td>
+        <td>{{watched.media.name}}</td>
     </tr>
 </table>

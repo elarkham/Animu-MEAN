@@ -6,7 +6,6 @@ angular.module('animu', [
                         'ui.bootstrap', // Twitter Bootstrap for Angular
                         'ngMaterial',   // Angular Material
                         'ngSanitize',   // Sanitizes foreign URLs for use in video player
-                        'app.routes',   // Handles to URN routes to all pages in the app
 
                         // Pagnintation directive I found online
                         'angularUtils.directives.dirPagination',
@@ -22,13 +21,16 @@ angular.module('animu', [
                         'main.client.controller',     // Makes sure the User is logged in
 
                         'user.client.service',        // Handles all interactions with User models
+                        'me.client.service',          // Handles all interactions with current user
                         'user.client.controller',     // Handles all client logic for User models
 
                         'show.client.service',        // Handles all interactions with Show models
                         'show.client.controller',     // Handles all client logic for Show models
 
                         'media.client.service',       // Handles all interactions with Media models
-                        'media.client.controller'     // Handles all client logic for Media models
+                        'media.client.controller',    // Handles all client logic for Media models
+
+                        'app.routes'    // Views the URN and decideds what page to go to
                         ])
 
 .config(function($httpProvider) {

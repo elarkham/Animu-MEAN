@@ -1,7 +1,7 @@
 'use strict';
-angular.module('main.client.controller', ['interceptor.client.service'])
+angular.module('main.client.controller', ['interceptor.client.service', 'me.client.service'])
 
-.controller('authController', function($rootScope, $location, Auth, User ) {
+.controller('authController', function($rootScope, $location, Auth, Me) {
 
 	var vm = this;
 	vm.loggedIn = Auth.isLoggedIn();
@@ -10,7 +10,7 @@ angular.module('main.client.controller', ['interceptor.client.service'])
 	$rootScope.$on('$routeChangeStart', function() {
 		vm.loggedIn = Auth.isLoggedIn();
 
-        Auth.getUser().then(function(user){
+        Me.get().then(function(user){
             vm.user = user.data;
         });
 

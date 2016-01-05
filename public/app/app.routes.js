@@ -1,5 +1,5 @@
 'use strict';
-angular.module('app.routes', ['ngRoute'])
+angular.module('app.routes', ['ngRoute', 'media.client.controller'])
 
 .config(function($routeProvider, $locationProvider) {
 
@@ -27,8 +27,8 @@ angular.module('app.routes', ['ngRoute'])
         //Shows a list of recently watched shows
         .when('/profile/recent', {
 			templateUrl : 'app/user/views/profile/recent.html',
-			controller: 'userMeController',
-            controllerAs: 'user'
+			controller:   'userRecentController',
+            controllerAs: 'me'
 		})
 
         /* OVA Archive Routes
@@ -149,7 +149,7 @@ angular.module('app.routes', ['ngRoute'])
         // page to user profile
 		.when('/users/:user_id', {
 			templateUrl: 'app/user/views/profile.html',
-			controller: 'userProfileController',
+			controller: 'userDisplayController',
 			controllerAs: 'user'
 		})
         /* Show Routes
@@ -211,7 +211,16 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/media/:media_name', {
 			templateUrl: 'app/media/views/profile.html',
 			controller: 'mediaProfileController',
-			controllerAs: 'media'
+			controllerAs: 'media',
+
+            //Forces the page to wait for the media "get"
+            //to finish before loading.
+            resolve: {
+                "resolved_media" : function(Media, $route) {
+                    console.log($route);
+                    return Media.get($route.current.params.media_name);
+                }
+            }
 		});
 
 	$locationProvider.html5Mode(true);

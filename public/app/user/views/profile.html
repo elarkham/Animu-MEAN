@@ -1,29 +1,42 @@
 <div class="page-header">
 	<h2>User Data</h2>
 </div>
-    <h4><b>Name:</b> {{user.userData.name}}</h4>
-    <h4><b>Username:</b> {{user.userData.username}}</h4>
-    <h4><b>Watched Shows:</b></h4>
 
-    <table class="table">
-        <tr>
-            <th>Date Watched</th>
-            <th>Name</th>
-        </tr>
-        <tr ng-repeat="show in user.userData.shows_watched">
-            <td class="col-md-2" ng-bind="user.format_date(show.date) | date: 'medium'"></td>
-            <td>{{show.data.name}}</td>
-        </tr>
-    </table>
+<h4><b>Name:</b> {{user.user_data.name}}</h4>
+<h4><b>Username:</b> {{user.user_data.username}}</h4>
+<h4><b>Watched Shows:</b></h4>
 
-    <h4><b>Watched Media:</b></h4>
-    <table class="table table-condensed">
-        <tr>
-            <th>Date Watched</th>
-            <th>Name</th>
-        </tr>
-        <tr ng-repeat="media in user.userData.media_watched">
-            <td class="col-md-2" ng-bind="user.format_date(media.date) | date: 'medium'"></td>
-            <td>{{media.data.name}}</td>
-        </tr>
-    </table>
+<table class="table">
+    <tr>
+        <th>Date Watched</th>
+        <th>Name</th>
+    </tr>
+    <tr ng-repeat="watched in user.user_data.show_history">
+        <td class="col-md-2" ng-bind="user.format_date(watched.date) | date: 'medium'"></td>
+        <td>{{watched.show.name}}</td>
+    </tr>
+</table>
+
+<h4><b>Watched Media:</b></h4>
+<table class="table table-condensed">
+    <tr>
+        <th>Date Watched</th>
+        <th>Name</th>
+    </tr>
+    <tr ng-repeat="watched in user.user_data.media_history">
+        <td class="col-md-2" ng-bind="user.format_date(watched.date) | date: 'medium'"></td>
+        <td>{{watched.media.name}}</td>
+    </tr>
+</table>
+
+<h4><b>Queue:</b></h4>
+<table class="table table-condensed">
+    <tr>
+        <th>Name</th>
+        <th>Priority</th>
+    </tr>
+    <tr ng-repeat="item in user.user_data.queue">
+        <td>{{watched.name}}</td>
+        <td>{{watched.prio}}</td>
+    </tr>
+</table>

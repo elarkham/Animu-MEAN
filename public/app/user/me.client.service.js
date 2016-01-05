@@ -1,36 +1,29 @@
 'use strict';
-angular.module('user.client.service', [])
+angular.module('me.client.service', [])
 
 //============================================
-// Factory concerning all users
+// Factory concerning the current user only,
+// helps cut down the requests and simplifys
+// the application. Downside is that this is
+// is a bit harder to maintain
 //============================================
-.factory('User', function($http) {
+.factory('Me', function($http) {
 
 	// Create a new object
-	var user = {};
+	var me = {};
 
-    // Get a single user
-	user.get = function(id) {
-		return $http.get('/api/users/' + id);
+    // Gets the current user
+	me.get = function(query) {
+	    return $http({ url:'/api/me', method:'GET', params: query, cache: true });
 	};
 
-	// Get all users
-	user.all = function() {
-		return $http.get('/api/users/');
-	};
-
-	// Create a user
-	user.create = function(userData) {
-		return $http.post('/api/users/', userData);
-	};
-
-	// Update a user
-	user.update = function(id, userData) {
-		return $http.put('/api/users/' + id, userData);
+    // Update the current user
+	me.update = function(user_data) {
+		return $http({ url:'/api/me', method:'PUT', data: user_data});
 	};
 
     // Pushes a general object into the current user for bulk additions
-	user.push = function(capsule) {
+	me.push = function(capsule) {
 	    return $http({ url:'/api/me', method:'POST', data: capsule});
 
         /*** Capusle Object
@@ -42,9 +35,9 @@ angular.module('user.client.service', [])
          ***/
 	};
 
-	// Delete a user
-	user.delete = function(id) {
-		return $http.delete('/api/users/' + id);
+    // Clears all saved data on user except username + password
+	me.reset = function() {
+		return $http({ url:'/api/me', method:'DELETE'});
 	};
 
     //============================================
@@ -57,17 +50,17 @@ angular.module('user.client.service', [])
     //============================================
 
     // Gets array of show pills
-    user.get_shows = function(query){
+    me.get_shows = function(query){
 		return $http({ url:'/api/me/show-history', method:'GET', params: query});
     };
 
     // Pushes pill into media history or updates time if it already exists
-    user.push_show = function(pill){
+    me.push_show = function(pill){
 		return $httpt({ url:'/api/me/show-history', method:'POST', data: pill});
     };
 
     // Deletes show pill from history
-    user.delete_show = function(show_name){
+    me.delete_show = function(show_name){
 		return $http({ url:'/api/me/show-history' + show_name, method:'DELETE'});
     };
 
@@ -81,17 +74,17 @@ angular.module('user.client.service', [])
     //============================================
 
     // Gets array of media pills
-    user.get_media = function(query){
+    me.get_media = function(query){
 		return $http({ url:'/api/me/media-history', method:'GET', params: query});
     };
 
     // Pushes pill into media history or updates time if it already exists
-    user.push_media = function(pill){
+    me.push_media = function(pill){
 		return $http({ url:'/api/me/media-history', method:'POST', data: pill});
     };
 
     // Deletes media pill from history
-    user.delete_media = function(media_name){
+    me.delete_media = function(media_name){
 		return $http({ url:'/api/me/media-history' + media_name, method:'DELETE'});
     };
 
@@ -104,21 +97,21 @@ angular.module('user.client.service', [])
     //============================================
 
     // Gets array of queue pills
-    user.get_queue = function(query){
+    me.get_queue = function(query){
 		return $http({ url:'/api/me/queue', method:'GET', params: query });
     };
 
     // Pushes pill into our main queue
-    user.push_queue = function(pill){
+    me.push_queue = function(pill){
 		return $http({ url:'/api/me/queue', method:'POST', data: pill});
     };
 
     // Deletes media pill from history
-    user.delete_queue = function(show_name){
+    me.delete_queue = function(show_name){
 		return $http({ url:'/api/me/queue' + show_name, method:'DELETE'});
     };
 
-	// Return our entire user object
-	return user;
+    // return our entire current user object
+	return me;
 
 });

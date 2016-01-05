@@ -1,5 +1,6 @@
 'use strict';
-angular.module('media.client.controller', ['media.client.service'])
+angular.module('media.client.controller', ['media.client.service',
+                                           'me.client.service'])
 
 // Simple list of all the Media
 .controller('mediaController', function(Media) {
@@ -78,27 +79,50 @@ angular.module('media.client.controller', ['media.client.service'])
 
 })
 
-// Controller for the Media's profile page, this is the page where
-// the user will actually watch the video.
-.controller('mediaProfileController', function($routeParams, Media) {
+//================================================================
+// Controller for actually watching the media as well as recording
+// everthing and pushing it into the server under the user's account.
+//
+// TODO: Record watch time every 10 seconds, maybe with websockets?
+//================================================================
+.controller('mediaProfileController', function($routeParams, Media, Me, resolved_media) {
 
     var vm = this;
+    vm.data = resolved_media.data; //Loaded in Router Provider, gives media object
 
-    vm.media_name = $routeParams.media_name;
+    vm.path = 'assets/video/' + vm.data.show.path +'/' + vm.data.path;
 
-	Media.get($routeParams.media_name)
-		.success(function(data) {
-			vm.mediaData = data;
-            vm.path = 'assets/video/' + data.show.path +'/' + data.path;
+    //This is configuration for the video player
+    vm.config = {
+        sources:[ {src: vm.path, type: "video/mp4"} ],
+        theme: 'assets/libs/videogular-themes-default/videogular.css'
+    }
 
-            //This is configuration for the video player
-            vm.config = {
-                sources:[
-                    {src: vm.path, type: "video/mp4"}
-                ],
-                theme: 'assets/libs/videogular-themes-default/videogular.css',
-            }
-	    });
+    // Sends what they just watched to backend
+	vm.saveUserWatched = function(videoAPI) {
+        var date    = new Date();
+        var capsule = {};
+
+        capsule.media_history = [];
+        capsule.show_history  = [];
+
+        capsule.media_history.push(
+            {
+                media: vm.data._id,
+                date: date,
+                prog: 0     //Not implemented yet
+            });
+
+        capsule.show_history.push(
+            {
+                show: vm.data.show._id,
+                date: date,
+                seq:  vm.data.seq
+            });
+
+        Me.push(capsule)
+	};
+
 })
 
 

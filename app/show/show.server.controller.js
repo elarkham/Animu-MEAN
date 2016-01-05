@@ -207,7 +207,7 @@ exports.delete = function(req, res) {
 
     //I want the name and the id to work in the url, the id is needed if
     //the name is not url safe and needs to be modified manually.
-    console.log(chalk.yellow('Searching for ' + show_name ) );
+    console.log(chalk.yellow('Searching for ' + req.params.show_name ) );
     Show.findOne().or([{'name': req.params.show_name }, {'_id': objId }])
         .exec(function(err, show) {
 
@@ -237,14 +237,13 @@ exports.delete = function(req, res) {
  */
 exports.query = function(req, res) {
     console.log(chalk.bold.magenta('Received Show Query'));
-    console.log(req.query);
 
     var tags     = req.query.tags;
     var excludes = req.query.excludes;
     var limit    = req.query.limit;
     var sort     = req.query.sort;
-    var order    = req.query.order
     var load     = req.query.load;
+    var order    = parseInt(req.query.order);
 
     var query    = Show.find();
     console.log(chalk.blue(' -Listing all Shows.'));
@@ -270,15 +269,6 @@ exports.query = function(req, res) {
     }
 
 
-    // Query Load Type
-    // TODO: Simplify this out by allowing an array containing all of the 'Selects'
-    if ( load === 'light' ){
-        console.log(chalk.blue(' -Sending a '
-                    + chalk.bold.yellow('light') + ' load'));
-
-        query = query.select('name cover_image tags created_at path')
-    }
-
     // Query Excludes
     // TODO: Allow an array of excludes
     if( excludes ){
@@ -291,16 +281,16 @@ exports.query = function(req, res) {
     // Query Sort and Order
     // TODO: Add more sort options and clean this up.
     if( !sort  ) sort  = "created_at";
-    if( !order ) order = -1;
+    if( !order ) order = 1;
 
-    var order_title = ( order_title === 1 ) ? "ascending" : "descending";
-
+    var order_title = ( order_title === -1 ) ? "ascending" : "descending";
     console.log(chalk.blue(' -Sorted by '
                 + chalk.bold.yellow( sort )  + ' in '
                 + chalk.bold.yellow( order ) + ' Order'));
 
-    order = parseInt(order);
-    query = query.sort({sort:order});
+    var arg = {}; arg[sort] = order;
+    query = query.sort(arg);
+
 
     // Query Limit
     if( limit ){
@@ -309,8 +299,16 @@ exports.query = function(req, res) {
         query = query.limit( parseInt(limit) );
     }
 
+    // Query Load Type
+    // TODO: Simplify this out by allowing an array containing all of the 'Selects'
+    if ( load === 'light' ){
+        console.log(chalk.blue(' -Sending a '
+                    + chalk.bold.yellow('light') + ' load'));
+
+        query = query.select('name cover_image tags created_at updated_at path')
+    }
+
     // Load the Query
-    console.log(query);
     query.exec(function(err, shows) {
         if (err) console.log(chalk.red(err.message));
         else res.json(shows);

@@ -35,7 +35,7 @@ exports.create = function(req, res) {
 
     //location
     if( req.body.path ) media.path = req.body.path;
-    if( req.body.show ) media.setShow( req.body.show.name, complete );
+    if( req.body.show ) media.setShow( req.body.show, complete );
     else complete( null, media );
 
     function complete( err, media ){
@@ -181,7 +181,7 @@ exports.delete = function(req, res) {
         return complete(new Error(error), null);
     }
 
-    console.log(chalk.yellow('Searching for ' + media_name ) );
+    console.log(chalk.yellow('Searching for ' + req.params.media_name ) );
     Media.findOne({'name': req.params.media_name}).exec(function(err, media){
         if (!media) {
             error = 'No media with that name exists.';

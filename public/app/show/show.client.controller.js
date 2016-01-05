@@ -13,6 +13,17 @@ angular.module('show.client.controller', ['show.client.service'])
         vm.shows = data;
     });
 
+    vm.deleteShow = function( show_name ){
+        vm.processing = true;
+
+        Show.delete(show_name).success(function(data){
+            Show.all().success(function(data){
+                vm.processing = false;
+                vm.media = data;
+            });
+        });
+    }
+
 })
 
 
@@ -44,7 +55,7 @@ angular.module('show.client.controller', ['show.client.service'])
           'tags[]'   : ['current'],
           'limit' :  5,
           'sort'  : 'updated_at',
-          'order' : -1,
+          'order' :  -1,
           'load'  : 'light'
          };
 

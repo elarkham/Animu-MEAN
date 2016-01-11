@@ -66,7 +66,7 @@ angular.module('me.client.service', [])
 
     // Deletes show pill from history
     me.delete_show = function(show_name){
-		return $http({ url:'/api/me/show-history' + show_name, method:'DELETE'});
+		return $http({ url:'/api/me/show-history/' + show_name, method:'DELETE'});
     };
 
     //============================================
@@ -90,7 +90,7 @@ angular.module('me.client.service', [])
 
     // Deletes media pill from history
     me.delete_media = function(media_name){
-		return $http({ url:'/api/me/media-history' + media_name, method:'DELETE'});
+		return $http({ url:'/api/me/media-history/' + media_name, method:'DELETE'});
     };
 
     //============================================
@@ -113,7 +113,7 @@ angular.module('me.client.service', [])
 
     // Deletes media pill from history
     me.delete_queue = function(show_name){
-		return $http({ url:'/api/me/queue' + show_name, method:'DELETE'});
+		return $http({ url:'/api/me/queue/' + show_name, method:'DELETE'});
     };
 
     // return our entire current user object

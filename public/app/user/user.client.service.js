@@ -29,9 +29,9 @@ angular.module('user.client.service', [])
 		return $http.put('/api/users/' + id, userData);
 	};
 
-    // Pushes a general object into the current user for bulk additions
-	user.push = function(capsule) {
-	    return $http({ url:'/api/me', method:'POST', data: capsule});
+    // Pushes a general object into the selected user for bulk additions
+	user.push = function(id, capsule) {
+	    return $http({ url:'/api/users/' + id, method:'POST', data: capsule});
 
         /*** Capusle Object
          *  ------------------------------------------------------------------------------
@@ -57,18 +57,18 @@ angular.module('user.client.service', [])
     //============================================
 
     // Gets array of show pills
-    user.get_shows = function(query){
-		return $http({ url:'/api/me/show-history', method:'GET', params: query});
+    user.get_shows = function(id, query){
+		return $http({ url:'/api/users/' + id + '/show-history', method:'GET', params: query});
     };
 
     // Pushes pill into media history or updates time if it already exists
-    user.push_show = function(pill){
-		return $httpt({ url:'/api/me/show-history', method:'POST', data: pill});
+    user.push_show = function(id, pill){
+		return $httpt({ url:'/api/users/' + id + '/show-history', method:'POST', data: pill});
     };
 
     // Deletes show pill from history
-    user.delete_show = function(show_name){
-		return $http({ url:'/api/me/show-history' + show_name, method:'DELETE'});
+    user.delete_show = function(id, show_name){
+		return $http({ url:'/api/users/' + id + '/show-history/' + show_name, method:'DELETE'});
     };
 
     //============================================
@@ -81,18 +81,18 @@ angular.module('user.client.service', [])
     //============================================
 
     // Gets array of media pills
-    user.get_media = function(query){
-		return $http({ url:'/api/me/media-history', method:'GET', params: query});
+    user.get_media = function(id, query){
+		return $http({ url:'/api/users/' + id + 'media-history', method:'GET', params: query});
     };
 
     // Pushes pill into media history or updates time if it already exists
-    user.push_media = function(pill){
-		return $http({ url:'/api/me/media-history', method:'POST', data: pill});
+    user.push_media = function(id, pill){
+		return $http({ url:'/api/users/' + id + 'media-history', method:'POST', data: pill});
     };
 
     // Deletes media pill from history
-    user.delete_media = function(media_name){
-		return $http({ url:'/api/me/media-history' + media_name, method:'DELETE'});
+    user.delete_media = function(id, media_name){
+		return $http({ url:'/api/users/' + id + 'media-history/' + media_name, method:'DELETE'});
     };
 
     //============================================
@@ -104,18 +104,18 @@ angular.module('user.client.service', [])
     //============================================
 
     // Gets array of queue pills
-    user.get_queue = function(query){
-		return $http({ url:'/api/me/queue', method:'GET', params: query });
+    user.get_queue = function(id, query){
+		return $http({ url:'/api/users/' + id + '/queue', method:'GET', params: query });
     };
 
     // Pushes pill into our main queue
-    user.push_queue = function(pill){
-		return $http({ url:'/api/me/queue', method:'POST', data: pill});
+    user.push_queue = function(id, pill){
+		return $http({ url:'/api/users/' + id + '/queue', method:'POST', data: pill});
     };
 
     // Deletes media pill from history
-    user.delete_queue = function(show_name){
-		return $http({ url:'/api/me/queue' + show_name, method:'DELETE'});
+    user.delete_queue = function(id, show_name){
+		return $http({ url:'/api/users/' + id + '/queue/' + show_name, method:'DELETE'});
     };
 
 	// Return our entire user object

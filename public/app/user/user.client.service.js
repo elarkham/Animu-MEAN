@@ -82,17 +82,17 @@ angular.module('user.client.service', [])
 
     // Gets array of media pills
     user.get_media = function(id, query){
-		return $http({ url:'/api/users/' + id + 'media-history', method:'GET', params: query});
+		return $http({ url:'/api/users/' + id + '/media-history', method:'GET', params: query});
     };
 
     // Pushes pill into media history or updates time if it already exists
     user.push_media = function(id, pill){
-		return $http({ url:'/api/users/' + id + 'media-history', method:'POST', data: pill});
+		return $http({ url:'/api/users/' + id + '/media-history', method:'POST', data: pill});
     };
 
     // Deletes media pill from history
     user.delete_media = function(id, media_name){
-		return $http({ url:'/api/users/' + id + 'media-history/' + media_name, method:'DELETE'});
+		return $http({ url:'/api/users/' + id + '/media-history/' + media_name, method:'DELETE'});
     };
 
     //============================================

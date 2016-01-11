@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose');
-var User  = require('../user.server.model.js');
-var chalk = require('chalk');
+var User     = require('../user.server.model.js');
+var Media    = require('../../media/media.server.model.js');
+var chalk    = require('chalk');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
@@ -160,20 +161,36 @@ exports.get = function(req, res) {
     }
     else id = req.params.user_id;
 
+    // Check the query
+    var limit = parseInt(req.query.limit);
+    var order = parseInt(req.query.order);
+
+    /*** Query Object Fields
+     *
+     * 'limit' : Number  -How many to return
+     * 'order' : Number  -In Ascending ( 1 ) or Descending ( -1 ) order?
+     *
+     ****/
     console.log(chalk.yellow('Searching for user with id ' + id));
-    User.findById(id)
-        .populate('media_history.media')
-        .exec(function(err, user) {
 
-        if (!user){
-            error = new Error('User with that id does not exist.');
-            return complete( error, null );
-        }
+    if( !limit ) limit = 10;
+    if( !order ) order = -1;
 
-        complete( err, user.show_history);
+    User.aggregate([
+        { "$match"   : { _id: ObjectId(id) }},
+        { "$unwind"  : "$media_history" },
+        { "$project" : { media : "$media_history.media",
+                         prog  : "$media_history.prog",
+                         date  : "$media_history.date"
+        } },
+        { "$sort"    : { "date" : order } },
+        { "$limit"   : limit }
+    ])
+    .exec(function(err, media_history){
+        Media.populate(media_history, {path: "media"}, complete);
     });
 
-    function complete( err, show_history ){
+    function complete( err, media_history ){
         var msg;
         if (err){
             msg = err.message;
@@ -182,7 +199,7 @@ exports.get = function(req, res) {
         }
         msg = 'Search was Successfull!';
         console.log( chalk.green( msg ) );
-        return res.json( show_history );
+        return res.json( media_history );
     }
 
 };

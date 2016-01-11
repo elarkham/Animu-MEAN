@@ -41,9 +41,12 @@ angular.module('show.client.controller', ['show.client.service'])
     //========================================================
     //  User's Last Watched
     //========================================================
-    Me.get().then(function(user_request){
-        vm.recent = user_request.data.show_history;
-        console.log(vm.recent);
+    var query = {};
+    query.limit =  5;
+    query.order = -1;
+
+    Me.get_shows(query).success(function(show_history){
+        vm.recent = show_history;
     });
 
     //========================================================

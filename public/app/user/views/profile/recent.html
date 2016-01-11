@@ -8,7 +8,7 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="watched in me.user_data.show_history">
+    <tr ng-repeat="watched in me.show_history">
         <td class="col-md-2" ng-bind="me.format_date(watched.date) | date: 'medium'"></td>
         <td>{{watched.show.name}}</td>
     </tr>
@@ -20,7 +20,7 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="watched in me.user_data.media_history">
+    <tr ng-repeat="watched in me.media_history">
         <td class="col-md-2" ng-bind="me.format_date(watched.date) | date: 'medium'"></td>
         <td>{{watched.media.name}}</td>
     </tr>

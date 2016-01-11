@@ -12,9 +12,14 @@ angular.module('me.client.service', [])
 	// Create a new object
 	var me = {};
 
+    // Gets the current user and caches it
+	me.get_cache = function(query) {
+	    return $http({ url:'/api/me', method:'GET', params: query, cache: true });
+	};
+
     // Gets the current user
 	me.get = function(query) {
-	    return $http({ url:'/api/me', method:'GET', params: query, cache: true });
+	    return $http({ url:'/api/me', method:'GET', params: query, cache: false });
 	};
 
     // Update the current user

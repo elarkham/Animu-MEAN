@@ -85,19 +85,17 @@ angular.module('user.client.controller', ['user.client.service', 'me.client.serv
         return d;
     }
 
-    function compare(a,b) {
-      if (vm.format_date(a.date) < vm.format_date(b.date))
-        return 1;
-      if (vm.format_date(a.date) > vm.format_date(b.date))
-        return -1;
-      return 0;
-    }
-
 	User.get($routeParams.user_id).success(function(data) {
-	    vm.user_data = data;
-        vm.user_data.show_history.sort(compare);
-        vm.user_data.media_history.sort(compare);
-        console.log(data);
+        vm.name     = data.name;
+        vm.username = data.username;
+    });
+
+	User.get_shows($routeParams.user_id).success(function(data) {
+        vm.show_history = data;
+	});
+
+    User.get_media($routeParams.user_id).success(function(data) {
+        vm.media_history = data;
 	});
 
 })
@@ -113,19 +111,12 @@ angular.module('user.client.controller', ['user.client.service', 'me.client.serv
         return d;
     }
 
-    function compare(a,b) {
-      if (vm.format_date(a.date) < vm.format_date(b.date))
-        return 1;
-      if (vm.format_date(a.date) > vm.format_date(b.date))
-        return -1;
-      return 0;
-    }
+	Me.get_shows().success(function(data) {
+        vm.show_history = data;
+	});
 
-	Me.get().success(function(data) {
-	    vm.user_data = data;
-        vm.user_data.show_history.sort(compare);
-        vm.user_data.media_history.sort(compare);
-        console.log(data);
+    Me.get_media().success(function(data) {
+        vm.media_history = data;
 	});
 
 });

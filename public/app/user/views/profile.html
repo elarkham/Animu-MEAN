@@ -2,8 +2,8 @@
 	<h2>User Data</h2>
 </div>
 
-<h4><b>Name:</b> {{user.user_data.name}}</h4>
-<h4><b>Username:</b> {{user.user_data.username}}</h4>
+<h4><b>Name:</b> {{user.name}}</h4>
+<h4><b>Username:</b> {{user.username}}</h4>
 <h4><b>Watched Shows:</b></h4>
 
 <table class="table">
@@ -11,7 +11,7 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="watched in user.user_data.show_history">
+    <tr ng-repeat="watched in user.show_history">
         <td class="col-md-2" ng-bind="user.format_date(watched.date) | date: 'medium'"></td>
         <td>{{watched.show.name}}</td>
     </tr>
@@ -23,7 +23,7 @@
         <th>Date Watched</th>
         <th>Name</th>
     </tr>
-    <tr ng-repeat="watched in user.user_data.media_history">
+    <tr ng-repeat="watched in user.media_history">
         <td class="col-md-2" ng-bind="user.format_date(watched.date) | date: 'medium'"></td>
         <td>{{watched.media.name}}</td>
     </tr>
@@ -35,7 +35,7 @@
         <th>Name</th>
         <th>Priority</th>
     </tr>
-    <tr ng-repeat="item in user.user_data.queue">
+    <tr ng-repeat="watched in user.queue">
         <td>{{watched.name}}</td>
         <td>{{watched.prio}}</td>
     </tr>

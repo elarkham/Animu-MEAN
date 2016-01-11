@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose');
-var User  = require('../user.server.model.js');
-var chalk = require('chalk');
+var User     = require('../user.server.model.js');
+var Show     = require('../../show/show.server.model.js');
+var chalk    = require('chalk');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
@@ -160,18 +161,32 @@ exports.get = function(req, res) {
     }
     else id = req.params.user_id;
 
+    // Check the query
+    var limit = parseInt(req.query.limit);
+    var order = parseInt(req.query.order);
+
+    /*** Query Object Fields
+     *
+     * 'limit' : Number  -How many to return
+     * 'order' : Number  -In Ascending ( 1 ) or Descending ( -1 ) order?
+     *
+     ****/
     console.log(chalk.yellow('Searching for user with id ' + id));
-    User.findById(id)
-        .populate('queue.show')
-        .exec(function(err, user) {
 
-        if (!user){
-            error = new Error('User with that id does not exist.');
-            return complete( error, null );
-        }
+    if( !limit ) limit = 10;
+    if( !order ) order = -1;
 
-        complete( err, user.queue );
-
+    User.aggregate([
+        { "$match"   : { _id: ObjectId(id) }},
+        { "$unwind"  : "$queue" },
+        { "$project" : { show : "$queue.show",
+                         prio : "$queue.prio"}
+        },
+        { "$sort"    : { "prio" : order } },
+        { "$limit"   : limit }
+    ])
+    .exec(function(err, queue){
+        Show.populate(queue, {path: "show"}, complete);
     });
 
     function complete( err, queue ){

@@ -90,7 +90,11 @@ angular.module('media.client.controller', ['media.client.service',
     var vm = this;
     vm.data = resolved_media.data; //Loaded in Router Provider, gives media object
 
-    vm.path = 'assets/video/' + vm.data.show.path +'/' + vm.data.path;
+    var show_path;
+    if (!vm.data.show) show_path = '';
+    else show_path = vm.data.show.path +'/';
+
+    vm.path = 'assets/video/' + show_path + vm.data.path;
 
     //This is configuration for the video player
     vm.config = {
@@ -113,12 +117,14 @@ angular.module('media.client.controller', ['media.client.service',
                 prog: 0     //Not implemented yet
             });
 
-        capsule.show_history.push(
-            {
-                show: vm.data.show._id,
-                date: date,
-                seq:  vm.data.seq
-            });
+        if (vm.data.show){
+            capsule.show_history.push(
+                {
+                    show: vm.data.show._id,
+                    date: date,
+                    seq:  vm.data.seq
+                });
+        }
 
         Me.push(capsule)
 	};

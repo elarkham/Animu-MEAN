@@ -60,7 +60,6 @@ angular.module('app.routes', ['ngRoute', 'media.client.controller'])
 		.when('/series', {
 			templateUrl: 'app/show/views/list.html',
 			controller: 'showTagController',
-			controller: 'showTagController',
 			controllerAs: 'show',
 
             //Hack to let me relay what tag I want for this page when it

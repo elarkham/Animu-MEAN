@@ -173,7 +173,7 @@ exports.get = function(req, res) {
      ****/
     console.log(chalk.yellow('Searching for user with id ' + id));
 
-    if( !limit ) limit = 10;
+    if( !limit ) limit = 20;
     if( !order ) order = -1;
 
     User.aggregate([

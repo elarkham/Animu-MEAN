@@ -1,4 +1,4 @@
-##Animu
+## Animu
 
 Video streaming webapp for watching, sharing and managing
 media in a local network. This app serves as a “Hello World” for
@@ -10,7 +10,7 @@ using a MEAN stack.
 * Angular.js is the javascript framework used in the client.
 * Mongodb is used as the database as a way of introducing myself to NoSQL
 
-##Images
+## Images
 #### Backend
 ![Backend UML](https://raw.githubusercontent.com/elarkham/Animu-v2-MEAN/master/doc/Backend_UML.png)
 ####Frontend

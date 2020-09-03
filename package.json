@@ -18,7 +18,7 @@
     "mocha": "^2.2.5",
     "mongoose": "^4.0.7",
     "morgan": "~1.6.1",
-    "node-sass": "^3.4.2",
+    "node-sass": "^4.14.1",
     "serve-favicon": "~2.3.0"
   },
 
